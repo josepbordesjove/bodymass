@@ -1,0 +1,16 @@
+//
+//  AppStore.xcconfig
+//  bodymass
+//
+//  Created by Josep Bordes Jové on 6/8/18.
+//  Copyright © 2018 Josep Bordes Jové. All rights reserved.
+//
+
+// App Name
+APP_DISPLAY_NAME = Bodymass
+
+// Code Signing
+PRODUCT_BUNDLE_IDENTIFIER = com.josepbordesjove.bodymass;
+
+// App Icon
+APP_ICON = AppIcon;
