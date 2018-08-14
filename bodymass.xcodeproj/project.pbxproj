@@ -13,6 +13,7 @@
 		FF3C82CD211706C500BC693A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF3C82CB211706C500BC693A /* LaunchScreen.storyboard */; };
 		FF3C82D8211706C500BC693A /* bodymassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82D7211706C500BC693A /* bodymassTests.swift */; };
 		FF3C82E3211706C500BC693A /* bodymassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82E2211706C500BC693A /* bodymassUITests.swift */; };
+		FF598FF4212340BE0022F931 /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF598FF3212340BE0022F931 /* RoundButton.swift */; };
 		FFFBDC21211B700A00AE0493 /* bodymassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFBDC18211B700A00AE0493 /* bodymassKit.framework */; };
 		FFFBDC28211B700A00AE0493 /* bodymassKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFBDC27211B700A00AE0493 /* bodymassKitTests.swift */; };
 		FFFBDC2A211B700A00AE0493 /* bodymassKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFBDC1A211B700A00AE0493 /* bodymassKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,6 +86,7 @@
 		FF3C82DE211706C500BC693A /* bodymassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bodymassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF3C82E2211706C500BC693A /* bodymassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bodymassUITests.swift; sourceTree = "<group>"; };
 		FF3C82E4211706C500BC693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF598FF3212340BE0022F931 /* RoundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		FFFBDC082118D40000AE0493 /* AppStore.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = AppStore.xcconfig; sourceTree = "<group>"; };
 		FFFBDC092118D42100AE0493 /* Development.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
 		FFFBDC18211B700A00AE0493 /* bodymassKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = bodymassKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				FF3C82BF211706C400BC693A /* AppDelegate.swift */,
+				FF598FEF212331790022F931 /* Views */,
 				FFFBDC062118D3B600AE0493 /* ViewControllers */,
 				FFFBDC072118D3CE00AE0493 /* Configurations */,
 				FF3C82C9211706C500BC693A /* Assets.xcassets */,
@@ -189,6 +192,14 @@
 				FF3C82E4211706C500BC693A /* Info.plist */,
 			);
 			path = bodymassUITests;
+			sourceTree = "<group>";
+		};
+		FF598FEF212331790022F931 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FF598FF3212340BE0022F931 /* RoundButton.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		FFFBDC062118D3B600AE0493 /* ViewControllers */ = {
@@ -429,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF598FF4212340BE0022F931 /* RoundButton.swift in Sources */,
 				FF3C82C2211706C400BC693A /* MainViewController.swift in Sources */,
 				FF3C82C0211706C400BC693A /* AppDelegate.swift in Sources */,
 			);
