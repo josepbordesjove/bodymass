@@ -66,6 +66,11 @@ class MainViewController: UIViewController {
     super.viewDidLoad()
     setupView()
     setupConstraints()
+    setupButtonTargets()
+  }
+  
+  func setupButtonTargets() {
+    reloadButton.addTarget(self, action: #selector(presentAddDataViewController), for: .touchUpInside)
   }
   
   func setupView() {
@@ -112,6 +117,16 @@ class MainViewController: UIViewController {
       historyButton.centerYAnchor.constraint(equalTo: view.bottomAnchor),
       historyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100),
       ])
+  }
+  
+  //  MARK: Helper methods
+  
+  @objc
+  func presentAddDataViewController() {
+    let addDataViewController = AddDataViewController()
+    addDataViewController.modalPresentationStyle = .overCurrentContext
+    
+    present(addDataViewController, animated: true)
   }
 }
 
