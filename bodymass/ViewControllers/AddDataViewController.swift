@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddDataViewController: UIViewController {
+class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   lazy var pageTitle: UILabel = {
     let label = UILabel()
@@ -21,7 +21,13 @@ class AddDataViewController: UIViewController {
   lazy var genderSelector: GenderSelector = GenderSelector()
   lazy var heightSelector: HeightSelector = HeightSelector()
   lazy var weightSelector: WeightSelector = WeightSelector()
-  lazy var pacmanToggle: PacmanToggle = PacmanToggle()
+  
+  lazy var pacmanToggle: PacmanToggle = {
+    let toggle = PacmanToggle()
+    toggle.delegate = self
+    
+    return toggle
+  }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -59,5 +65,9 @@ class AddDataViewController: UIViewController {
       weightSelector.topAnchor.constraint(equalTo: heightSelector.centerYAnchor, constant: 3),
       weightSelector.bottomAnchor.constraint(equalTo: heightSelector.bottomAnchor),
       ])
+  }
+  
+  func shouldDismissViewController() {
+    self.dismiss(animated: true, completion: nil)
   }
 }

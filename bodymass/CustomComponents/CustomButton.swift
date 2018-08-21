@@ -10,7 +10,7 @@ import UIKit
 
 class CustomButton: UIButton {
   
-  init(image: UIImage, size: CGFloat, round: Bool = false, color: UIColor? = nil, shadow: Bool = false) {
+  init(image: UIImage, size: CGFloat, round: Bool = true, color: UIColor? = nil, shadow: Bool = false) {
     let frame = CGRect()
     super.init(frame: frame)
     

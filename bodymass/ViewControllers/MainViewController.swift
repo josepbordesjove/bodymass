@@ -125,8 +125,14 @@ class MainViewController: UIViewController {
   func presentAddDataViewController() {
     let addDataViewController = AddDataViewController()
     addDataViewController.modalPresentationStyle = .overCurrentContext
+    addDataViewController.transitioningDelegate = self
     
     present(addDataViewController, animated: true)
   }
 }
 
+extension MainViewController: UIViewControllerTransitioningDelegate {
+  func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return MainVCToAddDataVCTransition(originFrame: reloadButton.frame)
+  }
+}
