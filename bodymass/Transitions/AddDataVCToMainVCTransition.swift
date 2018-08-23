@@ -36,9 +36,6 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
     snapshot.transform = CGAffineTransform(translationX: 0, y: snapshot.frame.height)
     containerView.bringSubview(toFront: toViewController.view)
     
-    snapshot.subviews
-    print("JBJ \(snapshot.subviews)")
-    
     originViewController.pacmanToggle.pacmanView.alpha = 0
     toViewController.view.isHidden = true
     

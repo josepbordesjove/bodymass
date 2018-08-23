@@ -27,6 +27,43 @@ class PacmanToggle: UIView {
     return imageView
   }()
   
+  lazy var dot1: UIImageView = {
+    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
+    imageView.image = #imageLiteral(resourceName: "dot")
+    imageView.contentMode = .scaleAspectFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return imageView
+  }()
+  
+  lazy var dot2: UIImageView = {
+    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
+    imageView.image = #imageLiteral(resourceName: "dot")
+    imageView.contentMode = .scaleAspectFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return imageView
+  }()
+  
+  lazy var dot3: UIImageView = {
+    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
+    imageView.image = #imageLiteral(resourceName: "dot")
+    imageView.contentMode = .scaleAspectFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return imageView
+  }()
+  
+  lazy var dotsView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [dot1, dot2, dot3])
+    stackView.axis = UILayoutConstraintAxis.horizontal
+    stackView.distribution = UIStackViewDistribution.equalSpacing
+    stackView.alignment = UIStackViewAlignment.center
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return stackView
+  }()
+  
   lazy var panGestureRecognizer: UIPanGestureRecognizer = {
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
     panGesture.maximumNumberOfTouches = 1
@@ -34,8 +71,6 @@ class PacmanToggle: UIView {
     
     return panGesture
   }()
-  
-  let feedbackGenerator = UINotificationFeedbackGenerator()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -52,15 +87,20 @@ class PacmanToggle: UIView {
     backgroundColor = .brightGreen
     layer.cornerRadius = 30
     translatesAutoresizingMaskIntoConstraints = false
-    [pacmanView].forEach { addSubview($0) }
+    [pacmanView, dotsView].forEach { addSubview($0) }
   }
   
   func setupConstraints() {
     NSLayoutConstraint.activate([
       pacmanView.centerYAnchor.constraint(equalTo: centerYAnchor),
-      pacmanView.topAnchor.constraint(equalTo: topAnchor, constant: constants.pacmanMargin),
-      pacmanView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -constants.pacmanMargin),
-      pacmanView.leftAnchor.constraint(equalTo: leftAnchor, constant: constants.pacmanMargin)
+      pacmanView.heightAnchor.constraint(equalToConstant: 30),
+      pacmanView.widthAnchor.constraint(equalToConstant: 30),
+      pacmanView.leftAnchor.constraint(equalTo: leftAnchor, constant: constants.pacmanMargin),
+      
+      dotsView.leftAnchor.constraint(equalTo: pacmanView.rightAnchor),
+      dotsView.rightAnchor.constraint(equalTo: rightAnchor, constant: -constants.pacmanMargin),
+      dotsView.centerYAnchor.constraint(equalTo: centerYAnchor),
+      dotsView.heightAnchor.constraint(equalToConstant: 10)
       ])
   }
   
@@ -77,9 +117,24 @@ class PacmanToggle: UIView {
       bringSubview(toFront: self.pacmanView)
       pacmanView.center = CGPoint(x: currentPositionX, y: pacmanView.center.y)
       sender.setTranslation(.zero, in: self)
+      
+      dotsView.arrangedSubviews.forEach { (view) in
+        if (currentPositionX - 20) >= view.frame.minX {
+          UIView.animate(withDuration: 0.5, animations: {
+            view.alpha = 0
+          })
+        }
+      }
+      
     } else if sender.state == .ended && currentPositionX > rightTranslationLimit - 10 {
-      feedbackGenerator.notificationOccurred(.success)
+      UINotificationFeedbackGenerator().notificationOccurred(.success)
       delegate?.shouldDismissViewController()
+    } else if sender.state == .ended{
+      UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 8, initialSpringVelocity: 10, options: .beginFromCurrentState, animations: {
+        self.pacmanView.center = CGPoint(x: leftTranslationLimit, y: self.pacmanView.center.y)
+      }, completion: nil)
+    } else if sender.state == .began {
+      UISelectionFeedbackGenerator().selectionChanged()
     }
   }
 }

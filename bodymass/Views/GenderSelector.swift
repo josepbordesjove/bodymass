@@ -21,7 +21,7 @@ class GenderSelector: UIView {
   lazy var genderImageBackgroundView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "gender-bkg")
-    imageView.contentMode = .scaleAspectFill
+    imageView.contentMode = .scaleAspectFit
     imageView.translatesAutoresizingMaskIntoConstraints = false
     
     return imageView
@@ -54,10 +54,10 @@ class GenderSelector: UIView {
       title.centerXAnchor.constraint(equalTo: centerXAnchor),
       title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
       
-      genderImageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -36),
-      genderImageBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor),
-      genderImageBackgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-      genderImageBackgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -15)
+      genderImageBackgroundView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 15),
+      genderImageBackgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
+      genderImageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
+      genderImageBackgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 15)
       ])
   }
 }
