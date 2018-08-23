@@ -133,6 +133,6 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UIViewControllerTransitioningDelegate {
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return MainVCToAddDataVCTransition(originFrame: reloadButton.frame)
+    return MainVCToAddDataVCTransition()
   }
 }

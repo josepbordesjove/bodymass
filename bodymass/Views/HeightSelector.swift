@@ -92,7 +92,7 @@ class HeightSelector: UIView {
       
       bodyView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -43),
       bodyView.topAnchor.constraint(equalTo: heightLineView.bottomAnchor, constant: 5),
-      bodyView.widthAnchor.constraint(equalTo: widthAnchor),
+      bodyView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
       bodyView.centerXAnchor.constraint(equalTo: centerXAnchor),
       ])
   }

@@ -29,12 +29,18 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     return toggle
   }()
   
+  lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: 113)
+  lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    self.transitioningDelegate = self
+    
     setupView()
     setupConstraints()
   }
-  
+
   func setupView() {
     view.backgroundColor = .lightGrey
     [pageTitle, genderSelector, heightSelector, weightSelector, pacmanToggle].forEach{ view.addSubview($0) }
@@ -42,18 +48,19 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   func setupConstraints() {
     NSLayoutConstraint.activate([
-      pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
+      pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
       pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      pageTitle.heightAnchor.constraint(equalToConstant: 30),
       
       pacmanToggle.heightAnchor.constraint(equalToConstant: 60),
-      pacmanToggle.widthAnchor.constraint(equalToConstant: 113),
       pacmanToggle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      pacmanToggle.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -36),
+      pacmanYConstraint,
+      pacmanWidthConstraint,
       
       heightSelector.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -6),
       heightSelector.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 3),
-      heightSelector.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 50),
-      heightSelector.bottomAnchor.constraint(equalTo: pacmanToggle.topAnchor, constant: -40),
+      heightSelector.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 30),
+      heightSelector.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
 
       genderSelector.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 6),
       genderSelector.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -3),
@@ -69,5 +76,11 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   func shouldDismissViewController() {
     self.dismiss(animated: true, completion: nil)
+  }
+}
+
+extension AddDataViewController: UIViewControllerTransitioningDelegate {
+  func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    return AddDataVCToMainVCTransition()
   }
 }
