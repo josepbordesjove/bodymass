@@ -13,4 +13,5 @@ extension UIColor {
   static let specialBlue = UIColor(red: 78/255, green: 102/255, blue: 114/255, alpha: 1)
   static let brightGreen = UIColor(red: 0/255, green: 204/255, blue: 96/255, alpha: 1)
   static let mateGreen = UIColor(red: 0/255, green: 193/255, blue: 171/255, alpha: 1)
+  static let sunriseYellow = UIColor(red: 255/255, green: 222/255, blue: 0, alpha: 1)
 }

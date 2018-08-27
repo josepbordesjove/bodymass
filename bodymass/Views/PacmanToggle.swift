@@ -120,9 +120,7 @@ class PacmanToggle: UIView {
       
       dotsView.arrangedSubviews.forEach { (view) in
         if (currentPositionX - 20) >= view.frame.minX {
-          UIView.animate(withDuration: 0.5, animations: {
-            view.alpha = 0
-          })
+          view.alpha = 0
         }
       }
       
@@ -130,8 +128,13 @@ class PacmanToggle: UIView {
       UINotificationFeedbackGenerator().notificationOccurred(.success)
       delegate?.shouldDismissViewController()
     } else if sender.state == .ended{
-      UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 8, initialSpringVelocity: 10, options: .beginFromCurrentState, animations: {
+      UIView.animate(withDuration: 0.3, delay: 0.1, usingSpringWithDamping: 8, initialSpringVelocity: 10, options: .beginFromCurrentState, animations: {
         self.pacmanView.center = CGPoint(x: leftTranslationLimit, y: self.pacmanView.center.y)
+        self.dotsView.arrangedSubviews.forEach { (view) in
+          UIView.animate(withDuration: 0.05, animations: {
+            view.alpha = 1
+          })
+        }
       }, completion: nil)
     } else if sender.state == .began {
       UISelectionFeedbackGenerator().selectionChanged()

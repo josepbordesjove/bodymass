@@ -36,7 +36,6 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
     snapshot.transform = CGAffineTransform(translationX: 0, y: snapshot.frame.height)
     containerView.bringSubview(toFront: toViewController.view)
     
-    originViewController.pacmanToggle.pacmanView.alpha = 0
     toViewController.view.isHidden = true
     
     UIApplication.shared.keyWindow?.addSubview(toViewController.view)
@@ -46,14 +45,15 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
       delay: 0,
       options: .beginFromCurrentState,
       animations: {
-        UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1/25) {
+        UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5/25) {
+          originViewController.pacmanToggle.pacmanView.transform = CGAffineTransform(scaleX: 0, y: 0)
           originViewController.genderSelector.alpha = 0
           originViewController.heightSelector.alpha = 0
           originViewController.weightSelector.alpha = 0
           originViewController.pageTitle.alpha = 0
         }
         
-        UIView.addKeyframe(withRelativeStartTime: 2/25, relativeDuration: 2/25) {
+        UIView.addKeyframe(withRelativeStartTime: 1.5/25, relativeDuration: 2/25) {
           originViewController.pacmanWidthConstraint.constant = 60
           originViewController.pacmanYConstraint.constant = 0
           originViewController.view.layoutIfNeeded()
