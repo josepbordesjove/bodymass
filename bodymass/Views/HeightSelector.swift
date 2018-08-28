@@ -11,12 +11,13 @@ import UIKit
 class HeightSelector: UIView {
   
   private struct constants {
-    static let minHeight: CGFloat = 55
-    static let maxHeight: CGFloat = 300
+    static let minHeight: CGFloat = 0.1
+    static let maxHeight: CGFloat = 0.7
   }
   
-  let heightRange = 125...190
+  let heightRange = 150...200
   var savedHeight = 165
+  weak var delegate: HeightSelectorDelegate?
   
   lazy var title: UILabel = {
     let label = UILabel()
@@ -155,7 +156,7 @@ class HeightSelector: UIView {
   func tapGestureHandler(sender: UITapGestureRecognizer) {
     let tappedPointY = sender.location(in: self).y
     
-    if tappedPointY < constants.minHeight || tappedPointY > constants.maxHeight { return }
+    if tappedPointY < self.frame.height *  constants.minHeight || tappedPointY > self.frame.height * constants.maxHeight { return }
     
     evaluateGesturePositionChangeFor(tappedPointY)
     animateHeightViewTopConstraintTo(tappedPointY)
@@ -165,7 +166,7 @@ class HeightSelector: UIView {
   func panGestureHandler(sender: UIPanGestureRecognizer) {
     let translationY = sender.translation(in: self).y
     let absolutePositionY = topAnchorHeightLineView.constant + translationY
-    if absolutePositionY < constants.minHeight || absolutePositionY > constants.maxHeight { return }
+    if absolutePositionY < self.frame.height * constants.minHeight || absolutePositionY > self.frame.height *  constants.maxHeight { return }
     
     if sender.state == .changed {
       topAnchorHeightLineView.constant = absolutePositionY
@@ -185,8 +186,12 @@ class HeightSelector: UIView {
       let isInsideRange = isPointInsideHeightsRange(pointY: newPoint, frame: heightLabel.frame)
       animate(view: heightLabel, if: isInsideRange && !newActiveHeightFound)
       
-      let height = CGFloat(i) - (5 * (heightLineView.frame.midY / heightLabel.frame.maxY))
-      realHeight.text =  String(format: "%.2f", height)
+      if i == savedHeight {
+        let percentage = 5 * ((heightLineView.frame.midY - heightLineView.frame.minY) / (heightLabel.frame.maxY - heightLineView.frame.minY))
+        let height = CGFloat(i) - percentage
+        realHeight.text =  String(format: "%.1f", height)
+        delegate?.heightChanged(value: Float(height))
+      }
       
       if isInsideRange && i != savedHeight && !newActiveHeightFound {
         UISelectionFeedbackGenerator().selectionChanged()

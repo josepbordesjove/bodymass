@@ -19,7 +19,12 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   }()
   
   lazy var genderSelector: GenderSelector = GenderSelector()
-  lazy var heightSelector: HeightSelector = HeightSelector()
+  lazy var heightSelector: HeightSelector = {
+    let selector = HeightSelector()
+    selector.delegate = self
+    
+    return selector
+  }()
   lazy var weightSelector: WeightSelector = WeightSelector()
   
   lazy var pacmanToggle: PacmanToggle = {
@@ -83,4 +88,12 @@ extension AddDataViewController: UIViewControllerTransitioningDelegate {
   func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     return AddDataVCToMainVCTransition()
   }
+}
+
+extension AddDataViewController: HeightSelectorDelegate {
+  func heightChanged(value: Float) {
+    print("Selected height: \(value)")
+  }
+  
+  
 }
