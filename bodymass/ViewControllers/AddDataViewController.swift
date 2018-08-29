@@ -18,7 +18,12 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     return label
   }()
   
-  lazy var genderSelector: GenderSelector = GenderSelector()
+  lazy var genderSelector: GenderSelector = {
+    let selector = GenderSelector()
+    selector.delegate = self
+    
+    return selector
+  }()
   lazy var heightSelector: HeightSelector = {
     let selector = HeightSelector()
     selector.delegate = self
@@ -94,6 +99,10 @@ extension AddDataViewController: HeightSelectorDelegate {
   func heightChanged(value: Float) {
     print("Selected height: \(value)")
   }
-  
-  
+}
+
+extension AddDataViewController: GenderSelectorDelegate {
+  func genderChanged(value: Gender) {
+    print("Selected gender: \(value)")
+  }
 }
