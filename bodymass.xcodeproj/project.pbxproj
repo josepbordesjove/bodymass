@@ -13,6 +13,7 @@
 		FF3C82CD211706C500BC693A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF3C82CB211706C500BC693A /* LaunchScreen.storyboard */; };
 		FF3C82D8211706C500BC693A /* bodymassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82D7211706C500BC693A /* bodymassTests.swift */; };
 		FF3C82E3211706C500BC693A /* bodymassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82E2211706C500BC693A /* bodymassUITests.swift */; };
+		FF3EB624214AE37800F0FD04 /* WeightSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB623214AE37800F0FD04 /* WeightSelectorDelegate.swift */; };
 		FF598FF4212340BE0022F931 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF598FF3212340BE0022F931 /* CustomButton.swift */; };
 		FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */; };
 		FF949B562135BA0500C00D1A /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B552135BA0500C00D1A /* UIImageView+.swift */; };
@@ -98,6 +99,7 @@
 		FF3C82DE211706C500BC693A /* bodymassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bodymassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF3C82E2211706C500BC693A /* bodymassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bodymassUITests.swift; sourceTree = "<group>"; };
 		FF3C82E4211706C500BC693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF3EB623214AE37800F0FD04 /* WeightSelectorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSelectorDelegate.swift; sourceTree = "<group>"; };
 		FF598FF3212340BE0022F931 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataVCToMainVCTransition.swift; sourceTree = "<group>"; };
 		FF949B552135BA0500C00D1A /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 			children = (
 				FF9EA7022129DE4D002E617E /* PacmanToggleDelegate.swift */,
 				FFDE770821357D1100701ABA /* HeightSelectorDelegate.swift */,
+				FF3EB623214AE37800F0FD04 /* WeightSelectorDelegate.swift */,
 				FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */,
 			);
 			path = Protocols;
@@ -527,6 +530,7 @@
 				FF3C82C2211706C400BC693A /* MainViewController.swift in Sources */,
 				FF9EA6FC2124912C002E617E /* HeightSelector.swift in Sources */,
 				FF949B562135BA0500C00D1A /* UIImageView+.swift in Sources */,
+				FF3EB624214AE37800F0FD04 /* WeightSelectorDelegate.swift in Sources */,
 				FF9EA7002124929A002E617E /* PacmanToggle.swift in Sources */,
 				FF3C82C0211706C400BC693A /* AppDelegate.swift in Sources */,
 				FF9EA6FA21249121002E617E /* GenderSelector.swift in Sources */,

@@ -40,7 +40,7 @@ class GenderSelector: UIView {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "needle")
     imageView.contentMode = .scaleAspectFit
-    imageView.layer.anchorPoint = CGPoint(x: 0.5, y: 1)
+    imageView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.85)
     imageView.translatesAutoresizingMaskIntoConstraints = false
     
     return imageView

@@ -49,6 +49,7 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
     containerView.addSubview(toViewController.view)
     toViewController.view.isHidden = false
     toViewController.view.transform = CGAffineTransform(translationX: 0, y: toViewController.view.frame.height)
+    toViewController.weightSelector.weightNumbers.alpha = 0
     
     let duration = transitionDuration(using: transitionContext)
     
@@ -75,8 +76,17 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
         }
     },
       completion: { _ in
+        toViewController.weightSelector.flowLayout.itemSize = CGSize(
+          width: toViewController.weightSelector.weightImageBackgroundView.frame.width/3,
+          height: toViewController.weightSelector.weightImageBackgroundView.frame.height
+        )
+        
         self.reset(originViewController)
         transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        
+        UIView.animate(withDuration: 0.2, animations: {
+          toViewController.weightSelector.weightNumbers.alpha = 1
+        })
     })
   }
 }

@@ -30,7 +30,12 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     
     return selector
   }()
-  lazy var weightSelector: WeightSelector = WeightSelector()
+  lazy var weightSelector: WeightSelector = {
+    let selector = WeightSelector()
+    selector.delegate = self
+    
+    return selector
+  }()
   
   lazy var pacmanToggle: PacmanToggle = {
     let toggle = PacmanToggle()
@@ -105,4 +110,12 @@ extension AddDataViewController: GenderSelectorDelegate {
   func genderChanged(value: Gender) {
     print("Selected gender: \(value)")
   }
+}
+
+extension AddDataViewController: WeightSelectorDelegate {
+  func weightChanged(value: Int) {
+    print("Selected weight: \(value)")
+  }
+  
+  
 }
