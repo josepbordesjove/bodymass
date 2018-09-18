@@ -9,5 +9,5 @@
 import Foundation
 
 protocol WeightSelectorDelegate: class {
-  func weightChanged(value: Int)
+  func weightChanged(value: Float)
 }

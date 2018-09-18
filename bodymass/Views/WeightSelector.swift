@@ -14,7 +14,7 @@ class WeightSelector: UIView {
   weak var delegate: WeightSelectorDelegate?
   var savedWeight: Int = 45 {
     didSet {
-     delegate?.weightChanged(value: savedWeight)
+     delegate?.weightChanged(value: Float(savedWeight))
     }
   }
   

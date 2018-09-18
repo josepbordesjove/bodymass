@@ -7,8 +7,20 @@
 //
 
 import UIKit
+import bodymassKit
 
 class MainViewController: UIViewController {
+  
+  private var interactor: MainInteractorType
+  private var vm: VM? {
+    didSet {
+      if let vm = vm {
+        let squaredHeight = (vm.height / 100) * (vm.height / 100)
+        let imcValue = vm.weight / squaredHeight
+        imcSummary.text = String(format: "%.1f", imcValue)
+      }
+    }
+  }
   
   lazy var pageTitle: UILabel = {
     let label = UILabel()
@@ -62,11 +74,22 @@ class MainViewController: UIViewController {
   lazy var homeButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "home"), size: 161)
   lazy var historyButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "history"), size: 123)
   
+  init(interactor: MainInteractorType) {
+    self.interactor = interactor
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     setupView()
     setupConstraints()
     setupButtonTargets()
+    reloadDataPoint()
   }
   
   func setupButtonTargets() {
@@ -123,16 +146,38 @@ class MainViewController: UIViewController {
   
   @objc
   func presentAddDataViewController() {
-    let addDataViewController = AddDataViewController()
-    addDataViewController.modalPresentationStyle = .overCurrentContext
+    let addDataViewController = self.interactor.addDataViewController(observer: self)
     addDataViewController.transitioningDelegate = self
     
     present(addDataViewController, animated: true)
+  }
+  
+  func reloadDataPoint() {
+    self.interactor.fetchLastDataPoint { (vm, error) in
+      if error == nil {
+        self.vm = vm
+      }
+    }
   }
 }
 
 extension MainViewController: UIViewControllerTransitioningDelegate {
   func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
     return MainVCToAddDataVCTransition()
+  }
+}
+
+extension MainViewController: DataPointObserver {
+  func didCreateDataPoint() {
+    self.reloadDataPoint()
+  }
+}
+
+extension MainViewController {
+  struct VM {
+    let id: String
+    var weight: Float
+    var height: Float
+    var gender: Gender
   }
 }

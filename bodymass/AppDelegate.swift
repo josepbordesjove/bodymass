@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import bodymassKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,8 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       self.window?.rootViewController = UIViewController()
       return true
     }
-    
-    self.window?.rootViewController = MainViewController()
+    let dataStore = DataStore()
+    let interactor = MainViewController.Interactor(dataStore: dataStore)
+    self.window?.rootViewController = MainViewController(interactor: interactor)
     
     return true
   }

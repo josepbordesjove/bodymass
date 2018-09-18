@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import bodymassKit
 
 class AddDataViewController: UIViewController, PacmanToggleDelegate {
+  
+  private var vm: VM?
+  private let interactor: DataPointInteractorType
   
   lazy var pageTitle: UILabel = {
     let label = UILabel()
@@ -46,6 +50,17 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: 113)
   lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
+  
+  private init(interactor: DataPointInteractorType) {
+    self.interactor = interactor
+    vm = VM(id: UUID().uuidString, weight: 55, height: 189)
+    print("JBJ created vm: \(vm)")
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -90,6 +105,10 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   }
   
   func shouldDismissViewController() {
+    if let vm = vm {
+     interactor.createDataPoint(id: vm.id, weight: vm.weight, height: vm.height)
+    }
+    
     self.dismiss(animated: true, completion: nil)
   }
 }
@@ -103,6 +122,7 @@ extension AddDataViewController: UIViewControllerTransitioningDelegate {
 extension AddDataViewController: HeightSelectorDelegate {
   func heightChanged(value: Float) {
     print("Selected height: \(value)")
+    self.vm?.height = value
   }
 }
 
@@ -113,9 +133,27 @@ extension AddDataViewController: GenderSelectorDelegate {
 }
 
 extension AddDataViewController: WeightSelectorDelegate {
-  func weightChanged(value: Int) {
+  func weightChanged(value: Float) {
     print("Selected weight: \(value)")
+    self.vm?.weight = value
   }
-  
-  
+}
+
+extension AddDataViewController {
+  struct VM {
+    let id: String
+    var weight: Float
+    var height: Float
+  }
+}
+
+extension AddDataViewController {
+  enum Factory {
+    static func viewController(interactor: DataPointInteractorType) -> UIViewController {
+      let addDataViewController = AddDataViewController(interactor: interactor)
+      addDataViewController.modalPresentationStyle = .overCurrentContext
+      
+      return addDataViewController
+    }
+  }
 }
