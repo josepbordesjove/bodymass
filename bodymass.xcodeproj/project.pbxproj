@@ -11,8 +11,6 @@
 		FF3C82C2211706C400BC693A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82C1211706C400BC693A /* MainViewController.swift */; };
 		FF3C82CA211706C500BC693A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3C82C9211706C500BC693A /* Assets.xcassets */; };
 		FF3C82CD211706C500BC693A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF3C82CB211706C500BC693A /* LaunchScreen.storyboard */; };
-		FF3C82D8211706C500BC693A /* bodymassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82D7211706C500BC693A /* bodymassTests.swift */; };
-		FF3C82E3211706C500BC693A /* bodymassUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82E2211706C500BC693A /* bodymassUITests.swift */; };
 		FF3EB624214AE37800F0FD04 /* WeightSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB623214AE37800F0FD04 /* WeightSelectorDelegate.swift */; };
 		FF3EB691214E6F1400F0FD04 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB68F214E6F1400F0FD04 /* Model.xcdatamodeld */; };
 		FF3EB693214E6F2200F0FD04 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB692214E6F2200F0FD04 /* DataStore.swift */; };
@@ -23,6 +21,8 @@
 		FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */; };
 		FF949B562135BA0500C00D1A /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B552135BA0500C00D1A /* UIImageView+.swift */; };
 		FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */; };
+		FF96B431215415AB0032805D /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF96B430215415AB0032805D /* Gender.swift */; };
+		FF96B433215415FB0032805D /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF96B432215415FB0032805D /* UserDefaultKeys.swift */; };
 		FF9EA6F42124474A002E617E /* AddDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F32124474A002E617E /* AddDataViewController.swift */; };
 		FF9EA6F721248FAB002E617E /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F621248FAB002E617E /* UIColor+.swift */; };
 		FF9EA6FA21249121002E617E /* GenderSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F921249121002E617E /* GenderSelector.swift */; };
@@ -32,42 +32,12 @@
 		FF9EA7032129DE4D002E617E /* PacmanToggleDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA7022129DE4D002E617E /* PacmanToggleDelegate.swift */; };
 		FF9EA706212B67E0002E617E /* MainVCToAddDataVCTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA705212B67E0002E617E /* MainVCToAddDataVCTransition.swift */; };
 		FFDE770921357D1100701ABA /* HeightSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDE770821357D1100701ABA /* HeightSelectorDelegate.swift */; };
-		FFFBDC21211B700A00AE0493 /* bodymassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFBDC18211B700A00AE0493 /* bodymassKit.framework */; };
-		FFFBDC28211B700A00AE0493 /* bodymassKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFFBDC27211B700A00AE0493 /* bodymassKitTests.swift */; };
 		FFFBDC2A211B700A00AE0493 /* bodymassKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFBDC1A211B700A00AE0493 /* bodymassKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFFBDC2D211B700A00AE0493 /* bodymassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFBDC18211B700A00AE0493 /* bodymassKit.framework */; };
 		FFFBDC2E211B700A00AE0493 /* bodymassKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FFFBDC18211B700A00AE0493 /* bodymassKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FF3C82D4211706C500BC693A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FF3C82B4211706C400BC693A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FF3C82BB211706C400BC693A;
-			remoteInfo = bodymass;
-		};
-		FF3C82DF211706C500BC693A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FF3C82B4211706C400BC693A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FF3C82BB211706C400BC693A;
-			remoteInfo = bodymass;
-		};
-		FFFBDC22211B700A00AE0493 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FF3C82B4211706C400BC693A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FFFBDC17211B700A00AE0493;
-			remoteInfo = bodymassKit;
-		};
-		FFFBDC24211B700A00AE0493 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = FF3C82B4211706C400BC693A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FF3C82BB211706C400BC693A;
-			remoteInfo = bodymass;
-		};
 		FFFBDC2B211B700A00AE0493 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FF3C82B4211706C400BC693A /* Project object */;
@@ -98,12 +68,6 @@
 		FF3C82C9211706C500BC693A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF3C82CC211706C500BC693A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF3C82CE211706C500BC693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FF3C82D3211706C500BC693A /* bodymassTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bodymassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF3C82D7211706C500BC693A /* bodymassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bodymassTests.swift; sourceTree = "<group>"; };
-		FF3C82D9211706C500BC693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FF3C82DE211706C500BC693A /* bodymassUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bodymassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF3C82E2211706C500BC693A /* bodymassUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bodymassUITests.swift; sourceTree = "<group>"; };
-		FF3C82E4211706C500BC693A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF3EB623214AE37800F0FD04 /* WeightSelectorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightSelectorDelegate.swift; sourceTree = "<group>"; };
 		FF3EB690214E6F1400F0FD04 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		FF3EB692214E6F2200F0FD04 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
@@ -114,6 +78,8 @@
 		FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataVCToMainVCTransition.swift; sourceTree = "<group>"; };
 		FF949B552135BA0500C00D1A /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectorDelegate.swift; sourceTree = "<group>"; };
+		FF96B430215415AB0032805D /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
+		FF96B432215415FB0032805D /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		FF9EA6F32124474A002E617E /* AddDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataViewController.swift; sourceTree = "<group>"; };
 		FF9EA6F621248FAB002E617E /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		FF9EA6F921249121002E617E /* GenderSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelector.swift; sourceTree = "<group>"; };
@@ -128,9 +94,6 @@
 		FFFBDC18211B700A00AE0493 /* bodymassKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = bodymassKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFBDC1A211B700A00AE0493 /* bodymassKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bodymassKit.h; sourceTree = "<group>"; };
 		FFFBDC1B211B700A00AE0493 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FFFBDC20211B700A00AE0493 /* bodymassKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bodymassKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FFFBDC27211B700A00AE0493 /* bodymassKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bodymassKitTests.swift; sourceTree = "<group>"; };
-		FFFBDC29211B700A00AE0493 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,32 +105,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FF3C82D0211706C500BC693A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FF3C82DB211706C500BC693A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FFFBDC14211B700A00AE0493 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FFFBDC1D211B700A00AE0493 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FFFBDC21211B700A00AE0493 /* bodymassKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,10 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				FF3C82BE211706C400BC693A /* bodymass */,
-				FF3C82D6211706C500BC693A /* bodymassTests */,
-				FF3C82E1211706C500BC693A /* bodymassUITests */,
 				FFFBDC19211B700A00AE0493 /* bodymassKit */,
-				FFFBDC26211B700A00AE0493 /* bodymassKitTests */,
 				FF3C82BD211706C400BC693A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -190,10 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				FF3C82BC211706C400BC693A /* Bodymass DEV.app */,
-				FF3C82D3211706C500BC693A /* bodymassTests.xctest */,
-				FF3C82DE211706C500BC693A /* bodymassUITests.xctest */,
 				FFFBDC18211B700A00AE0493 /* bodymassKit.framework */,
-				FFFBDC20211B700A00AE0493 /* bodymassKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,24 +151,6 @@
 				FF3C82CE211706C500BC693A /* Info.plist */,
 			);
 			path = bodymass;
-			sourceTree = "<group>";
-		};
-		FF3C82D6211706C500BC693A /* bodymassTests */ = {
-			isa = PBXGroup;
-			children = (
-				FF3C82D7211706C500BC693A /* bodymassTests.swift */,
-				FF3C82D9211706C500BC693A /* Info.plist */,
-			);
-			path = bodymassTests;
-			sourceTree = "<group>";
-		};
-		FF3C82E1211706C500BC693A /* bodymassUITests */ = {
-			isa = PBXGroup;
-			children = (
-				FF3C82E2211706C500BC693A /* bodymassUITests.swift */,
-				FF3C82E4211706C500BC693A /* Info.plist */,
-			);
-			path = bodymassUITests;
 			sourceTree = "<group>";
 		};
 		FF3EB68E214E6EDF00F0FD04 /* DataStore */ = {
@@ -268,6 +185,15 @@
 				FF598FF3212340BE0022F931 /* CustomButton.swift */,
 			);
 			path = CustomComponents;
+			sourceTree = "<group>";
+		};
+		FF96B42F2154159E0032805D /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				FF96B430215415AB0032805D /* Gender.swift */,
+				FF96B432215415FB0032805D /* UserDefaultKeys.swift */,
+			);
+			path = Enums;
 			sourceTree = "<group>";
 		};
 		FF9EA6F521248F9B002E617E /* Library */ = {
@@ -338,21 +264,13 @@
 		FFFBDC19211B700A00AE0493 /* bodymassKit */ = {
 			isa = PBXGroup;
 			children = (
+				FF96B42F2154159E0032805D /* Enums */,
 				FF3EB68E214E6EDF00F0FD04 /* DataStore */,
 				FF3EB696214E720C00F0FD04 /* Library */,
 				FFFBDC1A211B700A00AE0493 /* bodymassKit.h */,
 				FFFBDC1B211B700A00AE0493 /* Info.plist */,
 			);
 			path = bodymassKit;
-			sourceTree = "<group>";
-		};
-		FFFBDC26211B700A00AE0493 /* bodymassKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				FFFBDC27211B700A00AE0493 /* bodymassKitTests.swift */,
-				FFFBDC29211B700A00AE0493 /* Info.plist */,
-			);
-			path = bodymassKitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,42 +306,6 @@
 			productReference = FF3C82BC211706C400BC693A /* Bodymass DEV.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FF3C82D2211706C500BC693A /* bodymassTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FF3C82EA211706C500BC693A /* Build configuration list for PBXNativeTarget "bodymassTests" */;
-			buildPhases = (
-				FF3C82CF211706C500BC693A /* Sources */,
-				FF3C82D0211706C500BC693A /* Frameworks */,
-				FF3C82D1211706C500BC693A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FF3C82D5211706C500BC693A /* PBXTargetDependency */,
-			);
-			name = bodymassTests;
-			productName = bodymassTests;
-			productReference = FF3C82D3211706C500BC693A /* bodymassTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		FF3C82DD211706C500BC693A /* bodymassUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FF3C82ED211706C500BC693A /* Build configuration list for PBXNativeTarget "bodymassUITests" */;
-			buildPhases = (
-				FF3C82DA211706C500BC693A /* Sources */,
-				FF3C82DB211706C500BC693A /* Frameworks */,
-				FF3C82DC211706C500BC693A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FF3C82E0211706C500BC693A /* PBXTargetDependency */,
-			);
-			name = bodymassUITests;
-			productName = bodymassUITests;
-			productReference = FF3C82DE211706C500BC693A /* bodymassUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		FFFBDC17211B700A00AE0493 /* bodymassKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FFFBDC2F211B700A00AE0493 /* Build configuration list for PBXNativeTarget "bodymassKit" */;
@@ -442,25 +324,6 @@
 			productReference = FFFBDC18211B700A00AE0493 /* bodymassKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FFFBDC1F211B700A00AE0493 /* bodymassKitTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FFFBDC33211B700A00AE0493 /* Build configuration list for PBXNativeTarget "bodymassKitTests" */;
-			buildPhases = (
-				FFFBDC1C211B700A00AE0493 /* Sources */,
-				FFFBDC1D211B700A00AE0493 /* Frameworks */,
-				FFFBDC1E211B700A00AE0493 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FFFBDC23211B700A00AE0493 /* PBXTargetDependency */,
-				FFFBDC25211B700A00AE0493 /* PBXTargetDependency */,
-			);
-			name = bodymassKitTests;
-			productName = bodymassKitTests;
-			productReference = FFFBDC20211B700A00AE0493 /* bodymassKitTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -473,22 +336,11 @@
 				TargetAttributes = {
 					FF3C82BB211706C400BC693A = {
 						CreatedOnToolsVersion = 9.4.1;
-					};
-					FF3C82D2211706C500BC693A = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = FF3C82BB211706C400BC693A;
-					};
-					FF3C82DD211706C500BC693A = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = FF3C82BB211706C400BC693A;
+						LastSwiftMigration = 1000;
 					};
 					FFFBDC17211B700A00AE0493 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 0940;
-					};
-					FFFBDC1F211B700A00AE0493 = {
-						CreatedOnToolsVersion = 9.4.1;
-						TestTargetID = FF3C82BB211706C400BC693A;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -506,10 +358,7 @@
 			projectRoot = "";
 			targets = (
 				FF3C82BB211706C400BC693A /* bodymass */,
-				FF3C82D2211706C500BC693A /* bodymassTests */,
-				FF3C82DD211706C500BC693A /* bodymassUITests */,
 				FFFBDC17211B700A00AE0493 /* bodymassKit */,
-				FFFBDC1F211B700A00AE0493 /* bodymassKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -524,28 +373,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FF3C82D1211706C500BC693A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FF3C82DC211706C500BC693A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FFFBDC16211B700A00AE0493 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FFFBDC1E211B700A00AE0493 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -580,63 +408,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FF3C82CF211706C500BC693A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FF3C82D8211706C500BC693A /* bodymassTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FF3C82DA211706C500BC693A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FF3C82E3211706C500BC693A /* bodymassUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FFFBDC13211B700A00AE0493 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF96B433215415FB0032805D /* UserDefaultKeys.swift in Sources */,
+				FF96B431215415AB0032805D /* Gender.swift in Sources */,
 				FF3EB691214E6F1400F0FD04 /* Model.xcdatamodeld in Sources */,
 				FF3EB693214E6F2200F0FD04 /* DataStore.swift in Sources */,
 				FF3EB698214E721C00F0FD04 /* CoreData+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FFFBDC1C211B700A00AE0493 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FFFBDC28211B700A00AE0493 /* bodymassKitTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		FF3C82D5211706C500BC693A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FF3C82BB211706C400BC693A /* bodymass */;
-			targetProxy = FF3C82D4211706C500BC693A /* PBXContainerItemProxy */;
-		};
-		FF3C82E0211706C500BC693A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FF3C82BB211706C400BC693A /* bodymass */;
-			targetProxy = FF3C82DF211706C500BC693A /* PBXContainerItemProxy */;
-		};
-		FFFBDC23211B700A00AE0493 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FFFBDC17211B700A00AE0493 /* bodymassKit */;
-			targetProxy = FFFBDC22211B700A00AE0493 /* PBXContainerItemProxy */;
-		};
-		FFFBDC25211B700A00AE0493 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FF3C82BB211706C400BC693A /* bodymass */;
-			targetProxy = FFFBDC24211B700A00AE0493 /* PBXContainerItemProxy */;
-		};
 		FFFBDC2C211B700A00AE0493 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = FFFBDC17211B700A00AE0493 /* bodymassKit */;
@@ -786,7 +572,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_NAME = "${APP_DISPLAY_NAME}";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -805,90 +591,8 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_NAME = "${APP_DISPLAY_NAME}";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
-		FF3C82EB211706C500BC693A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFBDC092118D42100AE0493 /* Development.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2DX87RQR8M;
-				INFOPLIST_FILE = bodymassTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bodymass.app/bodymass";
-			};
-			name = Debug;
-		};
-		FF3C82EC211706C500BC693A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFBDC082118D40000AE0493 /* AppStore.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2DX87RQR8M;
-				INFOPLIST_FILE = bodymassTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bodymass.app/bodymass";
-			};
-			name = Release;
-		};
-		FF3C82EE211706C500BC693A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFBDC092118D42100AE0493 /* Development.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2DX87RQR8M;
-				INFOPLIST_FILE = bodymassUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = bodymass;
-			};
-			name = Debug;
-		};
-		FF3C82EF211706C500BC693A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFBDC082118D40000AE0493 /* AppStore.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2DX87RQR8M;
-				INFOPLIST_FILE = bodymassUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = bodymass;
 			};
 			name = Release;
 		};
@@ -916,7 +620,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -946,52 +650,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		FFFBDC34211B700A00AE0493 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFBDC092118D42100AE0493 /* Development.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2DX87RQR8M;
-				INFOPLIST_FILE = bodymassKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bodymass.app/bodymass";
-			};
-			name = Debug;
-		};
-		FFFBDC35211B700A00AE0493 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FFFBDC082118D40000AE0493 /* AppStore.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2DX87RQR8M;
-				INFOPLIST_FILE = bodymassKitTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassKitTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bodymass.app/bodymass";
 			};
 			name = Release;
 		};
@@ -1016,38 +678,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FF3C82EA211706C500BC693A /* Build configuration list for PBXNativeTarget "bodymassTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FF3C82EB211706C500BC693A /* Debug */,
-				FF3C82EC211706C500BC693A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FF3C82ED211706C500BC693A /* Build configuration list for PBXNativeTarget "bodymassUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FF3C82EE211706C500BC693A /* Debug */,
-				FF3C82EF211706C500BC693A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		FFFBDC2F211B700A00AE0493 /* Build configuration list for PBXNativeTarget "bodymassKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FFFBDC30211B700A00AE0493 /* Debug */,
 				FFFBDC31211B700A00AE0493 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FFFBDC33211B700A00AE0493 /* Build configuration list for PBXNativeTarget "bodymassKitTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FFFBDC34211B700A00AE0493 /* Debug */,
-				FFFBDC35211B700A00AE0493 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

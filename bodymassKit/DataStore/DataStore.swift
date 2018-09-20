@@ -50,7 +50,7 @@ public class DataStore: NSObject {
     }
   }
   
-  public func saveDataPoint(id: String, weight: Float, height: Float, completion: @escaping () -> Void) {
+  public func saveDataPoint(id: String, weight: Double, height: Double, completion: @escaping () -> Void) {
      assert(self.storeIsReady)
     
     self.persistentStore.performBackgroundTask { (moc) in
@@ -75,6 +75,15 @@ public class DataStore: NSObject {
     fetchLastDataPoint(moc: self.persistentStore.viewContext) { (managedDataPoint) in
       completion(managedDataPoint)
     }
+  }
+  
+  public func saveUserGender(_ gender: Gender) {
+    UserDefaults.standard.set(gender.rawValue, forKey: UserDefaultKeys.gender.rawValue)
+  }
+  
+  public func fetchUserGender() -> Gender? {
+    guard let genderRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.gender.rawValue)as? String else { return nil }
+    return Gender(rawValue: genderRawValue)
   }
   
   //MARK: Private

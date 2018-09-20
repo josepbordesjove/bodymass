@@ -15,9 +15,11 @@ class MainViewController: UIViewController {
   private var vm: VM? {
     didSet {
       if let vm = vm {
-        let squaredHeight = (vm.height / 100) * (vm.height / 100)
-        let imcValue = vm.weight / squaredHeight
-        imcSummary.text = String(format: "%.1f", imcValue)
+        DispatchQueue.main.async {
+          let squaredHeight = (vm.height / 100) * (vm.height / 100)
+          let imcValue = vm.weight / squaredHeight
+          self.imcSummary.text = String(format: "%.1f", imcValue)
+        }
       }
     }
   }
@@ -32,7 +34,7 @@ class MainViewController: UIViewController {
   
   lazy var imcSummary: UILabel = {
     let label = UILabel()
-    label.text = "21.2"
+    label.text = "--.-"
     label.font = .boldSystemFont(ofSize: 120)
     label.translatesAutoresizingMaskIntoConstraints = false
     
@@ -146,7 +148,7 @@ class MainViewController: UIViewController {
   
   @objc
   func presentAddDataViewController() {
-    let addDataViewController = self.interactor.addDataViewController(observer: self)
+    let addDataViewController = self.interactor.addDataViewController(observer: self, weight: vm?.weight, height: vm?.height)
     addDataViewController.transitioningDelegate = self
     
     present(addDataViewController, animated: true)
@@ -170,14 +172,17 @@ extension MainViewController: UIViewControllerTransitioningDelegate {
 extension MainViewController: DataPointObserver {
   func didCreateDataPoint() {
     self.reloadDataPoint()
+    if let gender = interactor.fetchUserGender() {
+      self.vm?.gender = gender
+    }
   }
 }
 
 extension MainViewController {
   struct VM {
     let id: String
-    var weight: Float
-    var height: Float
+    var weight: Double
+    var height: Double
     var gender: Gender
   }
 }

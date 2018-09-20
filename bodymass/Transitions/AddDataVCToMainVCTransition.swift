@@ -34,7 +34,7 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
     [snapshot, toViewController.view].forEach { containerView.addSubview($0) }
     snapshot.alpha = 0
     snapshot.transform = CGAffineTransform(translationX: 0, y: snapshot.frame.height)
-    containerView.bringSubview(toFront: toViewController.view)
+    containerView.bringSubviewToFront(toViewController.view)
     
     toViewController.view.isHidden = true
     

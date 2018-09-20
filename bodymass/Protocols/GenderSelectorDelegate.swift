@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import bodymassKit
 
 protocol GenderSelectorDelegate: class {
   func genderChanged(value: Gender)

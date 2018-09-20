@@ -14,7 +14,8 @@ protocol DataPointObserver: class {
 
 protocol DataPointInteractorType {
   init(observer: DataPointObserver)
-  func createDataPoint(id: String, weight: Float, height: Float)
+  func createDataPoint(id: String, weight: Double, height: Double)
+  func saveUserGender(_ gender: Gender)
 }
 
 extension AddDataViewController {
@@ -26,13 +27,16 @@ extension AddDataViewController {
       self.observer = observer
     }
     
-    func createDataPoint(id: String, weight: Float, height: Float) {
+    func createDataPoint(id: String, weight: Double, height: Double) {
       dataStore.loadAndMigrateIfNeeded {
-        print("JBJ data point to be saved \(id) \(weight) \(height)")
         self.dataStore.saveDataPoint(id: id, weight: weight, height: height) {
           self.observer?.didCreateDataPoint()
         }
       }
+    }
+    
+    func saveUserGender(_ gender: Gender) {
+      dataStore.saveUserGender(gender)
     }
   }
 }

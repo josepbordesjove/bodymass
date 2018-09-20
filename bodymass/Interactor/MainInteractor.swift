@@ -11,7 +11,8 @@ import bodymassKit
 
 protocol MainInteractorType {
   func fetchLastDataPoint(handler: @escaping (MainViewController.VM?, Swift.Error?) -> Void)
-  func addDataViewController(observer: DataPointObserver) -> UIViewController
+  func addDataViewController(observer: DataPointObserver, weight: Double?, height: Double?) -> UIViewController
+  func fetchUserGender() -> Gender?
 }
 
 extension MainViewController {
@@ -20,6 +21,7 @@ extension MainViewController {
   }
   
   class Interactor: MainInteractorType {
+    
     let dataStore: DataStore
     
     init(dataStore: DataStore) {
@@ -44,17 +46,26 @@ extension MainViewController {
             return
           }
           
-          let dataPoint = MainViewController.VM(id: id, weight: weight, height: height, gender: Gender.male)
+          guard let gender = self.fetchUserGender() else {
+            handler(nil, MainViewControllerErrors.pointNotFetched)
+            return
+          }
+          
+          let dataPoint = MainViewController.VM(id: id, weight: weight, height: height, gender: gender)
           
           handler(dataPoint, nil)
         })
       }
     }
     
-    func addDataViewController(observer: DataPointObserver) -> UIViewController {
+    func addDataViewController(observer: DataPointObserver, weight: Double?, height: Double?) -> UIViewController {
       let interactor = AddDataViewController.Interactor.init(observer: observer)
       interactor.dataStore = dataStore
-      return AddDataViewController.Factory.viewController(interactor: interactor)
+      return AddDataViewController.Factory.viewController(interactor: interactor, weight: weight, height: height)
+    }
+    
+    func fetchUserGender() -> Gender? {
+      return dataStore.fetchUserGender()
     }
     
   }

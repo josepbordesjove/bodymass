@@ -56,9 +56,9 @@ class PacmanToggle: UIView {
   
   lazy var dotsView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [dot1, dot2, dot3])
-    stackView.axis = UILayoutConstraintAxis.horizontal
-    stackView.distribution = UIStackViewDistribution.equalSpacing
-    stackView.alignment = UIStackViewAlignment.center
+    stackView.axis = NSLayoutConstraint.Axis.horizontal
+    stackView.distribution = UIStackView.Distribution.equalSpacing
+    stackView.alignment = UIStackView.Alignment.center
     stackView.translatesAutoresizingMaskIntoConstraints = false
     
     return stackView
@@ -114,7 +114,7 @@ class PacmanToggle: UIView {
     let leftTranslationLimit = constants.pacmanMargin + pacmanView.bounds.width / 2
     
     if sender.state == .changed && currentPositionX < rightTranslationLimit && currentPositionX > leftTranslationLimit {
-      bringSubview(toFront: self.pacmanView)
+      bringSubviewToFront(self.pacmanView)
       pacmanView.center = CGPoint(x: currentPositionX, y: pacmanView.center.y)
       sender.setTranslation(.zero, in: self)
       

@@ -7,12 +7,7 @@
 //
 
 import UIKit
-
-enum Gender {
-  case male
-  case female
-  case undefined
-}
+import bodymassKit
 
 class GenderSelector: UIView {
   

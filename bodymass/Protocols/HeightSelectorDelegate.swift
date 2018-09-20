@@ -9,5 +9,5 @@
 import Foundation
 
 protocol HeightSelectorDelegate: class {
-  func heightChanged(value: Float)
+  func heightChanged(value: Double)
 }

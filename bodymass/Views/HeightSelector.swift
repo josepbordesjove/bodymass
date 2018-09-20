@@ -13,11 +13,16 @@ class HeightSelector: UIView {
   private struct constants {
     static let minHeight: CGFloat = 0.1
     static let maxHeight: CGFloat = 0.7
+    static let initialHeight: Double = 175
   }
   
   let heightRange = 150...200
-  var savedHeight = 165
   weak var delegate: HeightSelectorDelegate?
+  var savedHeight: Double {
+    didSet {
+      self.realHeight.text = String(format: "%.0f", savedHeight)
+    }
+  }
   
   lazy var title: UILabel = {
     let label = UILabel()
@@ -73,18 +78,19 @@ class HeightSelector: UIView {
   
   lazy var realHeight: UILabel = {
     let label = UILabel()
-    label.text = "165"
     label.textColor = .sunriseYellow
+    label.alpha = 0
     label.font = UIFont.boldSystemFont(ofSize: 14)
     label.translatesAutoresizingMaskIntoConstraints = false
     
     return label
   }()
   
-  lazy var topAnchorHeightLineView = heightLineView.topAnchor.constraint(equalTo: topAnchor, constant: 200)
+  lazy var topAnchorHeightLineView = heightLineView.centerYAnchor.constraint(equalTo: topAnchor, constant: 200)
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(initialHeight: Double?) {
+    self.savedHeight = initialHeight ?? constants.initialHeight
+    super.init(frame: CGRect())
     
     setupView()
     setupConstraints()
@@ -102,6 +108,9 @@ class HeightSelector: UIView {
     layer.shadowRadius = 5
     layer.cornerRadius = 8
     backgroundColor = .white
+    
+    self.realHeight.text = String(format: "%.0f", savedHeight)
+    
     [title, units, bodyView, heightLineView, realHeight].forEach { addSubview($0) }
     [panGestureRecognizer, tapGestureRecognizer].forEach{ addGestureRecognizer($0) }
     translatesAutoresizingMaskIntoConstraints = false
@@ -136,7 +145,7 @@ class HeightSelector: UIView {
     let distanceMultiplier: CGFloat = 0.75 / CGFloat(numberOfElements)
     
     for i in stride(from: heightRange.lowerBound, to: heightRange.upperBound, by: step) {
-      let label = HeightLabel(labelText: i, isSelected: i == savedHeight)
+      let label = HeightLabel(labelText: i, isSelected: i == Int(savedHeight))
       addSubview(label)
       
       let previousHeightLabel = self.viewWithTag(i - step) ?? nil
@@ -154,6 +163,7 @@ class HeightSelector: UIView {
   
   @objc
   func tapGestureHandler(sender: UITapGestureRecognizer) {
+    
     let tappedPointY = sender.location(in: self).y
     
     if tappedPointY < self.frame.height *  constants.minHeight || tappedPointY > self.frame.height * constants.maxHeight { return }
@@ -173,6 +183,14 @@ class HeightSelector: UIView {
       let heightLineViewCenter = heightLineView.frame.minY + heightLineView.frame.height / 2
       _ = evaluateGesturePositionChangeFor(heightLineViewCenter)
       sender.setTranslation(.zero, in: self)
+    } else if sender.state == .began {
+      UIView.animate(withDuration: 0.5) {
+        self.realHeight.alpha = 1
+      }
+    } else if sender.state == .ended {
+      UIView.animate(withDuration: 0.5) {
+        self.realHeight.alpha = 0
+      }
     }
   }
   
@@ -186,16 +204,16 @@ class HeightSelector: UIView {
       let isInsideRange = isPointInsideHeightsRange(pointY: newPoint, frame: heightLabel.frame)
       animate(view: heightLabel, if: isInsideRange && !newActiveHeightFound)
       
-      if i == savedHeight {
+      if i == Int(savedHeight) {
         let percentage = 5 * ((heightLineView.frame.midY - heightLineView.frame.minY) / (heightLabel.frame.maxY - heightLineView.frame.minY))
         let height = CGFloat(i) - percentage
-        realHeight.text =  String(format: "%.1f", height)
-        delegate?.heightChanged(value: Float(height))
+        realHeight.text =  String(format: "%.0f", height)
+        delegate?.heightChanged(value: Double(height))
       }
       
-      if isInsideRange && i != savedHeight && !newActiveHeightFound {
+      if isInsideRange && i != Int(savedHeight) && !newActiveHeightFound {
         UISelectionFeedbackGenerator().selectionChanged()
-        savedHeight = i
+        savedHeight = Double(i)
         newActiveHeightFound = true
       }
     }

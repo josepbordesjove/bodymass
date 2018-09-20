@@ -14,7 +14,7 @@ class WeightSelector: UIView {
   weak var delegate: WeightSelectorDelegate?
   var savedWeight: Int = 45 {
     didSet {
-     delegate?.weightChanged(value: Float(savedWeight))
+     delegate?.weightChanged(value: Double(savedWeight))
     }
   }
   
@@ -56,7 +56,7 @@ class WeightSelector: UIView {
   
   lazy var weightNumbers: UICollectionView = {
     let collectionView = UICollectionView(frame: self.bounds, collectionViewLayout: self.flowLayout)
-    collectionView.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth]
+    collectionView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
     collectionView.backgroundColor = .white
     collectionView.bounces = true
     collectionView.backgroundColor = .clear

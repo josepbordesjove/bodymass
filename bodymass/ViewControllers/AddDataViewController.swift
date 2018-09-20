@@ -28,12 +28,14 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     
     return selector
   }()
+  
   lazy var heightSelector: HeightSelector = {
-    let selector = HeightSelector()
+    let selector = HeightSelector(initialHeight: vm?.height)
     selector.delegate = self
     
     return selector
   }()
+  
   lazy var weightSelector: WeightSelector = {
     let selector = WeightSelector()
     selector.delegate = self
@@ -51,10 +53,9 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: 113)
   lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
   
-  private init(interactor: DataPointInteractorType) {
+  private init(interactor: DataPointInteractorType, weight: Double?, height: Double?) {
     self.interactor = interactor
-    vm = VM(id: UUID().uuidString, weight: 55, height: 189)
-    print("JBJ created vm: \(vm)")
+    vm = VM(id: UUID().uuidString, weight: weight ?? 175, height: height ?? 65)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -70,7 +71,20 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     setupView()
     setupConstraints()
   }
-
+  
+  override func viewDidAppear(_ animated: Bool) {
+    let heightRounded = Int((heightSelector.savedHeight / 5).rounded(.up) * 5)
+    if let heightViewLabel = heightSelector.viewWithTag(heightRounded) as? UILabel {
+      let constant = heightViewLabel.frame.midY
+      UIView.animate(withDuration: 0.5) {
+        self.heightSelector.topAnchorHeightLineView.constant = constant
+        self.heightSelector.layoutIfNeeded()
+        heightViewLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+        heightViewLabel.alpha = 1
+      }
+    }
+  }
+  
   func setupView() {
     view.backgroundColor = .lightGrey
     [pageTitle, genderSelector, heightSelector, weightSelector, pacmanToggle].forEach{ view.addSubview($0) }
@@ -120,21 +134,19 @@ extension AddDataViewController: UIViewControllerTransitioningDelegate {
 }
 
 extension AddDataViewController: HeightSelectorDelegate {
-  func heightChanged(value: Float) {
-    print("Selected height: \(value)")
+  func heightChanged(value: Double) {
     self.vm?.height = value
   }
 }
 
 extension AddDataViewController: GenderSelectorDelegate {
   func genderChanged(value: Gender) {
-    print("Selected gender: \(value)")
+    interactor.saveUserGender(value)
   }
 }
 
 extension AddDataViewController: WeightSelectorDelegate {
-  func weightChanged(value: Float) {
-    print("Selected weight: \(value)")
+  func weightChanged(value: Double) {
     self.vm?.weight = value
   }
 }
@@ -142,15 +154,15 @@ extension AddDataViewController: WeightSelectorDelegate {
 extension AddDataViewController {
   struct VM {
     let id: String
-    var weight: Float
-    var height: Float
+    var weight: Double
+    var height: Double
   }
 }
 
 extension AddDataViewController {
   enum Factory {
-    static func viewController(interactor: DataPointInteractorType) -> UIViewController {
-      let addDataViewController = AddDataViewController(interactor: interactor)
+    static func viewController(interactor: DataPointInteractorType, weight: Double?, height: Double?) -> UIViewController {
+      let addDataViewController = AddDataViewController(interactor: interactor, weight: weight, height: height)
       addDataViewController.modalPresentationStyle = .overCurrentContext
       
       return addDataViewController
