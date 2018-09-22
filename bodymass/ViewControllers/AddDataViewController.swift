@@ -11,8 +11,16 @@ import bodymassKit
 
 class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
-  private var vm: VM?
+  private var vm: VM
   private let interactor: DataPointInteractorType
+  
+  private struct Constants {
+    static let defaultHeight: Double = 170
+    static let defaultWeight: Double = 65
+    static let defaultGender = Gender.undefined
+    static let pacmanWidth: CGFloat = 113
+    static let pacmanHeight: CGFloat = 60
+  }
   
   lazy var pageTitle: UILabel = {
     let label = UILabel()
@@ -23,14 +31,14 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   }()
   
   lazy var genderSelector: GenderSelector = {
-    let selector = GenderSelector()
+    let selector = GenderSelector(gender: self.vm.gender)
     selector.delegate = self
     
     return selector
   }()
   
   lazy var heightSelector: HeightSelector = {
-    let selector = HeightSelector(initialHeight: vm?.height)
+    let selector = HeightSelector(initialHeight: vm.height)
     selector.delegate = self
     
     return selector
@@ -50,12 +58,12 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     return toggle
   }()
   
-  lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: 113)
+  lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: Constants.pacmanWidth)
   lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
   
-  private init(interactor: DataPointInteractorType, weight: Double?, height: Double?) {
+  private init(interactor: DataPointInteractorType, weight: Double?, height: Double?, gender: Gender?) {
     self.interactor = interactor
-    vm = VM(id: UUID().uuidString, weight: weight ?? 175, height: height ?? 65)
+    self.vm = VM.create(weight: weight, height: height, gender: gender)
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -96,7 +104,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
       pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       pageTitle.heightAnchor.constraint(equalToConstant: 30),
       
-      pacmanToggle.heightAnchor.constraint(equalToConstant: 60),
+      pacmanToggle.heightAnchor.constraint(equalToConstant: Constants.pacmanHeight),
       pacmanToggle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       pacmanYConstraint,
       pacmanWidthConstraint,
@@ -119,10 +127,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   }
   
   func shouldDismissViewController() {
-    if let vm = vm {
-     interactor.createDataPoint(id: vm.id, weight: vm.weight, height: vm.height)
-    }
-    
+    interactor.createDataPoint(id: vm.id, weight: vm.weight, height: vm.height)
     self.dismiss(animated: true, completion: nil)
   }
 }
@@ -135,7 +140,7 @@ extension AddDataViewController: UIViewControllerTransitioningDelegate {
 
 extension AddDataViewController: HeightSelectorDelegate {
   func heightChanged(value: Double) {
-    self.vm?.height = value
+    self.vm.height = value
   }
 }
 
@@ -147,7 +152,7 @@ extension AddDataViewController: GenderSelectorDelegate {
 
 extension AddDataViewController: WeightSelectorDelegate {
   func weightChanged(value: Double) {
-    self.vm?.weight = value
+    self.vm.weight = value
   }
 }
 
@@ -156,13 +161,23 @@ extension AddDataViewController {
     let id: String
     var weight: Double
     var height: Double
+    var gender: Gender
+    
+    static func create(weight: Double?, height: Double?, gender: Gender?) -> VM {
+      return VM(
+        id: UUID().uuidString,
+        weight: weight ?? Constants.defaultWeight,
+        height: height ?? Constants.defaultHeight,
+        gender: gender ?? Gender.undefined
+      )
+    }
   }
 }
 
 extension AddDataViewController {
   enum Factory {
-    static func viewController(interactor: DataPointInteractorType, weight: Double?, height: Double?) -> UIViewController {
-      let addDataViewController = AddDataViewController(interactor: interactor, weight: weight, height: height)
+    static func viewController(interactor: DataPointInteractorType, weight: Double?, height: Double?, gender: Gender?) -> UIViewController {
+      let addDataViewController = AddDataViewController(interactor: interactor, weight: weight, height: height, gender: gender)
       addDataViewController.modalPresentationStyle = .overCurrentContext
       
       return addDataViewController

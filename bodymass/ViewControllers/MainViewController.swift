@@ -148,7 +148,7 @@ class MainViewController: UIViewController {
   
   @objc
   func presentAddDataViewController() {
-    let addDataViewController = self.interactor.addDataViewController(observer: self, weight: vm?.weight, height: vm?.height)
+    let addDataViewController = self.interactor.addDataViewController(observer: self, weight: vm?.weight, height: vm?.height, gender: vm?.gender)
     addDataViewController.transitioningDelegate = self
     
     present(addDataViewController, animated: true)

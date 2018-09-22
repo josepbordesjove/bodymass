@@ -12,6 +12,12 @@ import bodymassKit
 class GenderSelector: UIView {
   
   weak var delegate: GenderSelectorDelegate?
+  var gender: Gender {
+    didSet {
+      self.rotateNeddleForGender(value: gender)
+      delegate?.genderChanged(value: gender)
+    }
+  }
   
   lazy var title: UILabel = {
     let label = UILabel()
@@ -49,11 +55,13 @@ class GenderSelector: UIView {
     return tapGestureRecognizer
   }()
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(gender: Gender) {
+    self.gender = gender
+    super.init(frame: CGRect())
     
     setupView()
     setupConstraints()
+    rotateNeddleForGender(value: gender)
     addGestureRecognizer(tapGestureRecognizer)
   }
   
@@ -104,16 +112,27 @@ class GenderSelector: UIView {
     }
     
     let tappedZone = tappedPoint.x / self.frame.width
-    var animationAngle: CGFloat = 0
     
     if tappedZone > 0 && tappedZone <= 0.33 {
-      animationAngle = -0.6
-      delegate?.genderChanged(value: .female)
+      self.gender = .female
     } else if tappedZone > 0.33 && tappedZone <= 0.66 {
-      delegate?.genderChanged(value: .undefined)
+      self.gender = .undefined
     } else if tappedZone > 0.66 && tappedZone <= 1 {
+      self.gender = .male
+    }
+  }
+  
+  // MARK: - Animation functions
+  
+  func rotateNeddleForGender(value: Gender) {
+    var animationAngle: CGFloat = 0
+    switch gender {
+    case .male:
       animationAngle = 0.6
-      delegate?.genderChanged(value: .male)
+    case .female:
+      animationAngle = -0.6
+    default:
+      break
     }
     
     UIView.animate(withDuration: 0.3, delay: 0.05, usingSpringWithDamping: 9, initialSpringVelocity: 19, options: .beginFromCurrentState, animations: {
