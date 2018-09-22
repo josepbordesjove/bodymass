@@ -91,6 +91,9 @@ class MainViewController: UIViewController {
     setupView()
     setupConstraints()
     setupButtonTargets()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
     reloadDataPoint()
   }
   
@@ -155,10 +158,14 @@ class MainViewController: UIViewController {
   }
   
   func reloadDataPoint() {
-    self.interactor.fetchLastDataPoint { (vm, error) in
+    interactor.fetchLastDataPoint { (vm, error) in
       if error == nil {
         self.vm = vm
       }
+    }
+    
+    if let gender = interactor.fetchUserGender() {
+      self.vm?.gender = gender
     }
   }
 }
@@ -172,9 +179,6 @@ extension MainViewController: UIViewControllerTransitioningDelegate {
 extension MainViewController: DataPointObserver {
   func didCreateDataPoint() {
     self.reloadDataPoint()
-    if let gender = interactor.fetchUserGender() {
-      self.vm?.gender = gender
-    }
   }
 }
 

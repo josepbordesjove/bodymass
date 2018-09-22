@@ -11,7 +11,6 @@ import UIKit
 class HeightSelector: UIView {
   
   private struct Constants {
-    static let initialHeight: Double = 175
     static let maxSelectableHeight: Int = 195
     static let minSelectableHeight: Int = 160
     static let stepBetweenNumbers: Int = 5
@@ -92,8 +91,8 @@ class HeightSelector: UIView {
   
   lazy var topAnchorHeightLineView = heightLineView.centerYAnchor.constraint(equalTo: topAnchor, constant: 200)
   
-  init(initialHeight: Double?) {
-    self.savedHeight = initialHeight ?? Constants.initialHeight
+  init(initialHeight: Double) {
+    self.savedHeight = initialHeight
     super.init(frame: CGRect())
     
     setupView()
@@ -105,7 +104,7 @@ class HeightSelector: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupView() {
+  private func setupView() {
     layer.shadowColor = UIColor.black.cgColor
     layer.shadowOpacity = 0.1
     layer.shadowOffset = CGSize.zero
@@ -120,7 +119,7 @@ class HeightSelector: UIView {
     translatesAutoresizingMaskIntoConstraints = false
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     NSLayoutConstraint.activate([
       title.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -units.bounds.width),
       title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
@@ -143,7 +142,7 @@ class HeightSelector: UIView {
       ])
   }
   
-  func setupNumbersView() {
+  private func setupNumbersView() {
     let numberOfElements = (heightRange.upperBound - heightRange.lowerBound) / Constants.stepBetweenNumbers
     let distanceMultiplier: CGFloat = 0.75 / CGFloat(numberOfElements)
     
@@ -162,17 +161,30 @@ class HeightSelector: UIView {
     }
   }
   
+  public func setupInitialPosition() {
+    let heightRounded = Int((self.savedHeight / Double(Constants.stepBetweenNumbers)).rounded(.up) * Double(Constants.stepBetweenNumbers))
+    if let heightViewLabel = self.viewWithTag(heightRounded) as? UILabel {
+      let constant = heightViewLabel.frame.midY
+      UIView.animate(withDuration: 0.5) {
+        self.topAnchorHeightLineView.constant = constant
+        self.layoutIfNeeded()
+        heightViewLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+        heightViewLabel.alpha = 1
+      }
+    }
+  }
+  
   // MARK: - Gesture helper methods
   
   @objc
-  func tapGestureHandler(sender: UITapGestureRecognizer) {
+  private func tapGestureHandler(sender: UITapGestureRecognizer) {
     let tappedPointY = sender.location(in: self).y
     
     evaluateGesturePositionChangeFor(pointY: tappedPointY, animated: true)
   }
   
   @objc
-  func panGestureHandler(sender: UIPanGestureRecognizer) {
+  private func panGestureHandler(sender: UIPanGestureRecognizer) {
     let translationY = sender.translation(in: self).y
     let absolutePositionY = topAnchorHeightLineView.constant + translationY
     
@@ -189,7 +201,7 @@ class HeightSelector: UIView {
   
   // MARK: - Helper methods
   
-  func evaluateGesturePositionChangeFor(pointY: CGFloat, animated: Bool) {
+  private func evaluateGesturePositionChangeFor(pointY: CGFloat, animated: Bool) {
     guard let minPosition = viewWithTag(Constants.maxSelectableHeight)?.frame.minY else { return }
     guard let maxPosition = viewWithTag(Constants.minSelectableHeight)?.frame.maxY else { return }
     
@@ -213,26 +225,26 @@ class HeightSelector: UIView {
     }
   }
   
-  func isPointInsideHeightsRange(pointY: CGFloat, frame: CGRect) -> Bool {
+  private func isPointInsideHeightsRange(pointY: CGFloat, frame: CGRect) -> Bool {
     let tolerance: CGFloat = pointY == CGFloat(savedHeight) ? 2 : 5
     return frame.maxY + tolerance > pointY && frame.minY - tolerance < pointY
   }
   
   // MARK: - Animation methods
   
-  func dragBegin() {
+  private func dragBegin() {
     UIView.animate(withDuration: 0.5) {
       self.realHeight.alpha = 1
     }
   }
   
-  func dragEnded() {
+ private func dragEnded() {
     UIView.animate(withDuration: 0.5) {
       self.realHeight.alpha = 0
     }
   }
   
-  func animate(view: UIView, if isInsideRange: Bool = true) {
+  private func animate(view: UIView, if isInsideRange: Bool = true) {
     if view.alpha == 0.6 && !isInsideRange || view.alpha == 1 && isInsideRange { return }
     
     if isInsideRange { UISelectionFeedbackGenerator().selectionChanged() }
@@ -243,18 +255,18 @@ class HeightSelector: UIView {
     }
   }
   
-  func moveHeightViewTopConstraintTo(pointY: CGFloat, animated: Bool) {
+  private func moveHeightViewTopConstraintTo(pointY: CGFloat, animated: Bool) {
     if (!animated) {
       topAnchorHeightLineView.constant = pointY
       return
     }
     
-    UIView.animate(withDuration: 0.1, delay: 0.1, usingSpringWithDamping: 8, initialSpringVelocity: 12, options: .beginFromCurrentState, animations: {
+    UIView.animate(withDuration: 0.9, delay: 0.1, usingSpringWithDamping: 8, initialSpringVelocity: 12, options: .beginFromCurrentState, animations: {
       self.realHeight.alpha = 1
       self.topAnchorHeightLineView.constant = pointY
       self.layoutIfNeeded()
     }) { _ in
-      UIView.animate(withDuration: 1, delay: 0.2, options: .curveEaseOut, animations: {
+      UIView.animate(withDuration: 1, delay: 0.6, options: .curveEaseOut, animations: {
         self.realHeight.alpha = 0
       }, completion: nil)
     }

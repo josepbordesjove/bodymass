@@ -69,7 +69,7 @@ class GenderSelector: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupView() {
+  private func setupView() {
     layer.shadowColor = UIColor.black.cgColor
     layer.shadowOpacity = 0.1
     layer.shadowOffset = CGSize.zero
@@ -80,7 +80,7 @@ class GenderSelector: UIView {
     [title, genderImageBackgroundView, selectionNeedle].forEach { addSubview($0) }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     NSLayoutConstraint.activate([
       title.centerXAnchor.constraint(equalTo: centerXAnchor),
       title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
@@ -100,7 +100,7 @@ class GenderSelector: UIView {
   // MARK: - Gesture recognizers functions
   
   @objc
-  func tapGestureHandler(sender: UITapGestureRecognizer) {
+  private func tapGestureHandler(sender: UITapGestureRecognizer) {
     let tappedPoint = sender.location(in: self)
     let center = CGPoint(
       x: selectionNeedle.layer.anchorPoint.x * selectionNeedle.frame.width + selectionNeedle.frame.minX,
@@ -124,7 +124,7 @@ class GenderSelector: UIView {
   
   // MARK: - Animation functions
   
-  func rotateNeddleForGender(value: Gender) {
+  private func rotateNeddleForGender(value: Gender) {
     var animationAngle: CGFloat = 0
     switch gender {
     case .male:
@@ -135,7 +135,7 @@ class GenderSelector: UIView {
       break
     }
     
-    UIView.animate(withDuration: 0.3, delay: 0.05, usingSpringWithDamping: 9, initialSpringVelocity: 19, options: .beginFromCurrentState, animations: {
+    UIView.animate(withDuration: 1.5, delay: 0.05, usingSpringWithDamping: 14, initialSpringVelocity: 10, options: .curveEaseOut, animations: {
       self.selectionNeedle.transform = CGAffineTransform(rotationAngle: animationAngle)
     }, completion: nil)
   }

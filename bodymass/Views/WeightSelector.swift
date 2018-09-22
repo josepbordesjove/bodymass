@@ -10,11 +10,16 @@ import UIKit
 
 class WeightSelector: UIView {
   
-  let weightRange: [Int] = Array(40...100)
+  private struct Constants {
+    static let maxWeight: Int = 120
+    static let minWeight: Int = 40
+  }
+  
+  let weightRange: [Int] = Array(Constants.minWeight...Constants.maxWeight)
   weak var delegate: WeightSelectorDelegate?
-  var savedWeight: Int = 45 {
+  var savedWeight: Double {
     didSet {
-     delegate?.weightChanged(value: Double(savedWeight))
+     delegate?.weightChanged(value: savedWeight)
     }
   }
   
@@ -68,8 +73,9 @@ class WeightSelector: UIView {
     return collectionView
   }()
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(initialWeight: Double) {
+    self.savedWeight = initialWeight
+    super.init(frame: CGRect())
     
     weightNumbers.delegate = self
     weightNumbers.dataSource = self
@@ -82,7 +88,7 @@ class WeightSelector: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupView() {
+  private func setupView() {
     layer.shadowColor = UIColor.black.cgColor
     layer.shadowOpacity = 0.1
     layer.shadowOffset = CGSize.zero
@@ -93,7 +99,13 @@ class WeightSelector: UIView {
     [title, units, weightImageBackgroundView, weightNumbers].forEach { addSubview($0) }
   }
   
-  func setupConstraints() {
+  public func setupInitialPosition() {
+    if let savedHeightIndex = weightRange.firstIndex(of: Int(savedWeight)) {
+      weightNumbers.scrollToItem(at: IndexPath(item: savedHeightIndex, section: 0), at: .centeredHorizontally, animated: false)
+    }
+  }
+  
+  private func setupConstraints() {
     NSLayoutConstraint.activate([
       title.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -units.bounds.width),
       title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
@@ -123,20 +135,14 @@ extension WeightSelector: UICollectionViewDataSource {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumberCell.identifier, for: indexPath) as? NumberCell else { return UICollectionViewCell() }
     cell.assignedWeight = weightRange[indexPath.row]
     
-    if indexPath.row == 1 {
-      UIView.animate(withDuration: 0.5) {
+    if let savedHeightIndex = weightRange.firstIndex(of: Int(savedWeight)) {
+      if savedHeightIndex == indexPath.row {
         cell.numberLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
       }
-    } else {
-      UIView.animate(withDuration: 0.5) {
-        cell.numberLabel.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-      }
     }
-    
+
     return cell
   }
-  
-  
 }
 
 extension WeightSelector: UICollectionViewDelegate {
@@ -151,8 +157,8 @@ extension WeightSelector: UICollectionViewDelegate {
         UIView.animate(withDuration: 0.1) {
           customCell.numberLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
         }
-        if customCell.assignedWeight != savedWeight {
-          savedWeight = customCell.assignedWeight!
+        if customCell.assignedWeight != nil && customCell.assignedWeight != Int(savedWeight) {
+          savedWeight = Double(customCell.assignedWeight!)
         }
       } else {
         UIView.animate(withDuration: 0.1) {
@@ -161,6 +167,11 @@ extension WeightSelector: UICollectionViewDelegate {
       }
     }
   }
+  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    weightNumbers.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+  }
+
 }
 
 extension WeightSelector {
@@ -177,6 +188,7 @@ extension WeightSelector {
     lazy var numberLabel: UILabel = {
       let label = UILabel()
       label.font = UIFont.systemFont(ofSize: 25)
+      label.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
       label.translatesAutoresizingMaskIntoConstraints = false
       
       return label
@@ -193,11 +205,11 @@ extension WeightSelector {
       fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell() {
+    private func setupCell() {
       addSubview(numberLabel)
     }
     
-    func setupCellConstraints() {
+    private func setupCellConstraints() {
       NSLayoutConstraint.activate([
         numberLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
         numberLabel.centerYAnchor.constraint(equalTo: centerYAnchor)

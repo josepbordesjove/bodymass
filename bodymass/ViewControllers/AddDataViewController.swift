@@ -30,33 +30,10 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     return label
   }()
   
-  lazy var genderSelector: GenderSelector = {
-    let selector = GenderSelector(gender: self.vm.gender)
-    selector.delegate = self
-    
-    return selector
-  }()
-  
-  lazy var heightSelector: HeightSelector = {
-    let selector = HeightSelector(initialHeight: vm.height)
-    selector.delegate = self
-    
-    return selector
-  }()
-  
-  lazy var weightSelector: WeightSelector = {
-    let selector = WeightSelector()
-    selector.delegate = self
-    
-    return selector
-  }()
-  
-  lazy var pacmanToggle: PacmanToggle = {
-    let toggle = PacmanToggle()
-    toggle.delegate = self
-    
-    return toggle
-  }()
+  lazy var genderSelector = GenderSelector(gender: vm.gender)
+  lazy var heightSelector = HeightSelector(initialHeight: vm.height)
+  lazy var weightSelector = WeightSelector(initialWeight: vm.weight)
+  lazy var pacmanToggle = PacmanToggle()
   
   lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: Constants.pacmanWidth)
   lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
@@ -65,6 +42,8 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     self.interactor = interactor
     self.vm = VM.create(weight: weight, height: height, gender: gender)
     super.init(nibName: nil, bundle: nil)
+    
+    self.modalPresentationStyle = .overCurrentContext
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -74,31 +53,27 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.transitioningDelegate = self
+    transitioningDelegate = self
+    genderSelector.delegate = self
+    heightSelector.delegate = self
+    weightSelector.delegate = self
+    pacmanToggle.delegate = self
     
     setupView()
     setupConstraints()
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    let heightRounded = Int((heightSelector.savedHeight / 5).rounded(.up) * 5)
-    if let heightViewLabel = heightSelector.viewWithTag(heightRounded) as? UILabel {
-      let constant = heightViewLabel.frame.midY
-      UIView.animate(withDuration: 0.5) {
-        self.heightSelector.topAnchorHeightLineView.constant = constant
-        self.heightSelector.layoutIfNeeded()
-        heightViewLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-        heightViewLabel.alpha = 1
-      }
-    }
+    heightSelector.setupInitialPosition()
+    weightSelector.setupInitialPosition()
   }
   
-  func setupView() {
+  private func setupView() {
     view.backgroundColor = .lightGrey
     [pageTitle, genderSelector, heightSelector, weightSelector, pacmanToggle].forEach{ view.addSubview($0) }
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     NSLayoutConstraint.activate([
       pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
       pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -128,6 +103,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   func shouldDismissViewController() {
     interactor.createDataPoint(id: vm.id, weight: vm.weight, height: vm.height)
+    interactor.saveUserGender(vm.gender)
     self.dismiss(animated: true, completion: nil)
   }
 }
@@ -146,7 +122,7 @@ extension AddDataViewController: HeightSelectorDelegate {
 
 extension AddDataViewController: GenderSelectorDelegate {
   func genderChanged(value: Gender) {
-    interactor.saveUserGender(value)
+    self.vm.gender = value
   }
 }
 
@@ -177,10 +153,7 @@ extension AddDataViewController {
 extension AddDataViewController {
   enum Factory {
     static func viewController(interactor: DataPointInteractorType, weight: Double?, height: Double?, gender: Gender?) -> UIViewController {
-      let addDataViewController = AddDataViewController(interactor: interactor, weight: weight, height: height, gender: gender)
-      addDataViewController.modalPresentationStyle = .overCurrentContext
-      
-      return addDataViewController
+      return AddDataViewController(interactor: interactor, weight: weight, height: height, gender: gender)
     }
   }
 }
