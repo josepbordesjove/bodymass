@@ -24,49 +24,16 @@ class MainViewController: UIViewController {
     }
   }
   
-  lazy var pageTitle: UILabel = {
-    let label = UILabel()
-    label.text = "Your health"
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
-  
-  lazy var imcSummary: UILabel = {
-    let label = UILabel()
-    label.text = "--.-"
-    label.font = .boldSystemFont(ofSize: 120)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
-  
+  lazy var pageTitle = CustomLabel(text: "YOUR HEALTH", fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
+  lazy var imcSummary = CustomLabel(text: "--.-", size: 120, bold: true, color: .ropeBlue)
+  lazy var bmiRecommendation = CustomLabel(text: "BMI = 22.96 kg/m2", size: 20, color: .birdBlue)
+  lazy var bmiRecommendationDescription = CustomLabel(text: "Normal BMI weight range for the height: 128.9lbs - 174.2 lbs", size: 16, color: .snowWhite)
   lazy var balanceImage: UIImageView = {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "balance")
     imageView.translatesAutoresizingMaskIntoConstraints = false
     
     return imageView
-  }()
-  
-  lazy var bmiRecommendation: UILabel = {
-    let label = UILabel()
-    label.text = "BMI = 22.96 kg/m2"
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
-  
-  lazy var bmiRecommendationDescription: UILabel = {
-    let label = UILabel()
-    label.text = "Normal BMI weight range for the height: 128.9lbs - 174.2 lbs"
-    label.numberOfLines = 0
-    label.lineBreakMode = .byWordWrapping
-    label.textColor = .gray
-    label.textAlignment = .center
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
   }()
   
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
@@ -124,8 +91,8 @@ class MainViewController: UIViewController {
       
       bmiRecommendationDescription.topAnchor.constraint(equalTo: bmiRecommendation.bottomAnchor, constant: 8),
       bmiRecommendationDescription.centerXAnchor.constraint(equalTo: bmiRecommendation.centerXAnchor),
-      bmiRecommendationDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-      bmiRecommendationDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+      bmiRecommendationDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40),
+      bmiRecommendationDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40),
       
       reloadButton.topAnchor.constraint(equalTo: bmiRecommendationDescription.bottomAnchor, constant: 14),
       reloadButton.centerXAnchor.constraint(equalTo: bmiRecommendationDescription.centerXAnchor),

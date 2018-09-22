@@ -27,23 +27,8 @@ class HeightSelector: UIView {
     }
   }
   
-  lazy var title: UILabel = {
-    let label = UILabel()
-    label.text = "HEIGHT"
-    label.font = UIFont.systemFont(ofSize: 17)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
-  
-  lazy var units: UILabel = {
-    let label = UILabel()
-    label.text = "(cm)"
-    label.font = UIFont.systemFont(ofSize: 8)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
+  lazy var title = CustomLabel(text: "HEIGHT", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
+  lazy var units = CustomLabel(text: "(cm)", fontType: FontTypes.moderneSans, size: 8, color: .birdBlue)
   
   lazy var bodyView: UIImageView = {
     let imageView = UIImageView()

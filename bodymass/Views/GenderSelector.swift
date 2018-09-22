@@ -19,14 +19,7 @@ class GenderSelector: UIView {
     }
   }
   
-  lazy var title: UILabel = {
-    let label = UILabel()
-    label.text = "GENDER"
-    label.font = UIFont.systemFont(ofSize: 17)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
+  lazy var title = CustomLabel(text: "GENDER", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
   
   lazy var genderImageBackgroundView: UIImageView = {
     let imageView = UIImageView()

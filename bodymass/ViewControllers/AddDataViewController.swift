@@ -22,13 +22,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     static let pacmanHeight: CGFloat = 60
   }
   
-  lazy var pageTitle: UILabel = {
-    let label = UILabel()
-    label.text = "BMI Calculator"
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
+  lazy var pageTitle = CustomLabel(text: "BMI Calculator", fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
   
   lazy var genderSelector = GenderSelector(gender: vm.gender)
   lazy var heightSelector = HeightSelector(initialHeight: vm.height)

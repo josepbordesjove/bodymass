@@ -72,8 +72,8 @@ class PacmanToggle: UIView {
     return panGesture
   }()
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init() {
+    super.init(frame: CGRect())
     
     setupView()
     setupConstraints()

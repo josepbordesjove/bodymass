@@ -23,23 +23,8 @@ class WeightSelector: UIView {
     }
   }
   
-  lazy var title: UILabel = {
-    let label = UILabel()
-    label.text = "WEIGHT"
-    label.font = UIFont.systemFont(ofSize: 17)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
-  
-  lazy var units: UILabel = {
-    let label = UILabel()
-    label.text = "(kg)"
-    label.font = UIFont.systemFont(ofSize: 8)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    
-    return label
-  }()
+  lazy var title = CustomLabel(text: "WEIGHT", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
+  lazy var units = CustomLabel(text: "(kg)", fontType: FontTypes.moderneSans, size: 8, color: .birdBlue)
   
   lazy var weightImageBackgroundView: UIImageView = {
     let imageView = UIImageView()

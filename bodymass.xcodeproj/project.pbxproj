@@ -23,6 +23,9 @@
 		FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */; };
 		FF96B431215415AB0032805D /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF96B430215415AB0032805D /* Gender.swift */; };
 		FF96B433215415FB0032805D /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF96B432215415FB0032805D /* UserDefaultKeys.swift */; };
+		FF96B4382156BA520032805D /* CFModern-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF96B4372156BA520032805D /* CFModern-Regular.ttf */; };
+		FF96B43A2156BA770032805D /* CustomLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF96B4392156BA770032805D /* CustomLabel.swift */; };
+		FF96B43C2156C3D90032805D /* ModernSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF96B43B2156C3D90032805D /* ModernSans-Regular.ttf */; };
 		FF9EA6F42124474A002E617E /* AddDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F32124474A002E617E /* AddDataViewController.swift */; };
 		FF9EA6F721248FAB002E617E /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F621248FAB002E617E /* UIColor+.swift */; };
 		FF9EA6FA21249121002E617E /* GenderSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F921249121002E617E /* GenderSelector.swift */; };
@@ -80,6 +83,9 @@
 		FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectorDelegate.swift; sourceTree = "<group>"; };
 		FF96B430215415AB0032805D /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 		FF96B432215415FB0032805D /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		FF96B4372156BA520032805D /* CFModern-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CFModern-Regular.ttf"; sourceTree = "<group>"; };
+		FF96B4392156BA770032805D /* CustomLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLabel.swift; sourceTree = "<group>"; };
+		FF96B43B2156C3D90032805D /* ModernSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ModernSans-Regular.ttf"; sourceTree = "<group>"; };
 		FF9EA6F32124474A002E617E /* AddDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataViewController.swift; sourceTree = "<group>"; };
 		FF9EA6F621248FAB002E617E /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		FF9EA6F921249121002E617E /* GenderSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelector.swift; sourceTree = "<group>"; };
@@ -143,9 +149,9 @@
 				FF598FEF212331790022F931 /* CustomComponents */,
 				FF9EA704212B66EA002E617E /* Transitions */,
 				FF9EA7012129DE24002E617E /* Protocols */,
-				FF9EA707212B6FC1002E617E /* Helpers */,
 				FF9EA6F521248F9B002E617E /* Library */,
 				FFFBDC072118D3CE00AE0493 /* Configurations */,
+				FF96B4342156BA1A0032805D /* Fonts */,
 				FF3C82C9211706C500BC693A /* Assets.xcassets */,
 				FF3C82CB211706C500BC693A /* LaunchScreen.storyboard */,
 				FF3C82CE211706C500BC693A /* Info.plist */,
@@ -183,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				FF598FF3212340BE0022F931 /* CustomButton.swift */,
+				FF96B4392156BA770032805D /* CustomLabel.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -194,6 +201,15 @@
 				FF96B432215415FB0032805D /* UserDefaultKeys.swift */,
 			);
 			path = Enums;
+			sourceTree = "<group>";
+		};
+		FF96B4342156BA1A0032805D /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FF96B43B2156C3D90032805D /* ModernSans-Regular.ttf */,
+				FF96B4372156BA520032805D /* CFModern-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		FF9EA6F521248F9B002E617E /* Library */ = {
@@ -234,13 +250,6 @@
 				FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */,
 			);
 			path = Transitions;
-			sourceTree = "<group>";
-		};
-		FF9EA707212B6FC1002E617E /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		FFFBDC062118D3B600AE0493 /* ViewControllers */ = {
@@ -369,7 +378,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				FF3C82CD211706C500BC693A /* LaunchScreen.storyboard in Resources */,
+				FF96B4382156BA520032805D /* CFModern-Regular.ttf in Resources */,
 				FF3C82CA211706C500BC693A /* Assets.xcassets in Resources */,
+				FF96B43C2156C3D90032805D /* ModernSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +400,7 @@
 			files = (
 				FF9EA706212B67E0002E617E /* MainVCToAddDataVCTransition.swift in Sources */,
 				FF9EA6FE21249141002E617E /* WeightSelector.swift in Sources */,
+				FF96B43A2156BA770032805D /* CustomLabel.swift in Sources */,
 				FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */,
 				FF9EA6F42124474A002E617E /* AddDataViewController.swift in Sources */,
 				FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */,
