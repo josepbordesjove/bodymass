@@ -14,11 +14,10 @@ class MainViewController: UIViewController {
   private var interactor: MainInteractorType
   private var vm: VM? {
     didSet {
-      if let vm = vm {
+      if let bmi = calculateBMI() {
         DispatchQueue.main.async {
-          let squaredHeight = (vm.height / 100) * (vm.height / 100)
-          let imcValue = vm.weight / squaredHeight
-          self.imcSummary.text = String(format: "%.1f", imcValue)
+          self.imcSummary.text = String(format: "%.1f", bmi)
+          self.bmiRecommendation.text = "BMI = \(String(format: "%.2f", bmi)) kg/m2"
         }
       }
     }
@@ -26,8 +25,8 @@ class MainViewController: UIViewController {
   
   lazy var pageTitle = CustomLabel(text: "YOUR HEALTH", fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
   lazy var imcSummary = CustomLabel(text: "--.-", size: 120, bold: true, color: .ropeBlue)
-  lazy var bmiRecommendation = CustomLabel(text: "BMI = 22.96 kg/m2", size: 20, color: .birdBlue)
-  lazy var bmiRecommendationDescription = CustomLabel(text: "Normal BMI weight range for the height: 128.9lbs - 174.2 lbs", size: 16, color: .snowWhite)
+  lazy var bmiRecommendation = CustomLabel(text: "No data available", size: 20, color: .birdBlue)
+  lazy var bmiRecommendationDescription = CustomLabel(text: bmiDescriptionText(), size: 16, color: .snowWhite)
   lazy var balanceImage: UIImageView = {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "balance")
@@ -66,6 +65,8 @@ class MainViewController: UIViewController {
   
   func setupButtonTargets() {
     reloadButton.addTarget(self, action: #selector(presentAddDataViewController), for: .touchUpInside)
+    shareButton.addTarget(self, action: #selector(presentActivityViewController), for: .touchUpInside)
+    trashButton.addTarget(self, action: #selector(deleteLastDataPoint), for: .touchUpInside)
   }
   
   func setupView() {
@@ -124,16 +125,53 @@ class MainViewController: UIViewController {
     present(addDataViewController, animated: true)
   }
   
+  @objc
+  func presentActivityViewController() {
+    guard let bmi = calculateBMI() else { return }
+    let text = "Hey! My BMI is \(String(format: "%.1f", bmi)), I been tracking it using the app BodyMass that you can find on the AppStore"
+    
+    let textToShare = [ text ]
+    let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+    activityViewController.excludedActivityTypes = [ .airDrop, .postToFacebook ]
+    
+    self.present(activityViewController, animated: true, completion: nil)
+  }
+  
+  @objc
+  func deleteLastDataPoint() {
+    interactor.deleteLastDataPoint { (deleted) in
+      if deleted {
+        self.showAlert(title: "Deleted", message: "Your last introduced data point has been deleted, no body will know about it")
+        self.reloadDataPoint()
+      } else {
+        self.showAlert(title: "Oooops...", message: "We were not able to delete your last data point, you can try it again later")
+      }
+    }
+  }
+  
   func reloadDataPoint() {
     interactor.fetchLastDataPoint { (vm, error) in
       if error == nil {
         self.vm = vm
+      } else {
+        self.imcSummary.text = "--.-"
+        self.bmiRecommendation.text = "No data available"
       }
     }
     
     if let gender = interactor.fetchUserGender() {
       self.vm?.gender = gender
     }
+  }
+  
+  func calculateBMI() -> Double? {
+    guard let vm = vm else { return nil }
+    let squaredHeight = (vm.height / 100) * (vm.height / 100)
+    return vm.weight / squaredHeight
+  }
+  
+  func bmiDescriptionText() -> String{
+    return "Normal BMI weight range for the height: 128.9lbs - 174.2 lbs"
   }
 }
 

@@ -144,6 +144,7 @@ extension WeightSelector: UICollectionViewDelegate {
         }
         if customCell.assignedWeight != nil && customCell.assignedWeight != Int(savedWeight) {
           savedWeight = Double(customCell.assignedWeight!)
+          UISelectionFeedbackGenerator().selectionChanged()
         }
       } else {
         UIView.animate(withDuration: 0.1) {

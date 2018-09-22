@@ -77,6 +77,14 @@ public class DataStore: NSObject {
     }
   }
   
+  public func deleteLastDataPoint(completion: @escaping ((Bool) -> Void)) {
+    assert(self.storeIsReady)
+    
+    deleteLastDataPoint(moc: self.persistentStore.viewContext, completion: { (deleted) in
+      completion(deleted)
+    })
+  }
+  
   public func saveUserGender(_ gender: Gender) {
     UserDefaults.standard.set(gender.rawValue, forKey: UserDefaultKeys.gender.rawValue)
   }
@@ -112,5 +120,23 @@ public class DataStore: NSObject {
     }
   }
   
+  private func deleteLastDataPoint(moc: NSManagedObjectContext, completion: @escaping ((Bool) -> Void)) {
+    fetchLastDataPoint { (managedDataPoint) in
+      guard let managedDataPoint = managedDataPoint else {
+        completion(false)
+        return
+      }
+      
+      do {
+        moc.delete(managedDataPoint)
+        try moc.save()
+        completion(true)
+      } catch {
+        completion(false)
+      }
+      
+      
+    }
+  }
   
 }

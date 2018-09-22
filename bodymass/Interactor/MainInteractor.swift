@@ -13,6 +13,7 @@ protocol MainInteractorType {
   func fetchLastDataPoint(handler: @escaping (MainViewController.VM?, Swift.Error?) -> Void)
   func addDataViewController(observer: DataPointObserver, weight: Double?, height: Double?, gender: Gender?) -> UIViewController
   func fetchUserGender() -> Gender?
+  func deleteLastDataPoint(completion: @escaping ((Bool) -> Void))
 }
 
 extension MainViewController {
@@ -55,6 +56,12 @@ extension MainViewController {
           
           handler(dataPoint, nil)
         })
+      }
+    }
+    
+    func deleteLastDataPoint(completion: @escaping ((Bool) -> Void)) {
+      dataStore.deleteLastDataPoint { (deleted) in
+        completion(deleted)
       }
     }
     
