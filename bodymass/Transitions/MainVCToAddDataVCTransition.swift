@@ -50,6 +50,9 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
     toViewController.view.isHidden = false
     toViewController.view.transform = CGAffineTransform(translationX: 0, y: toViewController.view.frame.height)
     toViewController.weightSelector.weightNumbers.alpha = 0
+    toViewController.weightSelector.transform = CGAffineTransform(translationX: 0, y: 10)
+    toViewController.heightSelector.transform = CGAffineTransform(translationX: 0, y: 10)
+    toViewController.genderSelector.transform = CGAffineTransform(translationX: 0, y: 10)
     
     let duration = transitionDuration(using: transitionContext)
     

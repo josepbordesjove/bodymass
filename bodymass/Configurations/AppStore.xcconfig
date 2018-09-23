@@ -10,7 +10,7 @@
 APP_DISPLAY_NAME = Bodymass
 
 // Code Signing
-PRODUCT_BUNDLE_IDENTIFIER = com.josepbordesjove.bodymass;
+PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymass;
 
 // App Icon
 APP_ICON = AppIcon;

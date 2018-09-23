@@ -26,6 +26,14 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
     guard let originViewController = transitionContext.viewController(forKey: .from) as? AddDataViewController else { return }
     guard let toViewController = transitionContext.viewController(forKey: .to) as? MainViewController else { return }
+    toViewController.balanceImage.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.bmiSummary.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.bmiRecommendationDescription.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.bmiRecommendation.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.reloadButton.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.trashButton.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.shareButton.transform = CGAffineTransform(translationX: 0, y: 30)
+    
     guard let snapshot = toViewController.view.snapshotView(afterScreenUpdates: true) else { return }
     
     let duration = transitionDuration(using: transitionContext)
@@ -111,7 +119,18 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
     },
       completion: { _ in
         toViewController.view.isHidden = false
-        transitionContext.completeTransition(true)
+        
+        UIView.animate(withDuration: 1.3, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 15, options: .curveEaseIn, animations: {
+          toViewController.balanceImage.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.bmiSummary.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.bmiRecommendationDescription.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.bmiRecommendation.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.reloadButton.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.trashButton.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.shareButton.transform = CGAffineTransform(translationX: 0, y: 0)
+        }, completion: { (_) in
+          transitionContext.completeTransition(true)
+        })
     })
   }
 }

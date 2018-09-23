@@ -29,24 +29,8 @@ class HeightSelector: UIView {
   
   lazy var title = CustomLabel(text: "HEIGHT", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
   lazy var units = CustomLabel(text: "(cm)", fontType: FontTypes.moderneSans, size: 8, color: .birdBlue)
-  
-  lazy var bodyView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = #imageLiteral(resourceName: "body")
-    imageView.contentMode = .scaleAspectFit
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
-  lazy var heightLineView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = #imageLiteral(resourceName: "height-line")
-    imageView.contentMode = .scaleAspectFit
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
+  lazy var bodyView = CustomImageView(image: #imageLiteral(resourceName: "body"), contentMode: .scaleAspectFit)
+  lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFit)
   
   lazy var panGestureRecognizer: UIPanGestureRecognizer = {
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
@@ -150,7 +134,7 @@ class HeightSelector: UIView {
     let heightRounded = Int((self.savedHeight / Double(Constants.stepBetweenNumbers)).rounded(.up) * Double(Constants.stepBetweenNumbers))
     if let heightViewLabel = self.viewWithTag(heightRounded) as? UILabel {
       let constant = heightViewLabel.frame.midY
-      UIView.animate(withDuration: 0.5) {
+      UIView.animate(withDuration: 0.25) {
         self.topAnchorHeightLineView.constant = constant
         self.layoutIfNeeded()
         heightViewLabel.transform = CGAffineTransform(scaleX: 1, y: 1)

@@ -23,14 +23,16 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   }
   
   lazy var pageTitle = CustomLabel(text: "BMI Calculator", fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
-  
   lazy var genderSelector = GenderSelector(gender: vm.gender)
   lazy var heightSelector = HeightSelector(initialHeight: vm.height)
   lazy var weightSelector = WeightSelector(initialWeight: vm.weight)
   lazy var pacmanToggle = PacmanToggle()
-  
   lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: Constants.pacmanWidth)
   lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
+  
+  override var prefersStatusBarHidden: Bool {
+    return true
+  }
   
   private init(interactor: DataPointInteractorType, weight: Double?, height: Double?, gender: Gender?) {
     self.interactor = interactor
@@ -58,8 +60,21 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   }
   
   override func viewDidAppear(_ animated: Bool) {
-    heightSelector.setupInitialPosition()
-    weightSelector.setupInitialPosition()
+    self.weightSelector.setupInitialPosition()
+    
+    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
+      self.weightSelector.transform = CGAffineTransform(translationX: 0, y: 0)
+    }, completion: nil)
+    
+    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: .curveEaseIn, animations: {
+      self.heightSelector.transform = CGAffineTransform(translationX: 0, y: 0)
+    }, completion: nil)
+    
+    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 30, options: .curveEaseIn, animations: {
+      self.genderSelector.transform = CGAffineTransform(translationX: 0, y: 0)
+    }, completion: { (_) in
+      self.heightSelector.setupInitialPosition()
+    })
   }
   
   private func setupView() {

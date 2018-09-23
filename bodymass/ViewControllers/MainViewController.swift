@@ -11,36 +11,39 @@ import bodymassKit
 
 class MainViewController: UIViewController {
   
+  private struct Constants {
+    static let defaultBmiSummary = "--.-"
+    static let defaultbmiRecommendation = "No data available"
+  }
+  
   private var interactor: MainInteractorType
   private var vm: VM? {
     didSet {
-      if let bmi = calculateBMI() {
+      if let bmi = BodyMassIndex.calculateBMI(weight: vm?.weight, height: vm?.height) {
         DispatchQueue.main.async {
-          self.imcSummary.text = String(format: "%.1f", bmi)
-          self.bmiRecommendation.text = "BMI = \(String(format: "%.2f", bmi)) kg/m2"
+          self.bmiSummary.text = String(format: "%.1f", bmi)
+          self.bmiRecommendation.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi)
+          self.bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: self.vm?.height)
         }
       }
     }
   }
   
-  lazy var pageTitle = CustomLabel(text: "YOUR HEALTH", fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
-  lazy var imcSummary = CustomLabel(text: "--.-", size: 120, bold: true, color: .ropeBlue)
-  lazy var bmiRecommendation = CustomLabel(text: "No data available", size: 20, color: .birdBlue)
-  lazy var bmiRecommendationDescription = CustomLabel(text: bmiDescriptionText(), size: 16, color: .snowWhite)
-  lazy var balanceImage: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = #imageLiteral(resourceName: "balance")
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
+  lazy var pageTitle = CustomLabel(fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
+  lazy var bmiSummary = CustomLabel(size: 120, bold: true, color: .ropeBlue)
+  lazy var bmiRecommendation = CustomLabel(size: 20, color: .birdBlue)
+  lazy var bmiRecommendationDescription = CustomLabel(size: 16, color: .snowWhite)
+  lazy var balanceImage = CustomImageView(image: #imageLiteral(resourceName: "balance"))
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
   lazy var trashButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "trash"), size: 25)
   lazy var shareButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "share"), size: 25)
   lazy var profileButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "profile"), size: 123)
   lazy var homeButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "home"), size: 161)
   lazy var historyButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "history"), size: 123)
+  
+  override var prefersStatusBarHidden: Bool {
+    return true
+  }
   
   init(interactor: MainInteractorType) {
     self.interactor = interactor
@@ -70,8 +73,13 @@ class MainViewController: UIViewController {
   }
   
   func setupView() {
+    pageTitle.text = "YOUR HEALTH"
+    bmiSummary.text = Constants.defaultBmiSummary
+    bmiRecommendation.text = Constants.defaultbmiRecommendation
+    bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: vm?.height)
+    
     view.backgroundColor = .white
-    [pageTitle, imcSummary, balanceImage,bmiRecommendation, bmiRecommendationDescription, reloadButton,
+    [pageTitle, bmiSummary, balanceImage,bmiRecommendation, bmiRecommendationDescription, reloadButton,
      trashButton, shareButton, profileButton, historyButton, homeButton].forEach{ view.addSubview($0) }
   }
   
@@ -80,11 +88,11 @@ class MainViewController: UIViewController {
       pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
       pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       
-      imcSummary.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 40),
-      imcSummary.centerXAnchor.constraint(equalTo: pageTitle.centerXAnchor),
+      bmiSummary.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 40),
+      bmiSummary.centerXAnchor.constraint(equalTo: pageTitle.centerXAnchor),
       
-      balanceImage.topAnchor.constraint(equalTo: imcSummary.bottomAnchor, constant: 10),
-      balanceImage.centerXAnchor.constraint(equalTo: imcSummary.centerXAnchor),
+      balanceImage.topAnchor.constraint(equalTo: bmiSummary.bottomAnchor, constant: 10),
+      balanceImage.centerXAnchor.constraint(equalTo: bmiSummary.centerXAnchor),
       balanceImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95),
       
       bmiRecommendation.topAnchor.constraint(equalTo: balanceImage.bottomAnchor, constant: 13),
@@ -127,8 +135,7 @@ class MainViewController: UIViewController {
   
   @objc
   func presentActivityViewController() {
-    guard let bmi = calculateBMI() else { return }
-    let text = "Hey! My BMI is \(String(format: "%.1f", bmi)), I been tracking it using the app BodyMass that you can find on the AppStore"
+    let text = BodyMassIndex.getTextToShare(weight: vm?.weight, height: vm?.height)
     
     let textToShare = [ text ]
     let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
@@ -154,24 +161,14 @@ class MainViewController: UIViewController {
       if error == nil {
         self.vm = vm
       } else {
-        self.imcSummary.text = "--.-"
-        self.bmiRecommendation.text = "No data available"
+        self.bmiSummary.text = Constants.defaultBmiSummary
+        self.bmiRecommendation.text = Constants.defaultbmiRecommendation
       }
     }
     
     if let gender = interactor.fetchUserGender() {
       self.vm?.gender = gender
     }
-  }
-  
-  func calculateBMI() -> Double? {
-    guard let vm = vm else { return nil }
-    let squaredHeight = (vm.height / 100) * (vm.height / 100)
-    return vm.weight / squaredHeight
-  }
-  
-  func bmiDescriptionText() -> String{
-    return "Normal BMI weight range for the height: 128.9lbs - 174.2 lbs"
   }
 }
 

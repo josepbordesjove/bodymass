@@ -20,25 +20,8 @@ class GenderSelector: UIView {
   }
   
   lazy var title = CustomLabel(text: "GENDER", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
-  
-  lazy var genderImageBackgroundView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = #imageLiteral(resourceName: "gender-bkg")
-    imageView.contentMode = .scaleAspectFit
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
-  lazy var selectionNeedle: UIImageView = {
-    let imageView = UIImageView()
-    imageView.image = #imageLiteral(resourceName: "needle")
-    imageView.contentMode = .scaleAspectFit
-    imageView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.85)
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
+  lazy var genderImageBackgroundView = CustomImageView(image: #imageLiteral(resourceName: "gender-bkg"), contentMode: .scaleAspectFit)
+  lazy var selectionNeedle = CustomImageView(image: #imageLiteral(resourceName: "needle"), contentMode: .scaleAspectFit, anchorPoint: CGPoint(x: 0.5, y: 0.85))
   
   lazy var tapGestureRecognizer: UITapGestureRecognizer = {
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
@@ -106,6 +89,8 @@ class GenderSelector: UIView {
     
     let tappedZone = tappedPoint.x / self.frame.width
     
+    UISelectionFeedbackGenerator().selectionChanged()
+    
     if tappedZone > 0 && tappedZone <= 0.33 {
       self.gender = .female
     } else if tappedZone > 0.33 && tappedZone <= 0.66 {
@@ -119,6 +104,7 @@ class GenderSelector: UIView {
   
   private func rotateNeddleForGender(value: Gender) {
     var animationAngle: CGFloat = 0
+    
     switch gender {
     case .male:
       animationAngle = 0.6
