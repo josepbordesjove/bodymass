@@ -58,7 +58,7 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
           originViewController.genderSelector.alpha = 0
           originViewController.heightSelector.alpha = 0
           originViewController.weightSelector.alpha = 0
-          originViewController.pageTitle.alpha = 0
+          originViewController.header.alpha = 0
         }
         
         UIView.addKeyframe(withRelativeStartTime: 1.5/25, relativeDuration: 2/25) {

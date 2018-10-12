@@ -9,8 +9,12 @@
 import UIKit
 
 enum FontTypes: String {
-  case cfModern = "CFModern-Regular"
-  case moderneSans = "ModernSans"
+  case SFRegular = "SFProText-Regular"
+  case SFHeavy = "SFProText-Heavy"
+  case SFSemibold = "SFProText-Semibold"
+  case SFBold = "SFProText-Bold"
+  case circularBold = "CircularStd-Bold"
+  case circularMedium = "CircularStd-Medium"
 }
 
 class CustomLabel: UILabel {
@@ -20,6 +24,10 @@ class CustomLabel: UILabel {
     self.text = text
     textColor = color
     font = UIFont(name: fontType.rawValue, size: size)
+    numberOfLines = 0
+    lineBreakMode = .byWordWrapping
+    textColor = color
+    textAlignment = .center
     translatesAutoresizingMaskIntoConstraints = false
   }
   

@@ -21,7 +21,7 @@ class MainVCToAddDataVCTransition: NSObject {
   }
   
   fileprivate func reset(_ viewController: MainViewController) {
-    viewController.view.backgroundColor = .white
+    viewController.view.backgroundColor = .lightGrey
     viewController.view.subviews.forEach({ (view) in
       if view == viewController.reloadButton {
         guard let reloadButton = view as? CustomButton else { return }

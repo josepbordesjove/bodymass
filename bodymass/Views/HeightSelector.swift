@@ -27,10 +27,10 @@ class HeightSelector: UIView {
     }
   }
   
-  lazy var title = CustomLabel(text: "HEIGHT", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
-  lazy var units = CustomLabel(text: "(cm)", fontType: FontTypes.moderneSans, size: 8, color: .birdBlue)
+  lazy var unitSelector = UnitSelector(title: "HEIGHT", unitsAvailable: [.meters, .inches])
   lazy var bodyView = CustomImageView(image: #imageLiteral(resourceName: "body"), contentMode: .scaleAspectFit)
-  lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFit)
+  lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFill)
+  lazy var heightRoundedSelector = CustomImageView(image: #imageLiteral(resourceName: "height-selector"), contentMode: .scaleAspectFill)
   
   lazy var panGestureRecognizer: UIPanGestureRecognizer = {
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
@@ -50,7 +50,7 @@ class HeightSelector: UIView {
   
   lazy var realHeight: UILabel = {
     let label = UILabel()
-    label.textColor = .sunriseYellow
+    label.textColor = .lightishBlue
     label.alpha = 0
     label.font = UIFont.boldSystemFont(ofSize: 14)
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -83,31 +83,35 @@ class HeightSelector: UIView {
     
     self.realHeight.text = String(format: "%.0f", savedHeight)
     
-    [title, units, bodyView, heightLineView, realHeight].forEach { addSubview($0) }
+    [unitSelector, bodyView, heightLineView, realHeight, heightRoundedSelector].forEach { addSubview($0) }
     [panGestureRecognizer, tapGestureRecognizer].forEach{ addGestureRecognizer($0) }
     translatesAutoresizingMaskIntoConstraints = false
   }
   
   private func setupConstraints() {
     NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -units.bounds.width),
-      title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
-      
-      units.bottomAnchor.constraint(equalTo: title.bottomAnchor),
-      units.leftAnchor.constraint(equalTo: title.rightAnchor),
+      unitSelector.topAnchor.constraint(equalTo: topAnchor),
+      unitSelector.leftAnchor.constraint(equalTo: leftAnchor),
+      unitSelector.rightAnchor.constraint(equalTo: rightAnchor),
+      unitSelector.heightAnchor.constraint(equalToConstant: 31),
       
       topAnchorHeightLineView,
       heightLineView.centerXAnchor.constraint(equalTo: centerXAnchor),
       heightLineView.widthAnchor.constraint(equalTo: widthAnchor),
       heightLineView.heightAnchor.constraint(equalToConstant: 10),
       
-      realHeight.leftAnchor.constraint(equalTo: heightLineView.leftAnchor),
-      realHeight.bottomAnchor.constraint(equalTo: heightLineView.topAnchor),
-      
       bodyView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -43),
       bodyView.topAnchor.constraint(equalTo: heightLineView.bottomAnchor, constant: 5),
       bodyView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
       bodyView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -20),
+      
+      heightRoundedSelector.centerYAnchor.constraint(equalTo: heightLineView.centerYAnchor),
+      heightRoundedSelector.leftAnchor.constraint(equalTo: leftAnchor),
+      heightRoundedSelector.heightAnchor.constraint(equalToConstant: 31),
+      heightRoundedSelector.widthAnchor.constraint(equalToConstant: 31),
+      
+      realHeight.leftAnchor.constraint(equalTo: heightLineView.leftAnchor),
+      realHeight.bottomAnchor.constraint(equalTo: heightRoundedSelector.topAnchor, constant: -5),
       ])
   }
   

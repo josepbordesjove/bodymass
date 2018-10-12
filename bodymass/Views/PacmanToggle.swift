@@ -27,35 +27,8 @@ class PacmanToggle: UIView {
     return imageView
   }()
   
-  lazy var dot1: UIImageView = {
-    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
-    imageView.image = #imageLiteral(resourceName: "dot")
-    imageView.contentMode = .scaleAspectFill
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
-  lazy var dot2: UIImageView = {
-    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
-    imageView.image = #imageLiteral(resourceName: "dot")
-    imageView.contentMode = .scaleAspectFill
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
-  lazy var dot3: UIImageView = {
-    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 5, height: 5))
-    imageView.image = #imageLiteral(resourceName: "dot")
-    imageView.contentMode = .scaleAspectFill
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    return imageView
-  }()
-  
   lazy var dotsView: UIStackView = {
-    let stackView = UIStackView(arrangedSubviews: [dot1, dot2, dot3])
+    let stackView = UIStackView(arrangedSubviews: [Dot(), Dot(), Dot(), Dot(), Dot(), Dot()])
     stackView.axis = NSLayoutConstraint.Axis.horizontal
     stackView.distribution = UIStackView.Distribution.equalSpacing
     stackView.alignment = UIStackView.Alignment.center
@@ -84,8 +57,8 @@ class PacmanToggle: UIView {
   }
   
   func setupView() {
-    backgroundColor = .brightGreen
-    layer.cornerRadius = 30
+    backgroundColor = .lightishBlue
+    layer.cornerRadius = 7
     translatesAutoresizingMaskIntoConstraints = false
     [pacmanView, dotsView].forEach { addSubview($0) }
   }
@@ -97,7 +70,7 @@ class PacmanToggle: UIView {
       pacmanView.widthAnchor.constraint(equalToConstant: 30),
       pacmanView.leftAnchor.constraint(equalTo: leftAnchor, constant: constants.pacmanMargin),
       
-      dotsView.leftAnchor.constraint(equalTo: pacmanView.rightAnchor),
+      dotsView.leftAnchor.constraint(equalTo: pacmanView.rightAnchor, constant: 10),
       dotsView.rightAnchor.constraint(equalTo: rightAnchor, constant: -constants.pacmanMargin),
       dotsView.centerYAnchor.constraint(equalTo: centerYAnchor),
       dotsView.heightAnchor.constraint(equalToConstant: 10)
@@ -132,12 +105,32 @@ class PacmanToggle: UIView {
         self.pacmanView.center = CGPoint(x: leftTranslationLimit, y: self.pacmanView.center.y)
         self.dotsView.arrangedSubviews.forEach { (view) in
           UIView.animate(withDuration: 0.05, animations: {
-            view.alpha = 1
+            view.alpha = 0.54
           })
         }
       }, completion: nil)
     } else if sender.state == .began {
       UISelectionFeedbackGenerator().selectionChanged()
     }
+  }
+}
+
+extension PacmanToggle {
+  class Dot: UIImageView {
+    
+    init() {
+      super.init(frame: CGRect(x: 0, y: 0, width: 9, height: 9))
+      
+      image = UIImage(named: "dot")
+      layer.cornerRadius = 4.5
+      backgroundColor = .white
+      alpha = 0.54
+      translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+    
   }
 }

@@ -14,6 +14,8 @@ class MainViewController: UIViewController {
   private struct Constants {
     static let defaultBmiSummary = "--.-"
     static let defaultbmiRecommendation = "No data available"
+    static let emojiSize = UIScreen.main.bounds.width * 0.2
+    static let bmiSize = UIScreen.main.bounds.width * 0.25
   }
   
   private var interactor: MainInteractorType
@@ -29,21 +31,23 @@ class MainViewController: UIViewController {
     }
   }
   
-  lazy var pageTitle = CustomLabel(fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
-  lazy var bmiSummary = CustomLabel(size: 120, bold: true, color: .ropeBlue)
-  lazy var bmiRecommendation = CustomLabel(size: 20, color: .birdBlue)
-  lazy var bmiRecommendationDescription = CustomLabel(size: 16, color: .snowWhite)
+  lazy var infoEmoji: UILabel = {
+    let label = UILabel()
+    label.text = "🦁"
+    label.font = UIFont.systemFont(ofSize: Constants.emojiSize)
+    label.translatesAutoresizingMaskIntoConstraints = false
+    
+    return label
+  }()
+  
+  lazy var header = Header(title: "Your health")
+  lazy var bmiSummary = CustomLabel(fontType: .SFHeavy, size: Constants.bmiSize, color: .charcoalGrey)
+  lazy var bmiRecommendation = CustomLabel(fontType: .circularMedium, size: 17.3, color: .charcoalGrey)
+  lazy var bmiRecommendationDescription = CustomLabel(fontType: .circularMedium, size: 13.4, color: .lightPeriwinkle)
   lazy var balanceImage = CustomImageView(image: #imageLiteral(resourceName: "balance"))
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
   lazy var trashButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "trash"), size: 25)
   lazy var shareButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "share"), size: 25)
-  lazy var profileButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "profile"), size: 123)
-  lazy var homeButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "home"), size: 161)
-  lazy var historyButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "history"), size: 123)
-  
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
   
   init(interactor: MainInteractorType) {
     self.interactor = interactor
@@ -73,37 +77,42 @@ class MainViewController: UIViewController {
   }
   
   func setupView() {
-    pageTitle.text = "YOUR HEALTH"
+    view.insetsLayoutMarginsFromSafeArea = true
     bmiSummary.text = Constants.defaultBmiSummary
     bmiRecommendation.text = Constants.defaultbmiRecommendation
     bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: vm?.height)
     
-    view.backgroundColor = .white
-    [pageTitle, bmiSummary, balanceImage,bmiRecommendation, bmiRecommendationDescription, reloadButton,
-     trashButton, shareButton, profileButton, historyButton, homeButton].forEach{ view.addSubview($0) }
+    view.backgroundColor = .lightGrey
+    [header, bmiSummary, balanceImage,bmiRecommendation, bmiRecommendationDescription, reloadButton,
+     trashButton, shareButton, infoEmoji].forEach{ view.addSubview($0) }
   }
   
   func setupConstraints() {
     NSLayoutConstraint.activate([
-      pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 40),
-      pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      header.topAnchor.constraint(equalTo: view.topAnchor),
+      header.leftAnchor.constraint(equalTo: view.leftAnchor),
+      header.rightAnchor.constraint(equalTo: view.rightAnchor),
+      header.heightAnchor.constraint(equalToConstant: 60 + UIScreen.main.bounds.height * 0.095),
       
-      bmiSummary.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 40),
-      bmiSummary.centerXAnchor.constraint(equalTo: pageTitle.centerXAnchor),
+      infoEmoji.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      infoEmoji.topAnchor.constraint(equalTo: header.bottomAnchor, constant: UIScreen.main.bounds.height * 0.03),
+      
+      bmiSummary.topAnchor.constraint(equalTo: infoEmoji.bottomAnchor),
+      bmiSummary.centerXAnchor.constraint(equalTo: header.centerXAnchor),
       
       balanceImage.topAnchor.constraint(equalTo: bmiSummary.bottomAnchor, constant: 10),
       balanceImage.centerXAnchor.constraint(equalTo: bmiSummary.centerXAnchor),
-      balanceImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95),
+      balanceImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90),
+      balanceImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
       
-      bmiRecommendation.topAnchor.constraint(equalTo: balanceImage.bottomAnchor, constant: 13),
+      bmiRecommendation.topAnchor.constraint(equalTo: balanceImage.bottomAnchor),
       bmiRecommendation.centerXAnchor.constraint(equalTo: balanceImage.centerXAnchor),
       
       bmiRecommendationDescription.topAnchor.constraint(equalTo: bmiRecommendation.bottomAnchor, constant: 8),
-      bmiRecommendationDescription.centerXAnchor.constraint(equalTo: bmiRecommendation.centerXAnchor),
       bmiRecommendationDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40),
       bmiRecommendationDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40),
       
-      reloadButton.topAnchor.constraint(equalTo: bmiRecommendationDescription.bottomAnchor, constant: 14),
+      reloadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
       reloadButton.centerXAnchor.constraint(equalTo: bmiRecommendationDescription.centerXAnchor),
       
       trashButton.rightAnchor.constraint(equalTo: reloadButton.leftAnchor, constant: -60),
@@ -111,15 +120,6 @@ class MainViewController: UIViewController {
       
       shareButton.leftAnchor.constraint(equalTo: reloadButton.rightAnchor, constant: 60),
       shareButton.centerYAnchor.constraint(equalTo: reloadButton.centerYAnchor),
-      
-      homeButton.centerYAnchor.constraint(equalTo: view.bottomAnchor),
-      homeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      
-      profileButton.centerYAnchor.constraint(equalTo: view.bottomAnchor),
-      profileButton.centerXAnchor.constraint(equalTo: homeButton.centerXAnchor, constant: -100),
-      
-      historyButton.centerYAnchor.constraint(equalTo: view.bottomAnchor),
-      historyButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100),
       ])
   }
   

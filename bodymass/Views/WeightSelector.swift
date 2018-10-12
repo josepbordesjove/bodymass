@@ -23,8 +23,7 @@ class WeightSelector: UIView {
     }
   }
   
-  lazy var title = CustomLabel(text: "WEIGHT", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
-  lazy var units = CustomLabel(text: "(kg)", fontType: FontTypes.moderneSans, size: 8, color: .birdBlue)
+  lazy var unitSelector = UnitSelector(title: "WEIGHT", unitsAvailable: [.kilograms, .pounds])
   
   lazy var weightImageBackgroundView: UIImageView = {
     let imageView = UIImageView()
@@ -81,7 +80,7 @@ class WeightSelector: UIView {
     layer.cornerRadius = 8
     backgroundColor = .white
     translatesAutoresizingMaskIntoConstraints = false
-    [title, units, weightImageBackgroundView, weightNumbers].forEach { addSubview($0) }
+    [unitSelector, weightImageBackgroundView, weightNumbers].forEach { addSubview($0) }
   }
   
   public func setupInitialPosition() {
@@ -92,16 +91,15 @@ class WeightSelector: UIView {
   
   private func setupConstraints() {
     NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -units.bounds.width),
-      title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
+      unitSelector.topAnchor.constraint(equalTo: topAnchor),
+      unitSelector.leftAnchor.constraint(equalTo: leftAnchor),
+      unitSelector.rightAnchor.constraint(equalTo: rightAnchor),
+      unitSelector.heightAnchor.constraint(equalToConstant: 31),
       
-      units.bottomAnchor.constraint(equalTo: title.bottomAnchor),
-      units.leftAnchor.constraint(equalTo: title.rightAnchor),
-      
-      weightImageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -36),
-      weightImageBackgroundView.centerXAnchor.constraint(equalTo: centerXAnchor),
-      weightImageBackgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
-      weightImageBackgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
+      weightImageBackgroundView.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: 10),
+      weightImageBackgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
+      weightImageBackgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
+      weightImageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
       
       weightNumbers.leftAnchor.constraint(equalTo: weightImageBackgroundView.leftAnchor),
       weightNumbers.rightAnchor.constraint(equalTo: weightImageBackgroundView.rightAnchor),
@@ -123,6 +121,7 @@ extension WeightSelector: UICollectionViewDataSource {
     if let savedHeightIndex = weightRange.firstIndex(of: Int(savedWeight)) {
       if savedHeightIndex == indexPath.row {
         cell.numberLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+         cell.numberLabel.textColor = .lightishBlue
       }
     }
 
@@ -141,6 +140,7 @@ extension WeightSelector: UICollectionViewDelegate {
       if center > min && center < max {
         UIView.animate(withDuration: 0.1) {
           customCell.numberLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+          customCell.numberLabel.textColor = .lightishBlue
         }
         if customCell.assignedWeight != nil && customCell.assignedWeight != Int(savedWeight) {
           savedWeight = Double(customCell.assignedWeight!)
@@ -149,6 +149,7 @@ extension WeightSelector: UICollectionViewDelegate {
       } else {
         UIView.animate(withDuration: 0.1) {
           customCell.numberLabel.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+          customCell.numberLabel.textColor = .lightPeriwinkle
         }
       }
     }
@@ -162,6 +163,11 @@ extension WeightSelector: UICollectionViewDelegate {
 
 extension WeightSelector {
   class NumberCell: UICollectionViewCell {
+    
+    struct Constants {
+      static let textSize: CGFloat = UIScreen.main.bounds.width * 0.08
+    }
+    
     static let identifier = "NumberCell"
     
     var assignedWeight: Int? {
@@ -171,11 +177,9 @@ extension WeightSelector {
       }
     }
     
-    lazy var numberLabel: UILabel = {
-      let label = UILabel()
-      label.font = UIFont.systemFont(ofSize: 25)
+    lazy var numberLabel: CustomLabel = {
+      let label = CustomLabel(fontType: .SFBold, size: Constants.textSize, color: .lightPeriwinkle)
       label.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
-      label.translatesAutoresizingMaskIntoConstraints = false
       
       return label
     }()

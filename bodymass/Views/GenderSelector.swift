@@ -19,7 +19,7 @@ class GenderSelector: UIView {
     }
   }
   
-  lazy var title = CustomLabel(text: "GENDER", fontType: FontTypes.moderneSans, size: 16, color: .birdBlue)
+  lazy var unitSelector = UnitSelector(title: "GENDER")
   lazy var genderImageBackgroundView = CustomImageView(image: #imageLiteral(resourceName: "gender-bkg"), contentMode: .scaleAspectFit)
   lazy var selectionNeedle = CustomImageView(image: #imageLiteral(resourceName: "needle"), contentMode: .scaleAspectFit, anchorPoint: CGPoint(x: 0.5, y: 0.85))
   
@@ -53,15 +53,17 @@ class GenderSelector: UIView {
     layer.cornerRadius = 8
     backgroundColor = .white
     translatesAutoresizingMaskIntoConstraints = false
-    [title, genderImageBackgroundView, selectionNeedle].forEach { addSubview($0) }
+    [unitSelector, genderImageBackgroundView, selectionNeedle].forEach { addSubview($0) }
   }
   
   private func setupConstraints() {
     NSLayoutConstraint.activate([
-      title.centerXAnchor.constraint(equalTo: centerXAnchor),
-      title.topAnchor.constraint(equalTo: topAnchor, constant: 31),
+      unitSelector.topAnchor.constraint(equalTo: topAnchor),
+      unitSelector.leftAnchor.constraint(equalTo: leftAnchor),
+      unitSelector.rightAnchor.constraint(equalTo: rightAnchor),
+      unitSelector.heightAnchor.constraint(equalToConstant: 31),
       
-      genderImageBackgroundView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 15),
+      genderImageBackgroundView.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: 15),
       genderImageBackgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
       genderImageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
       genderImageBackgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),

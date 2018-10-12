@@ -18,21 +18,19 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     static let defaultHeight: Double = 170
     static let defaultWeight: Double = 65
     static let defaultGender = Gender.undefined
-    static let pacmanWidth: CGFloat = 113
+    static let pacmanWidth: CGFloat = 200
     static let pacmanHeight: CGFloat = 60
+    static let units = [Units.inches.rawValue, Units.kilograms.rawValue, Units.meters.rawValue, Units.pounds.rawValue]
   }
   
-  lazy var pageTitle = CustomLabel(text: "BMI Calculator", fontType: FontTypes.moderneSans, size: 24, color: .birdBlue)
+  lazy var header = Header(title: "BMI Calculator")
   lazy var genderSelector = GenderSelector(gender: vm.gender)
   lazy var heightSelector = HeightSelector(initialHeight: vm.height)
   lazy var weightSelector = WeightSelector(initialWeight: vm.weight)
   lazy var pacmanToggle = PacmanToggle()
+  lazy var summary = Summary()
   lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: Constants.pacmanWidth)
-  lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - 30 - 36)
-  
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
+  lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - Constants.pacmanHeight)
   
   private init(interactor: DataPointInteractorType, weight: Double?, height: Double?, gender: Gender?) {
     self.interactor = interactor
@@ -79,34 +77,44 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   private func setupView() {
     view.backgroundColor = .lightGrey
-    [pageTitle, genderSelector, heightSelector, weightSelector, pacmanToggle].forEach{ view.addSubview($0) }
+    heightSelector.unitSelector.unitSelectorButton.addTarget(self, action: #selector(presentUnitSelector), for: .touchUpInside)
+    weightSelector.unitSelector.unitSelectorButton.addTarget(self, action: #selector(presentUnitSelector), for: .touchUpInside)
+    [header, genderSelector, heightSelector, weightSelector, pacmanToggle, summary].forEach{ view.addSubview($0) }
   }
   
   private func setupConstraints() {
+    let margin: CGFloat = 6
+    
     NSLayoutConstraint.activate([
-      pageTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-      pageTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      pageTitle.heightAnchor.constraint(equalToConstant: 30),
+      header.topAnchor.constraint(equalTo: view.topAnchor),
+      header.leftAnchor.constraint(equalTo: view.leftAnchor),
+      header.rightAnchor.constraint(equalTo: view.rightAnchor),
+      header.heightAnchor.constraint(equalToConstant: 40 + UIScreen.main.bounds.height * 0.095),
+      
+      summary.leftAnchor.constraint(equalTo: view.leftAnchor, constant: margin),
+      summary.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -margin),
+      summary.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 15),
+      summary.heightAnchor.constraint(equalToConstant: 33),
+      
+      heightSelector.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -margin),
+      heightSelector.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: margin/2),
+      heightSelector.topAnchor.constraint(equalTo: summary.bottomAnchor, constant: 15),
+      heightSelector.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
+
+      genderSelector.leftAnchor.constraint(equalTo: view.leftAnchor, constant: margin),
+      genderSelector.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -margin/2),
+      genderSelector.bottomAnchor.constraint(equalTo: heightSelector.centerYAnchor, constant: -margin/margin),
+      genderSelector.topAnchor.constraint(equalTo: heightSelector.topAnchor),
+
+      weightSelector.leftAnchor.constraint(equalTo: view.leftAnchor, constant: margin),
+      weightSelector.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -margin/2),
+      weightSelector.topAnchor.constraint(equalTo: heightSelector.centerYAnchor, constant: margin/2),
+      weightSelector.bottomAnchor.constraint(equalTo: heightSelector.bottomAnchor),
       
       pacmanToggle.heightAnchor.constraint(equalToConstant: Constants.pacmanHeight),
       pacmanToggle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       pacmanYConstraint,
       pacmanWidthConstraint,
-      
-      heightSelector.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -6),
-      heightSelector.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 3),
-      heightSelector.topAnchor.constraint(equalTo: pageTitle.bottomAnchor, constant: 30),
-      heightSelector.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
-
-      genderSelector.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 6),
-      genderSelector.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -3),
-      genderSelector.bottomAnchor.constraint(equalTo: heightSelector.centerYAnchor, constant: -3),
-      genderSelector.topAnchor.constraint(equalTo: heightSelector.topAnchor),
-
-      weightSelector.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 6),
-      weightSelector.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -3),
-      weightSelector.topAnchor.constraint(equalTo: heightSelector.centerYAnchor, constant: 3),
-      weightSelector.bottomAnchor.constraint(equalTo: heightSelector.bottomAnchor),
       ])
   }
   
@@ -114,6 +122,25 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     interactor.createDataPoint(id: vm.id, weight: vm.weight, height: vm.height)
     interactor.saveUserGender(vm.gender)
     self.dismiss(animated: true, completion: nil)
+  }
+  
+  @objc func presentUnitSelector() {
+    let alertView = UIAlertController(
+      title: "Select item from list",
+      message: "\n\n\n\n\n\n\n\n\n",
+      preferredStyle: .alert)
+    
+    let pickerView = UIPickerView(frame:
+      CGRect(x: 0, y: 30, width: 200, height: 150))
+    pickerView.dataSource = self
+    pickerView.delegate = self
+    pickerView.showsSelectionIndicator = false
+    alertView.view.addSubview(pickerView)
+    
+    let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
+    
+    alertView.addAction(action)
+    present(alertView, animated: true, completion: nil)
   }
 }
 
@@ -165,4 +192,19 @@ extension AddDataViewController {
       return AddDataViewController(interactor: interactor, weight: weight, height: height, gender: gender)
     }
   }
+}
+
+extension AddDataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    return Constants.units.count
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    return Constants.units[row]
+  }
+ 
 }
