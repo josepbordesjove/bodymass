@@ -57,8 +57,8 @@ extension Units {
   }
   
   public static func retrieveCurrentHeightUnits() -> Units {
-    guard let unitsRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.heightUnits.rawValue)as? String else { return Units.meters }
-    return Units(rawValue: unitsRawValue) ?? Units.meters
+    guard let unitsRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.heightUnits.rawValue)as? String else { return Units.centimeters }
+    return Units(rawValue: unitsRawValue) ?? Units.centimeters
   }
   
   public static func saveCurrentWeightUnits(_ units: Units) {

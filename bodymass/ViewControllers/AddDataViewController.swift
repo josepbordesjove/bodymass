@@ -28,7 +28,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   lazy var heightSelector = HeightSelector(initialHeight: vm.height)
   lazy var weightSelector = WeightSelector(initialWeight: vm.weight)
   lazy var pacmanToggle = PacmanToggle()
-  lazy var summary = Summary()
+  lazy var summary = Summary(gender: self.vm.gender, height: self.vm.height, weight: self.vm.weight)
   lazy var pacmanWidthConstraint = pacmanToggle.widthAnchor.constraint(equalToConstant: Constants.pacmanWidth)
   lazy var pacmanYConstraint = pacmanToggle.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(view.frame.height / 2) - Constants.pacmanHeight)
   
@@ -143,18 +143,21 @@ extension AddDataViewController: UIViewControllerTransitioningDelegate {
 extension AddDataViewController: HeightSelectorDelegate {
   func heightChanged(value: Double) {
     self.vm.height = value
+    self.summary.height = value
   }
 }
 
 extension AddDataViewController: GenderSelectorDelegate {
   func genderChanged(value: Gender) {
     self.vm.gender = value
+    self.summary.gender = value
   }
 }
 
 extension AddDataViewController: WeightSelectorDelegate {
   func weightChanged(value: Double) {
     self.vm.weight = value
+    self.summary.weight = value
   }
 }
 

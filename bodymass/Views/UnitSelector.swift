@@ -21,13 +21,7 @@ class UnitSelector: UIView {
   }
   
   lazy var title = CustomLabel(fontType: .SFSemibold, size: 16, color: .dark)
-  lazy var separator: UIView = {
-    let view = UIView()
-    view.backgroundColor = .blueGreyTranslucid
-    view.translatesAutoresizingMaskIntoConstraints = false
-    
-    return view
-  }()
+  lazy var separator = Separator()
   
   lazy var unitSelectorButton: CustomButton = {
     let button = CustomButton()

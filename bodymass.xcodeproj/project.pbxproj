@@ -31,6 +31,7 @@
 		FF72E2BF217504D9001273A4 /* PickerViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2BE217504D9001273A4 /* PickerViewDelegate.swift */; };
 		FF72E2C1217505B3001273A4 /* PickerViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2C0217505B3001273A4 /* PickerViewInteractor.swift */; };
 		FF72E2C4217505DD001273A4 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2C3217505DD001273A4 /* Units.swift */; };
+		FF72E2C72175238A001273A4 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2C62175238A001273A4 /* Separator.swift */; };
 		FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */; };
 		FF949B562135BA0500C00D1A /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B552135BA0500C00D1A /* UIImageView+.swift */; };
 		FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */; };
@@ -105,6 +106,7 @@
 		FF72E2BE217504D9001273A4 /* PickerViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewDelegate.swift; sourceTree = "<group>"; };
 		FF72E2C0217505B3001273A4 /* PickerViewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewInteractor.swift; sourceTree = "<group>"; };
 		FF72E2C3217505DD001273A4 /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
+		FF72E2C62175238A001273A4 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
 		FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataVCToMainVCTransition.swift; sourceTree = "<group>"; };
 		FF949B552135BA0500C00D1A /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectorDelegate.swift; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 				FF72E2AA216FB31C001273A4 /* Header.swift */,
 				FF72E2B62170FA91001273A4 /* Summary.swift */,
 				FF72E2B821713BB3001273A4 /* UnitSelector.swift */,
+				FF72E2C62175238A001273A4 /* Separator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				FF9EA706212B67E0002E617E /* MainVCToAddDataVCTransition.swift in Sources */,
 				FF9EA6FE21249141002E617E /* WeightSelector.swift in Sources */,
 				FF96B43E2156CD5C0032805D /* UIViewController+.swift in Sources */,
+				FF72E2C72175238A001273A4 /* Separator.swift in Sources */,
 				FF96B43A2156BA770032805D /* CustomLabel.swift in Sources */,
 				FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */,
 				FF9EA6F42124474A002E617E /* AddDataViewController.swift in Sources */,

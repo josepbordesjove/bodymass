@@ -33,6 +33,7 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
     toViewController.reloadButton.transform = CGAffineTransform(translationX: 0, y: 30)
     toViewController.trashButton.transform = CGAffineTransform(translationX: 0, y: 30)
     toViewController.shareButton.transform = CGAffineTransform(translationX: 0, y: 30)
+    toViewController.infoEmoji.transform = CGAffineTransform(translationX: 0, y: 30)
     
     guard let snapshot = toViewController.view.snapshotView(afterScreenUpdates: true) else { return }
     
@@ -59,6 +60,7 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
           originViewController.heightSelector.alpha = 0
           originViewController.weightSelector.alpha = 0
           originViewController.header.alpha = 0
+          originViewController.summary.alpha = 0
         }
         
         UIView.addKeyframe(withRelativeStartTime: 1.5/25, relativeDuration: 2/25) {
@@ -128,6 +130,7 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
           toViewController.reloadButton.transform = CGAffineTransform(translationX: 0, y: 0)
           toViewController.trashButton.transform = CGAffineTransform(translationX: 0, y: 0)
           toViewController.shareButton.transform = CGAffineTransform(translationX: 0, y: 0)
+          toViewController.infoEmoji.transform = CGAffineTransform(translationX: 0, y: 0)
         }, completion: { (_) in
           transitionContext.completeTransition(true)
         })

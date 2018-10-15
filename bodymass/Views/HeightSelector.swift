@@ -101,7 +101,7 @@ class HeightSelector: UIView {
       heightLineView.widthAnchor.constraint(equalTo: widthAnchor),
       heightLineView.heightAnchor.constraint(equalToConstant: 10),
       
-      bodyView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -43),
+      bodyView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
       bodyView.topAnchor.constraint(equalTo: heightLineView.bottomAnchor, constant: 5),
       bodyView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
       bodyView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -20),
@@ -128,7 +128,7 @@ class HeightSelector: UIView {
       let rightConstraint = label.rightAnchor.constraint(equalTo: rightAnchor, constant: -5)
       let heightConstraint = label.heightAnchor.constraint(equalTo: heightAnchor, multiplier: distanceMultiplier)
       let bottomConstraint = previousHeightLabel == nil ?
-        label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60) :
+        label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20) :
         label.bottomAnchor.constraint(equalTo: previousHeightLabel!.topAnchor)
       
      NSLayoutConstraint.activate([rightConstraint, heightConstraint, bottomConstraint])
