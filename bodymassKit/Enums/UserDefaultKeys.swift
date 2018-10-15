@@ -10,4 +10,6 @@ import Foundation
 
 public enum UserDefaultKeys: String {
   case gender = "gender"
+  case heightUnits = "heightUnits"
+  case weightUnits = "weightUnits"
 }

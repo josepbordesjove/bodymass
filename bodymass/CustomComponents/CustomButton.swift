@@ -10,6 +10,8 @@ import UIKit
 
 class CustomButton: UIButton {
   
+  var associatedValues: [Any]? = nil
+  
   init(image: UIImage, size: CGFloat, round: Bool = true, color: UIColor? = nil, shadow: Bool = false) {
     let frame = CGRect()
     super.init(frame: frame)
@@ -42,6 +44,10 @@ class CustomButton: UIButton {
     }
     
     translatesAutoresizingMaskIntoConstraints = false
+  }
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
   }
   
   required init?(coder aDecoder: NSCoder) {

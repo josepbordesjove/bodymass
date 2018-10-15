@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import bodymassKit
 
 class HeightSelector: UIView {
   
@@ -27,7 +28,7 @@ class HeightSelector: UIView {
     }
   }
   
-  lazy var unitSelector = UnitSelector(title: "HEIGHT", unitsAvailable: [.meters, .inches])
+  lazy var unitSelector = UnitSelector(title: "HEIGHT", currentUnits: Units.retrieveCurrentHeightUnits(), availableUnits: Units.heightUnitsAvailable)
   lazy var bodyView = CustomImageView(image: #imageLiteral(resourceName: "body"), contentMode: .scaleAspectFit)
   lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFill)
   lazy var heightRoundedSelector = CustomImageView(image: #imageLiteral(resourceName: "height-selector"), contentMode: .scaleAspectFill)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import bodymassKit
 
 class WeightSelector: UIView {
   
@@ -23,8 +24,7 @@ class WeightSelector: UIView {
     }
   }
   
-  lazy var unitSelector = UnitSelector(title: "WEIGHT", unitsAvailable: [.kilograms, .pounds])
-  
+  lazy var unitSelector = UnitSelector(title: "WEIGHT", currentUnits: Units.retrieveCurrentWeightUnits(), availableUnits: Units.weighthUnitsAvailable)
   lazy var weightImageBackgroundView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "weight-bkg")

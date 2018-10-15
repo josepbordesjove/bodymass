@@ -20,7 +20,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     static let defaultGender = Gender.undefined
     static let pacmanWidth: CGFloat = 200
     static let pacmanHeight: CGFloat = 60
-    static let units = [Units.inches.rawValue, Units.kilograms.rawValue, Units.meters.rawValue, Units.pounds.rawValue]
+    static let units = [Units.inches, Units.kilograms, Units.meters, Units.pounds]
   }
   
   lazy var header = Header(title: "BMI Calculator")
@@ -124,22 +124,12 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     self.dismiss(animated: true, completion: nil)
   }
   
-  @objc func presentUnitSelector() {
-    let alertView = UIAlertController(
-      title: "Select item from list",
-      message: "\n\n\n\n\n\n\n\n\n",
-      preferredStyle: .alert)
+  @objc func presentUnitSelector(selector: CustomButton) {
+    guard let availableUnits = selector.associatedValues as? [Units] else { return }
+    let pickerInteractor = PickerViewController.Interactor()
+    let alertView = PickerViewController(units: availableUnits, interactor: pickerInteractor)
+    alertView.delegate = self
     
-    let pickerView = UIPickerView(frame:
-      CGRect(x: 0, y: 30, width: 200, height: 150))
-    pickerView.dataSource = self
-    pickerView.delegate = self
-    pickerView.showsSelectionIndicator = false
-    alertView.view.addSubview(pickerView)
-    
-    let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
-    
-    alertView.addAction(action)
     present(alertView, animated: true, completion: nil)
   }
 }
@@ -194,17 +184,9 @@ extension AddDataViewController {
   }
 }
 
-extension AddDataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
+extension AddDataViewController: PickerViewControllerDelegate {
+  func unitsChanged() {
+    weightSelector.unitSelector.currentUnits = Units.retrieveCurrentWeightUnits()
+    heightSelector.unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
   }
-  
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return Constants.units.count
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return Constants.units[row]
-  }
- 
 }

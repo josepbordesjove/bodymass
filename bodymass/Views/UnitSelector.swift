@@ -7,17 +7,18 @@
 //
 
 import UIKit
-
-enum Units: String {
-  case meters = "m"
-  case inches = "in"
-  case kilograms = "kg"
-  case pounds = "lb"
-}
+import bodymassKit
 
 class UnitSelector: UIView {
   
-  let unitsAvailable: [Units]
+  let availableUnits: [Units]?
+  var currentUnits: Units? {
+    didSet {
+      if let units = currentUnits {
+        unitSelectorButton.setTitle("(\(units.rawValue))", for: .normal)
+      }
+    }
+  }
   
   lazy var title = CustomLabel(fontType: .SFSemibold, size: 16, color: .dark)
   lazy var separator: UIView = {
@@ -28,26 +29,31 @@ class UnitSelector: UIView {
     return view
   }()
   
-  lazy var unitSelectorButton: UIButton = {
-    let button = UIButton()
-    button.setTitle("(kg)", for: .normal)
+  lazy var unitSelectorButton: CustomButton = {
+    let button = CustomButton()
     button.setImage(#imageLiteral(resourceName: "arrow-down"), for: .normal)
     button.setTitleColor(.blueGrey, for: .normal)
     button.titleLabel?.font = UIFont(name: FontTypes.SFRegular.rawValue, size: 11)
     button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
     button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    button.associatedValues = availableUnits
     button.translatesAutoresizingMaskIntoConstraints = false
+    
+    if let units = currentUnits {
+      button.setTitle("(\(units.rawValue))", for: .normal)
+    }
     
     return button
   }()
   
-  init(title: String, unitsAvailable: [Units] = []) {
-    self.unitsAvailable = unitsAvailable
+  init(title: String, currentUnits: Units? = nil, availableUnits: [Units]? = nil) {
+    self.currentUnits = currentUnits
+    self.availableUnits = availableUnits
     super.init(frame: CGRect())
     
     self.title.text = title
-    setupView(withSelector: unitsAvailable.count > 0)
-    setupConstraints(withSelector: unitsAvailable.count > 0)
+    setupView(withSelector: currentUnits != nil)
+    setupConstraints(withSelector: currentUnits != nil)
   }
   
   required init?(coder aDecoder: NSCoder) {
