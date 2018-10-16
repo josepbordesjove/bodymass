@@ -20,7 +20,6 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     static let defaultGender = Gender.undefined
     static let pacmanWidth: CGFloat = 200
     static let pacmanHeight: CGFloat = 60
-    static let units = [Units.inches, Units.kilograms, Units.meters, Units.pounds]
   }
   
   lazy var header = Header(title: "BMI Calculator")
@@ -188,8 +187,14 @@ extension AddDataViewController {
 }
 
 extension AddDataViewController: PickerViewControllerDelegate {
-  func unitsChanged() {
-    weightSelector.unitSelector.currentUnits = Units.retrieveCurrentWeightUnits()
-    heightSelector.unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
+  func unitsChanged(ofType type: UnitType) {
+    summary.updateViews()
+    
+    switch type {
+    case .height:
+       heightSelector.updateViews()
+    case .weight:
+      weightSelector.updateViews()
+    }
   }
 }

@@ -12,8 +12,6 @@ public class BodyMassIndex {
   private struct Constants {
     static let minAllowedBMI = 18.5
     static let maxAllowedBMI = 24.9
-    static let heightUnits = "cm"
-    static let weightUnits = "kg"
   }
   
   public static func calculateBMI(weight: Double?, height: Double?) -> Double? {
@@ -26,7 +24,7 @@ public class BodyMassIndex {
   
   public static func getDescriptionForBMI(bmi: Double?) -> String {
     guard let bmi = bmi else { return "" }
-    return "BMI = \(String(format: "%.2f", bmi)) \(Constants.weightUnits)/\(Constants.heightUnits)2"
+    return "BMI = \(String(format: "%.2f", bmi)) \(Units.retrieveCurrentWeightUnits().abbreviation())/\(Units.retrieveCurrentHeightUnits().abbreviation())2"
   }
   
   public static func getWeightRangeFor(height: Double?) -> String {
@@ -34,7 +32,7 @@ public class BodyMassIndex {
     let minAllowedWeight = Constants.minAllowedBMI * height * height / 10000
     let maxAllowedWeight = Constants.maxAllowedBMI * height * height / 10000
     
-    return "Normal BMI weight range for the height: \(String(format: "%.2f", minAllowedWeight))\(Constants.weightUnits) - \(String(format: "%.2f", maxAllowedWeight))\(Constants.weightUnits)"
+    return "Normal BMI weight range for the height: \(FormatHelper.value(minAllowedWeight, withDecimals: 2, ofType: .weight, appendDescription: true)) - \(FormatHelper.value(maxAllowedWeight, withDecimals: 2, ofType: .weight, appendDescription: true))"
   }
   
   public static func getTextToShare(weight: Double?, height: Double?) -> String {

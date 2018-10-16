@@ -10,5 +10,5 @@ import Foundation
 import bodymassKit
 
 protocol PickerViewControllerDelegate: class {
-  func unitsChanged()
+  func unitsChanged(ofType type: UnitType)
 }

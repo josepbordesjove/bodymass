@@ -23,7 +23,7 @@ class HeightSelector: UIView {
   weak var delegate: HeightSelectorDelegate?
   var savedHeight: Double {
     didSet {
-      self.realHeight.text = String(format: "%.0f", savedHeight)
+      self.realHeight.text = FormatHelper.value(savedHeight, ofType: .height)
       delegate?.heightChanged(value: Double(savedHeight))
     }
   }
@@ -82,7 +82,7 @@ class HeightSelector: UIView {
     layer.cornerRadius = 8
     backgroundColor = .white
     
-    self.realHeight.text = String(format: "%.0f", savedHeight)
+    self.realHeight.text = FormatHelper.value(savedHeight, ofType: .height)
     
     [unitSelector, bodyView, heightLineView, realHeight, heightRoundedSelector].forEach { addSubview($0) }
     [panGestureRecognizer, tapGestureRecognizer].forEach{ addGestureRecognizer($0) }
@@ -150,15 +150,21 @@ class HeightSelector: UIView {
   
   // MARK: - Gesture helper methods
   
-  @objc
-  private func tapGestureHandler(sender: UITapGestureRecognizer) {
+  @objc private func tapGestureHandler(sender: UITapGestureRecognizer) {
     let tappedPointY = sender.location(in: self).y
     
     evaluateGesturePositionChangeFor(pointY: tappedPointY, animated: true)
   }
   
-  @objc
-  private func panGestureHandler(sender: UIPanGestureRecognizer) {
+  public func updateViews() {
+    for i in stride(from: heightRange.lowerBound, to: heightRange.upperBound, by: Constants.stepBetweenNumbers) {
+      guard let heightLabel = self.viewWithTag(i) as? UILabel else { continue }
+      heightLabel.text = FormatHelper.value(i, ofType: .height)
+    }
+    unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
+  }
+  
+  @objc private func panGestureHandler(sender: UIPanGestureRecognizer) {
     let translationY = sender.translation(in: self).y
     let absolutePositionY = topAnchorHeightLineView.constant + translationY
     
@@ -254,7 +260,7 @@ extension HeightSelector {
     init(labelText: Int, isSelected:  Bool) {
       super.init(frame: CGRect())
       
-      text = "\(labelText)"
+      text = FormatHelper.value(labelText, ofType: .height)
       textColor = .specialBlue
       alpha = isSelected ? 1 : 0.6
       font = UIFont.systemFont(ofSize: 28)

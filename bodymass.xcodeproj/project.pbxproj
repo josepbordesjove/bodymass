@@ -32,6 +32,8 @@
 		FF72E2C1217505B3001273A4 /* PickerViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2C0217505B3001273A4 /* PickerViewInteractor.swift */; };
 		FF72E2C4217505DD001273A4 /* Units.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2C3217505DD001273A4 /* Units.swift */; };
 		FF72E2C72175238A001273A4 /* Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2C62175238A001273A4 /* Separator.swift */; };
+		FF72E2CC21767E9E001273A4 /* FormatHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2CB21767E9E001273A4 /* FormatHelper.swift */; };
+		FF72E2CE21768B2E001273A4 /* UnitType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2CD21768B2E001273A4 /* UnitType.swift */; };
 		FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */; };
 		FF949B562135BA0500C00D1A /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B552135BA0500C00D1A /* UIImageView+.swift */; };
 		FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */; };
@@ -107,6 +109,8 @@
 		FF72E2C0217505B3001273A4 /* PickerViewInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewInteractor.swift; sourceTree = "<group>"; };
 		FF72E2C3217505DD001273A4 /* Units.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Units.swift; sourceTree = "<group>"; };
 		FF72E2C62175238A001273A4 /* Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Separator.swift; sourceTree = "<group>"; };
+		FF72E2CB21767E9E001273A4 /* FormatHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatHelper.swift; sourceTree = "<group>"; };
+		FF72E2CD21768B2E001273A4 /* UnitType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitType.swift; sourceTree = "<group>"; };
 		FF757BF7212DE75500E81D50 /* AddDataVCToMainVCTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataVCToMainVCTransition.swift; sourceTree = "<group>"; };
 		FF949B552135BA0500C00D1A /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		FF949B572137351C00C00D1A /* GenderSelectorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectorDelegate.swift; sourceTree = "<group>"; };
@@ -241,11 +245,20 @@
 			path = Translator;
 			sourceTree = "<group>";
 		};
+		FF72E2CA21767E87001273A4 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FF72E2CB21767E9E001273A4 /* FormatHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		FF96B42F2154159E0032805D /* Enums */ = {
 			isa = PBXGroup;
 			children = (
 				FF96B430215415AB0032805D /* Gender.swift */,
 				FF96B432215415FB0032805D /* UserDefaultKeys.swift */,
+				FF72E2CD21768B2E001273A4 /* UnitType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -339,6 +352,7 @@
 		FFFBDC19211B700A00AE0493 /* bodymassKit */ = {
 			isa = PBXGroup;
 			children = (
+				FF72E2CA21767E87001273A4 /* Helpers */,
 				FF96B43F2157A3FF0032805D /* BMI */,
 				FF72E2C5217505F4001273A4 /* Translator */,
 				FF72E2C2217505CE001273A4 /* Units */,
@@ -512,6 +526,8 @@
 				FF72E2C4217505DD001273A4 /* Units.swift in Sources */,
 				FF3EB691214E6F1400F0FD04 /* Model.xcdatamodeld in Sources */,
 				FF3EB693214E6F2200F0FD04 /* DataStore.swift in Sources */,
+				FF72E2CC21767E9E001273A4 /* FormatHelper.swift in Sources */,
+				FF72E2CE21768B2E001273A4 /* UnitType.swift in Sources */,
 				FF3EB698214E721C00F0FD04 /* CoreData+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

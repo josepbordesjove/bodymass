@@ -19,22 +19,22 @@ class Summary: UIView {
   
   var height: Double {
     didSet {
-      heightLabel.text = "\(String(format: "%.0f", height))\(Units.retrieveCurrentHeightUnits().rawValue)"
+      heightLabel.text = FormatHelper.value(height, ofType: .height, appendDescription: true)
     }
   }
   
   var weight: Double {
     didSet {
-      weightLabel.text = "\(String(format: "%.0f", weight))\(Units.retrieveCurrentWeightUnits().rawValue)"
+      weightLabel.text = FormatHelper.value(weight, ofType: .weight, appendDescription: true)
     }
   }
   
   lazy var separatorOne = Separator()
   lazy var separatorTwo = Separator()
   
-  lazy var genderLabel = CustomLabel(text: gender.rawValue.capitalized(with: Locale.current), fontType: .SFRegular, size: 15, color: .blueGrey)
-  lazy var heightLabel = CustomLabel(text: "\(String(format: "%.0f", height))\(Units.retrieveCurrentHeightUnits().rawValue)", fontType: .SFRegular, size: 15, color: .blueGrey)
-  lazy var weightLabel = CustomLabel(text: "\(String(format: "%.0f", weight))\(Units.retrieveCurrentWeightUnits().rawValue)", fontType: .SFRegular, size: 15, color: .blueGrey)
+  lazy var genderLabel = CustomLabel(fontType: .SFRegular, size: 15, color: .blueGrey)
+  lazy var heightLabel = CustomLabel(fontType: .SFRegular, size: 15, color: .blueGrey)
+  lazy var weightLabel = CustomLabel(fontType: .SFRegular, size: 15, color: .blueGrey)
   
   lazy var labels: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [genderLabel, heightLabel, weightLabel])
@@ -54,6 +54,7 @@ class Summary: UIView {
     
     setupView()
     setupConstraint()
+    updateViews()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -89,5 +90,11 @@ class Summary: UIView {
       labels.centerXAnchor.constraint(equalTo: centerXAnchor),
       labels.centerYAnchor.constraint(equalTo: centerYAnchor),
       ])
+  }
+  
+  public func updateViews() {
+    heightLabel.text = FormatHelper.value(height, ofType: .height, appendDescription: true)
+    weightLabel.text = FormatHelper.value(weight, ofType: .weight, appendDescription: true)
+    genderLabel.text = gender.rawValue.capitalized(with: Locale.current)
   }
 }

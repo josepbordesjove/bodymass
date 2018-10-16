@@ -107,6 +107,11 @@ class WeightSelector: UIView {
       weightNumbers.bottomAnchor.constraint(equalTo: weightImageBackgroundView.bottomAnchor)
       ])
   }
+  
+  public func updateViews() {
+    weightNumbers.reloadData()
+    unitSelector.currentUnits = Units.retrieveCurrentWeightUnits()
+  }
 }
 
 extension WeightSelector: UICollectionViewDataSource {
@@ -121,7 +126,10 @@ extension WeightSelector: UICollectionViewDataSource {
     if let savedHeightIndex = weightRange.firstIndex(of: Int(savedWeight)) {
       if savedHeightIndex == indexPath.row {
         cell.numberLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-         cell.numberLabel.textColor = .lightishBlue
+        cell.numberLabel.textColor = .lightishBlue
+      } else {
+        cell.numberLabel.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        cell.numberLabel.textColor = .lightPeriwinkle
       }
     }
 
@@ -173,7 +181,7 @@ extension WeightSelector {
     var assignedWeight: Int? {
       didSet {
         guard let textValue = assignedWeight else { return }
-        numberLabel.text = "\(textValue)"
+        numberLabel.text = FormatHelper.value(textValue, ofType: .weight)
       }
     }
     
