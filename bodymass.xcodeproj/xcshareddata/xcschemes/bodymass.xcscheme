@@ -26,47 +26,23 @@
       buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      codeCoverageEnabled = "YES"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FF3C82D2211706C500BC693A"
-               BuildableName = "bodymassTests.xctest"
-               BlueprintName = "bodymassTests"
-               ReferencedContainer = "container:bodymass.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FF3C82DD211706C500BC693A"
-               BuildableName = "bodymassUITests.xctest"
-               BlueprintName = "bodymassUITests"
-               ReferencedContainer = "container:bodymass.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FFFBDC1F211B700A00AE0493"
+               BlueprintIdentifier = "FF300E902177DF4000B9FB9D"
                BuildableName = "bodymassKitTests.xctest"
                BlueprintName = "bodymassKitTests"
                ReferencedContainer = "container:bodymass.xcodeproj">
             </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FF300E902177DF4000B9FB9D"
-               BuildableName = "BodymassKitTests.xctest"
-               BlueprintName = "BodymassKitTests"
-               ReferencedContainer = "container:bodymass.xcodeproj">
-            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "BodymassKitTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

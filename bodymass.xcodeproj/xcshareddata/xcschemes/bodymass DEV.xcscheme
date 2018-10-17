@@ -63,8 +63,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FF300E902177DF4000B9FB9D"
-               BuildableName = "BodymassKitTests.xctest"
-               BlueprintName = "BodymassKitTests"
+               BuildableName = "bodymassKitTests.xctest"
+               BlueprintName = "bodymassKitTests"
                ReferencedContainer = "container:bodymass.xcodeproj">
             </BuildableReference>
          </TestableReference>

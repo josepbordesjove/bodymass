@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FF300E942177DF4000B9FB9D /* BodymassKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF300E932177DF4000B9FB9D /* BodymassKitTests.swift */; };
+		FF300E942177DF4000B9FB9D /* bodymassKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF300E932177DF4000B9FB9D /* bodymassKitTests.swift */; };
 		FF3C82C0211706C400BC693A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82BF211706C400BC693A /* AppDelegate.swift */; };
 		FF3C82C2211706C400BC693A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3C82C1211706C400BC693A /* MainViewController.swift */; };
 		FF3C82CA211706C500BC693A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF3C82C9211706C500BC693A /* Assets.xcassets */; };
@@ -90,8 +90,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		FF300E912177DF4000B9FB9D /* BodymassKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BodymassKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF300E932177DF4000B9FB9D /* BodymassKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodymassKitTests.swift; sourceTree = "<group>"; };
+		FF300E912177DF4000B9FB9D /* bodymassKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bodymassKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF300E932177DF4000B9FB9D /* bodymassKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bodymassKitTests.swift; sourceTree = "<group>"; };
 		FF300E952177DF4000B9FB9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF3C82BC211706C400BC693A /* Bodymass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bodymass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF3C82BF211706C400BC693A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -173,13 +173,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FF300E922177DF4000B9FB9D /* BodymassKitTests */ = {
+		FF300E922177DF4000B9FB9D /* bodymassKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				FF300E932177DF4000B9FB9D /* BodymassKitTests.swift */,
+				FF300E932177DF4000B9FB9D /* bodymassKitTests.swift */,
 				FF300E952177DF4000B9FB9D /* Info.plist */,
 			);
-			path = BodymassKitTests;
+			path = bodymassKitTests;
 			sourceTree = "<group>";
 		};
 		FF3C82B3211706C400BC693A = {
@@ -187,7 +187,7 @@
 			children = (
 				FF3C82BE211706C400BC693A /* bodymass */,
 				FFFBDC19211B700A00AE0493 /* bodymassKit */,
-				FF300E922177DF4000B9FB9D /* BodymassKitTests */,
+				FF300E922177DF4000B9FB9D /* bodymassKitTests */,
 				FF3C82BD211706C400BC693A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -197,7 +197,7 @@
 			children = (
 				FF3C82BC211706C400BC693A /* Bodymass.app */,
 				FFFBDC18211B700A00AE0493 /* bodymassKit.framework */,
-				FF300E912177DF4000B9FB9D /* BodymassKitTests.xctest */,
+				FF300E912177DF4000B9FB9D /* bodymassKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -408,9 +408,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		FF300E902177DF4000B9FB9D /* BodymassKitTests */ = {
+		FF300E902177DF4000B9FB9D /* bodymassKitTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FF300E982177DF4000B9FB9D /* Build configuration list for PBXNativeTarget "BodymassKitTests" */;
+			buildConfigurationList = FF300E982177DF4000B9FB9D /* Build configuration list for PBXNativeTarget "bodymassKitTests" */;
 			buildPhases = (
 				FF300E8D2177DF4000B9FB9D /* Sources */,
 				FF300E8E2177DF4000B9FB9D /* Frameworks */,
@@ -421,9 +421,9 @@
 			dependencies = (
 				FF300E972177DF4000B9FB9D /* PBXTargetDependency */,
 			);
-			name = BodymassKitTests;
+			name = bodymassKitTests;
 			productName = BodymassKitTests;
-			productReference = FF300E912177DF4000B9FB9D /* BodymassKitTests.xctest */;
+			productReference = FF300E912177DF4000B9FB9D /* bodymassKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		FF3C82BB211706C400BC693A /* bodymass */ = {
@@ -502,7 +502,7 @@
 			targets = (
 				FF3C82BB211706C400BC693A /* bodymass */,
 				FFFBDC17211B700A00AE0493 /* bodymassKit */,
-				FF300E902177DF4000B9FB9D /* BodymassKitTests */,
+				FF300E902177DF4000B9FB9D /* bodymassKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -544,7 +544,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF300E942177DF4000B9FB9D /* BodymassKitTests.swift in Sources */,
+				FF300E942177DF4000B9FB9D /* bodymassKitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,7 +641,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BodymassKitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -663,7 +663,7 @@
 					"@loader_path/Frameworks",
 				);
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.BodymassKitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymassKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -889,7 +889,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FF300E982177DF4000B9FB9D /* Build configuration list for PBXNativeTarget "BodymassKitTests" */ = {
+		FF300E982177DF4000B9FB9D /* Build configuration list for PBXNativeTarget "bodymassKitTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FF300E992177DF4000B9FB9D /* Debug */,
