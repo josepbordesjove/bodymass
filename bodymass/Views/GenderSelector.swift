@@ -50,7 +50,6 @@ class GenderSelector: UIView {
   }
   
   func setupInitial() {
-    print(gender)
     updateViews()
     rotateNeddleForGender(value: gender)
   }

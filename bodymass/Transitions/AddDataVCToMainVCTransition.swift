@@ -55,16 +55,20 @@ extension AddDataVCToMainVCTransition: UIViewControllerAnimatedTransitioning {
       options: .beginFromCurrentState,
       animations: {
         UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5/25) {
+          originViewController.pacmanToggle.pacmanWidth.constant = 0
+          originViewController.pacmanToggle.pacmanHeight.constant = 0
           originViewController.pacmanToggle.pacmanView.transform = CGAffineTransform(scaleX: 0, y: 0)
           originViewController.genderSelector.alpha = 0
           originViewController.heightSelector.alpha = 0
           originViewController.weightSelector.alpha = 0
           originViewController.header.alpha = 0
           originViewController.summary.alpha = 0
+          originViewController.pacmanToggle.dotsView.arrangedSubviews.forEach { $0.alpha = 0 }
         }
         
         UIView.addKeyframe(withRelativeStartTime: 1.5/25, relativeDuration: 2/25) {
           originViewController.pacmanWidthConstraint.constant = 60
+          originViewController.pacmanToggle.layer.cornerRadius = originViewController.pacmanToggle.frame.height / 2
           originViewController.pacmanYConstraint.constant = 0
           originViewController.view.layoutIfNeeded()
         }

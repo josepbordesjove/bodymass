@@ -67,7 +67,7 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
         
         UIView.addKeyframe(withRelativeStartTime: 1/3, relativeDuration: 1/4) {
           originViewController.reloadButton.backgroundColor = .lightGrey
-          originViewController.view.backgroundColor = UIColor.mateGreen
+          originViewController.view.backgroundColor = UIColor.lightishBlue
         }
         
         UIView.addKeyframe(withRelativeStartTime: 2/3, relativeDuration: 1/4) {

@@ -28,7 +28,7 @@ class WeightSelector: UIView {
   lazy var weightImageBackgroundView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "weight-bkg")
-    imageView.contentMode = .scaleToFill
+    imageView.contentMode = .scaleAspectFit
     imageView.translatesAutoresizingMaskIntoConstraints = false
     
     return imageView

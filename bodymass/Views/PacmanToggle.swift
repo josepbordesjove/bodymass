@@ -15,6 +15,7 @@ class PacmanToggle: UIView {
   }
   
   weak var delegate: PacmanToggleDelegate?
+  var animateDots = true
   
   lazy var pacmanView: UIImageView = {
     let imageView = UIImageView()
@@ -45,11 +46,15 @@ class PacmanToggle: UIView {
     return panGesture
   }()
   
+  lazy var pacmanHeight = pacmanView.heightAnchor.constraint(equalToConstant: 30)
+  lazy var pacmanWidth = pacmanView.widthAnchor.constraint(equalToConstant: 30)
+  
   init() {
     super.init(frame: CGRect())
     
     setupView()
     setupConstraints()
+    animateDotsFadeInFadeOut()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -66,8 +71,8 @@ class PacmanToggle: UIView {
   func setupConstraints() {
     NSLayoutConstraint.activate([
       pacmanView.centerYAnchor.constraint(equalTo: centerYAnchor),
-      pacmanView.heightAnchor.constraint(equalToConstant: 30),
-      pacmanView.widthAnchor.constraint(equalToConstant: 30),
+      pacmanHeight,
+      pacmanWidth,
       pacmanView.leftAnchor.constraint(equalTo: leftAnchor, constant: constants.pacmanMargin),
       
       dotsView.leftAnchor.constraint(equalTo: pacmanView.rightAnchor, constant: 10),
@@ -87,6 +92,10 @@ class PacmanToggle: UIView {
     let leftTranslationLimit = constants.pacmanMargin + pacmanView.bounds.width / 2
     
     if sender.state == .changed && currentPositionX < rightTranslationLimit && currentPositionX > leftTranslationLimit {
+      if animateDots {
+        animateDots = false
+      }
+      
       bringSubviewToFront(self.pacmanView)
       pacmanView.center = CGPoint(x: currentPositionX, y: pacmanView.center.y)
       sender.setTranslation(.zero, in: self)
@@ -111,6 +120,24 @@ class PacmanToggle: UIView {
       }, completion: nil)
     } else if sender.state == .began {
       UISelectionFeedbackGenerator().selectionChanged()
+    }
+  }
+  
+  // MARK: - Animations
+  
+  func animateDotsFadeInFadeOut() {
+    for (index, arrangedSubView) in dotsView.arrangedSubviews.enumerated() {
+      UIView.animate(withDuration: 0.2, delay: 0.1 * Double(index), options: .curveEaseInOut, animations: {
+        arrangedSubView.alpha = 0.1
+      }, completion: { _ in
+        UIView.animate(withDuration: 0.5, animations: {
+          arrangedSubView.alpha = 0.54
+        }, completion: { _ in
+          if arrangedSubView == self.dotsView.arrangedSubviews.last && self.animateDots {
+            self.animateDotsFadeInFadeOut()
+          }
+        })
+      })
     }
   }
 }
