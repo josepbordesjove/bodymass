@@ -16,11 +16,15 @@ class GenderSelector: UIView {
     didSet {
       self.rotateNeddleForGender(value: gender)
       delegate?.genderChanged(value: gender)
+      updateViews()
     }
   }
   
   lazy var unitSelector = UnitSelector(title: "GENDER")
   lazy var genderImageBackgroundView = CustomImageView(image: #imageLiteral(resourceName: "gender-bkg"), contentMode: .scaleAspectFit)
+  lazy var genderUndefined = CustomImageView(image: #imageLiteral(resourceName: "undefined"), contentMode: .scaleAspectFit)
+  lazy var genderMale = CustomImageView(image: #imageLiteral(resourceName: "male"), contentMode: .scaleAspectFit)
+  lazy var genderFemale = CustomImageView(image: #imageLiteral(resourceName: "female"), contentMode: .scaleAspectFit)
   lazy var selectionNeedle = CustomImageView(image: #imageLiteral(resourceName: "needle"), contentMode: .scaleAspectFit, anchorPoint: CGPoint(x: 0.5, y: 0.85))
   
   lazy var tapGestureRecognizer: UITapGestureRecognizer = {
@@ -37,12 +41,18 @@ class GenderSelector: UIView {
     
     setupView()
     setupConstraints()
-    rotateNeddleForGender(value: gender)
+    setupInitial()
     addGestureRecognizer(tapGestureRecognizer)
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func setupInitial() {
+    print(gender)
+    updateViews()
+    rotateNeddleForGender(value: gender)
   }
   
   private func setupView() {
@@ -53,7 +63,19 @@ class GenderSelector: UIView {
     layer.cornerRadius = 8
     backgroundColor = .white
     translatesAutoresizingMaskIntoConstraints = false
-    [unitSelector, genderImageBackgroundView, selectionNeedle].forEach { addSubview($0) }
+    [unitSelector, genderImageBackgroundView, selectionNeedle, genderUndefined, genderMale, genderFemale].forEach { addSubview($0) }
+    
+    guard let genderFemaleImage = genderFemale.image else { return }
+    let tintedGenderFemale = genderFemaleImage.withRenderingMode(.alwaysTemplate)
+    genderFemale.image = tintedGenderFemale
+    
+    guard let genderMaleImage = genderMale.image else { return }
+    let tintedGenderMale = genderMaleImage.withRenderingMode(.alwaysTemplate)
+    genderMale.image = tintedGenderMale
+    
+    guard let genderUndefinedImage = genderUndefined.image else { return }
+    let tintedGenderUndefined = genderUndefinedImage.withRenderingMode(.alwaysTemplate)
+    genderUndefined.image = tintedGenderUndefined
   }
   
   private func setupConstraints() {
@@ -63,16 +85,48 @@ class GenderSelector: UIView {
       unitSelector.rightAnchor.constraint(equalTo: rightAnchor),
       unitSelector.heightAnchor.constraint(equalToConstant: 31),
       
-      genderImageBackgroundView.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: 15),
+      genderUndefined.centerXAnchor.constraint(equalTo: centerXAnchor),
+      genderUndefined.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: 5),
+      genderUndefined.heightAnchor.constraint(equalToConstant: 23),
+      genderUndefined.widthAnchor.constraint(equalToConstant: 23),
+      
+      genderMale.leftAnchor.constraint(equalTo: genderUndefined.rightAnchor, constant: UIScreen.main.bounds.width * 0.07),
+      genderMale.topAnchor.constraint(equalTo: genderUndefined.bottomAnchor),
+      genderMale.heightAnchor.constraint(equalToConstant: 18),
+      genderMale.widthAnchor.constraint(equalToConstant: 18),
+      
+      genderFemale.rightAnchor.constraint(equalTo: genderUndefined.leftAnchor, constant: -UIScreen.main.bounds.width * 0.07),
+      genderFemale.topAnchor.constraint(equalTo: genderUndefined.bottomAnchor),
+      genderFemale.heightAnchor.constraint(equalToConstant: 18),
+      genderFemale.widthAnchor.constraint(equalToConstant: 18),
+      
+      genderImageBackgroundView.topAnchor.constraint(equalTo: genderUndefined.bottomAnchor, constant: 15),
       genderImageBackgroundView.rightAnchor.constraint(equalTo: rightAnchor, constant: -15),
       genderImageBackgroundView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
       genderImageBackgroundView.leftAnchor.constraint(equalTo: leftAnchor, constant: 15),
       
       selectionNeedle.centerXAnchor.constraint(equalTo: genderImageBackgroundView.centerXAnchor),
-      selectionNeedle.centerYAnchor.constraint(equalTo: genderImageBackgroundView.bottomAnchor, constant: -30),
+      selectionNeedle.centerYAnchor.constraint(equalTo: genderImageBackgroundView.centerYAnchor),
       selectionNeedle.widthAnchor.constraint(equalToConstant: 16),
-      selectionNeedle.heightAnchor.constraint(equalToConstant: 56)
+      selectionNeedle.heightAnchor.constraint(equalTo: genderImageBackgroundView.heightAnchor, multiplier: 0.5),
       ])
+  }
+  
+  func updateViews() {
+    switch gender {
+    case .female:
+      genderFemale.tintColor = .lightishBlue
+      genderMale.tintColor = .lightPeriwinkle
+      genderUndefined.tintColor = .lightPeriwinkle
+    case .male:
+      genderFemale.tintColor = .lightPeriwinkle
+      genderMale.tintColor = .lightishBlue
+      genderUndefined.tintColor = .lightPeriwinkle
+    case .undefined:
+      genderFemale.tintColor = .lightPeriwinkle
+      genderMale.tintColor = .lightPeriwinkle
+      genderUndefined.tintColor = .lightishBlue
+    }
   }
   
   // MARK: - Gesture recognizers functions
