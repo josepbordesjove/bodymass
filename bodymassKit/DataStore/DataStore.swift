@@ -8,6 +8,12 @@
 
 import CoreData
 
+public
+enum DataStoreResult<T> {
+  case success(T)
+  case failure(Error)
+}
+
 public class DataStore: NSObject {
 
   private let persistentStore: NSPersistentContainer
@@ -34,18 +40,18 @@ public class DataStore: NSObject {
     persistentStore.persistentStoreDescriptions = [description]
   }
   
-  public func loadAndMigrateIfNeeded(completion: @escaping () -> Void) {
+  public func loadAndMigrateIfNeeded(completion: @escaping (DataStoreResult<Void>) -> Void) {
     guard !self.storeIsReady else {
-      completion()
+      completion(.success(()))
       return
     }
     
     persistentStore.loadPersistentStores { (description, error) in
       if let error = error {
-        print("JBJ error: \(error)")
+        completion(.failure(error))
       } else {
         self.storeIsReady = true
-        completion()
+         completion(.success(()))
       }
     }
   }

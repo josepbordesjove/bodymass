@@ -23,10 +23,15 @@ class bodymassKitTests: XCTestCase {
   }
   
   func testSaveDataPoint() {
-    dataStore.loadAndMigrateIfNeeded {
-      self.dataStore.saveDataPoint(id: UUID().uuidString, weight: Constants.weight, height: Constants.height, completion: {
-       XCTAssert(true)
-      })
+    dataStore.loadAndMigrateIfNeeded { (result) in
+      switch result {
+      case .success:
+        self.dataStore.saveDataPoint(id: UUID().uuidString, weight: Constants.weight, height: Constants.height, completion: {
+          XCTAssert(true)
+        })
+      case .failure:
+        XCTAssert(false)
+      }
     }
   }
   

@@ -28,9 +28,14 @@ extension AddDataViewController {
     }
     
     func createDataPoint(id: String, weight: Double, height: Double) {
-      dataStore.loadAndMigrateIfNeeded {
-        self.dataStore.saveDataPoint(id: id, weight: weight, height: height) {
-          self.observer?.didCreateDataPoint()
+      dataStore.loadAndMigrateIfNeeded { (result) in
+        switch result {
+        case .success:
+          self.dataStore.saveDataPoint(id: id, weight: weight, height: height) {
+            self.observer?.didCreateDataPoint()
+          }
+        case .failure(let error):
+          print("Bodymass Error: \(error)")
         }
       }
     }

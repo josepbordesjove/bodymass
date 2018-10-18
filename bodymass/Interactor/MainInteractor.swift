@@ -30,32 +30,36 @@ extension MainViewController {
     }
     
     func fetchLastDataPoint(handler: @escaping (MainViewController.VM?, Error?) -> Void) {
-      dataStore.loadAndMigrateIfNeeded {
-        self.dataStore.fetchLastDataPoint(completion: { (mdp) in
-          guard let id = mdp?.id else {
-            handler(nil, MainViewControllerErrors.pointNotFetched)
-            return
-          }
-          
-          guard let weight = mdp?.weight else {
-            handler(nil, MainViewControllerErrors.pointNotFetched)
-            return
-          }
-          
-          guard let height = mdp?.height else {
-            handler(nil, MainViewControllerErrors.pointNotFetched)
-            return
-          }
-          
-          guard let gender = self.fetchUserGender() else {
-            handler(nil, MainViewControllerErrors.pointNotFetched)
-            return
-          }
-          
-          let dataPoint = MainViewController.VM(id: id, weight: weight, height: height, gender: gender)
-          
-          handler(dataPoint, nil)
-        })
+      dataStore.loadAndMigrateIfNeeded { (result) in
+        switch result {
+        case .success:
+          self.dataStore.fetchLastDataPoint(completion: { (mdp) in
+            guard let id = mdp?.id else {
+              handler(nil, MainViewControllerErrors.pointNotFetched)
+              return
+            }
+            
+            guard let weight = mdp?.weight else {
+              handler(nil, MainViewControllerErrors.pointNotFetched)
+              return
+            }
+            
+            guard let height = mdp?.height else {
+              handler(nil, MainViewControllerErrors.pointNotFetched)
+              return
+            }
+            
+            guard let gender = self.fetchUserGender() else {
+              handler(nil, MainViewControllerErrors.pointNotFetched)
+              return
+            }
+            
+            let dataPoint = MainViewController.VM(id: id, weight: weight, height: height, gender: gender)
+            handler(dataPoint, nil)
+            })
+        case .failure(let error):
+           handler(nil, error)
+        }
       }
     }
     
