@@ -19,7 +19,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     static let defaultWeight: Double = 65
     static let defaultGender = Gender.undefined
     static let pacmanWidth: CGFloat = 200
-    static let pacmanHeight: CGFloat = 60
+    static let pacmanHeight: CGFloat = UIScreen.main.bounds.height * 0.07
   }
   
   lazy var header = Header(title: "BMI Calculator")
@@ -98,7 +98,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
       heightSelector.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -margin),
       heightSelector.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: margin/2),
       heightSelector.topAnchor.constraint(equalTo: summary.bottomAnchor, constant: 15),
-      heightSelector.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
+      heightSelector.bottomAnchor.constraint(equalTo: pacmanToggle.topAnchor, constant: -20),
 
       genderSelector.leftAnchor.constraint(equalTo: view.leftAnchor, constant: margin),
       genderSelector.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -margin/2),

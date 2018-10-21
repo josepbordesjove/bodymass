@@ -20,7 +20,7 @@ class PacmanToggle: UIView {
   lazy var pacmanView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = #imageLiteral(resourceName: "pacman")
-    imageView.contentMode = .scaleAspectFill
+    imageView.contentMode = .scaleAspectFit
     imageView.isUserInteractionEnabled = true
     imageView.addGestureRecognizer(panGestureRecognizer)
     imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,8 +46,8 @@ class PacmanToggle: UIView {
     return panGesture
   }()
   
-  lazy var pacmanHeight = pacmanView.heightAnchor.constraint(equalToConstant: 30)
-  lazy var pacmanWidth = pacmanView.widthAnchor.constraint(equalToConstant: 30)
+  lazy var pacmanHeight = pacmanView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.05)
+  lazy var pacmanWidth = pacmanView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.05)
   
   init() {
     super.init(frame: CGRect())

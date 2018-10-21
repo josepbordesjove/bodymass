@@ -15,11 +15,14 @@ class HeightSelector: UIView {
     static let maxSelectableHeight: Int = 195
     static let minSelectableHeight: Int = 160
     static let stepBetweenNumbers: Int = 5
-    static let maxHeight: Int = 200
+    static let maxHeight: Int = 210
     static let minHeight: Int = 150
   }
   
-  let heightRange = Constants.minHeight...Constants.maxHeight
+  let heightRange: [Int] = {
+    return [Int](Constants.minHeight...Constants.maxHeight).filter { $0 % 5 == 0 }.reversed()
+  }()
+  
   weak var delegate: HeightSelectorDelegate?
   var savedHeight: Double {
     didSet {
@@ -33,20 +36,28 @@ class HeightSelector: UIView {
   lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFill)
   lazy var heightRoundedSelector = CustomImageView(image: #imageLiteral(resourceName: "height-selector"), contentMode: .scaleAspectFill)
   
+  lazy var heightNumbers: UITableView = {
+    let tableView = UITableView()
+    tableView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
+    tableView.backgroundColor = .clear
+    tableView.backgroundColor = .clear
+    tableView.showsHorizontalScrollIndicator = false
+    tableView.isScrollEnabled = false
+    tableView.dataSource = self
+    tableView.delegate = self
+    tableView.separatorStyle = .none
+    tableView.register(NumberCell.self, forCellReuseIdentifier: NumberCell.identifier)
+    tableView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return tableView
+  }()
+  
   lazy var panGestureRecognizer: UIPanGestureRecognizer = {
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
     panGesture.maximumNumberOfTouches = 1
     panGesture.minimumNumberOfTouches = 1
     
     return panGesture
-  }()
-  
-  lazy var tapGestureRecognizer: UITapGestureRecognizer = {
-    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
-    tapGestureRecognizer.numberOfTapsRequired = 1
-    tapGestureRecognizer.numberOfTouchesRequired = 1
-    
-    return tapGestureRecognizer
   }()
   
   lazy var realHeight: UILabel = {
@@ -67,7 +78,6 @@ class HeightSelector: UIView {
     
     setupView()
     setupConstraints()
-    setupNumbersView()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -84,8 +94,8 @@ class HeightSelector: UIView {
     
     self.realHeight.text = FormatHelper.value(savedHeight, ofType: .height)
     
-    [unitSelector, bodyView, heightLineView, realHeight, heightRoundedSelector].forEach { addSubview($0) }
-    [panGestureRecognizer, tapGestureRecognizer].forEach{ addGestureRecognizer($0) }
+    [unitSelector, bodyView, heightLineView, realHeight, heightRoundedSelector, heightNumbers].forEach { addSubview($0) }
+    addGestureRecognizer(panGestureRecognizer)
     translatesAutoresizingMaskIntoConstraints = false
   }
   
@@ -108,44 +118,34 @@ class HeightSelector: UIView {
       
       heightRoundedSelector.centerYAnchor.constraint(equalTo: heightLineView.centerYAnchor),
       heightRoundedSelector.leftAnchor.constraint(equalTo: leftAnchor),
-      heightRoundedSelector.heightAnchor.constraint(equalToConstant: 31),
-      heightRoundedSelector.widthAnchor.constraint(equalToConstant: 31),
+      heightRoundedSelector.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.07),
+      heightRoundedSelector.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width * 0.07),
       
       realHeight.leftAnchor.constraint(equalTo: heightLineView.leftAnchor),
-      realHeight.bottomAnchor.constraint(equalTo: heightRoundedSelector.topAnchor, constant: -5),
+      realHeight.topAnchor.constraint(equalTo: heightRoundedSelector.bottomAnchor, constant: 5),
+      
+      heightNumbers.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: UIScreen.main.bounds.width * 0.03),
+      heightNumbers.leftAnchor.constraint(equalTo: leftAnchor),
+      heightNumbers.bottomAnchor.constraint(equalTo: bottomAnchor),
+      heightNumbers.rightAnchor.constraint(equalTo: rightAnchor)
       ])
   }
   
-  private func setupNumbersView() {
-    let numberOfElements = (heightRange.upperBound - heightRange.lowerBound) / Constants.stepBetweenNumbers
-    let distanceMultiplier: CGFloat = 0.75 / CGFloat(numberOfElements)
-    
-    for i in stride(from: heightRange.lowerBound, to: heightRange.upperBound, by: Constants.stepBetweenNumbers) {
-      let label = HeightLabel(labelText: i, isSelected: i == Int(savedHeight))
-      addSubview(label)
+  func setupInitialPosition() {
+    heightNumbers.visibleCells.forEach { cell in
+      guard let numberCell = cell as? NumberCell else { return }
+      guard let assignedHeight = numberCell.assignedHeight else { return }
       
-      let previousHeightLabel = self.viewWithTag(i - Constants.stepBetweenNumbers) ?? nil
-      let rightConstraint = label.rightAnchor.constraint(equalTo: rightAnchor, constant: -5)
-      let heightConstraint = label.heightAnchor.constraint(equalTo: heightAnchor, multiplier: distanceMultiplier)
-      let bottomConstraint = previousHeightLabel == nil ?
-        label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20) :
-        label.bottomAnchor.constraint(equalTo: previousHeightLabel!.topAnchor)
-      
-     NSLayoutConstraint.activate([rightConstraint, heightConstraint, bottomConstraint])
+      if Double(assignedHeight) <= savedHeight && Double(assignedHeight) + Double(Constants.stepBetweenNumbers) > savedHeight {
+        moveHeightViewTopConstraintTo(pointY: numberCell.frame.midY + heightNumbers.frame.minY, animated: true)
+        numberCell.setSelectedStyle()
+        return
+      }
     }
   }
   
-  public func setupInitialPosition() {
-    let heightRounded = Int((self.savedHeight / Double(Constants.stepBetweenNumbers)).rounded(.up) * Double(Constants.stepBetweenNumbers))
-    if let heightViewLabel = self.viewWithTag(heightRounded) as? UILabel {
-      let constant = heightViewLabel.frame.midY
-      UIView.animate(withDuration: 0.25) {
-        self.topAnchorHeightLineView.constant = constant
-        self.layoutIfNeeded()
-        heightViewLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
-        heightViewLabel.alpha = 1
-      }
-    }
+  public func updateViews() {
+    unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
   }
   
   // MARK: - Gesture helper methods
@@ -156,17 +156,17 @@ class HeightSelector: UIView {
     evaluateGesturePositionChangeFor(pointY: tappedPointY, animated: true)
   }
   
-  public func updateViews() {
-    for i in stride(from: heightRange.lowerBound, to: heightRange.upperBound, by: Constants.stepBetweenNumbers) {
-      guard let heightLabel = self.viewWithTag(i) as? UILabel else { continue }
-      heightLabel.text = FormatHelper.value(i, ofType: .height)
-    }
-    unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
-  }
-  
   @objc private func panGestureHandler(sender: UIPanGestureRecognizer) {
     let translationY = sender.translation(in: self).y
     let absolutePositionY = topAnchorHeightLineView.constant + translationY
+    let relativePositionY = absolutePositionY - heightNumbers.frame.minY
+    
+    guard let minY = heightNumbers.visibleCells.first?.frame.minY else { return }
+    guard let maxY = heightNumbers.visibleCells.last?.frame.maxY else { return }
+    
+    if relativePositionY <= minY || relativePositionY >= maxY {
+      return
+    }
     
     if sender.state == .changed {
       evaluateGesturePositionChangeFor(pointY: absolutePositionY, animated: false)
@@ -182,27 +182,26 @@ class HeightSelector: UIView {
   // MARK: - Helper methods
   
   private func evaluateGesturePositionChangeFor(pointY: CGFloat, animated: Bool) {
-    guard let minPosition = viewWithTag(Constants.maxSelectableHeight)?.frame.minY else { return }
-    guard let maxPosition = viewWithTag(Constants.minSelectableHeight)?.frame.maxY else { return }
+    let correctedPosition = pointY - heightNumbers.frame.minY
     
-    if pointY <= minPosition || pointY >= maxPosition { return }
-    
-    let percentage = (pointY - minPosition) / (maxPosition - minPosition)
-    let height = Double(Constants.minSelectableHeight) + Double(1 - percentage) * Double((Constants.maxSelectableHeight - Constants.minSelectableHeight))
-    
-    if Int(savedHeight) != Int(height) {
-      savedHeight = height
+    heightNumbers.visibleCells.forEach { cell  in
+      guard let numberCell = cell as? NumberCell else { return }
+      
+      if numberCell.frame.maxY >= correctedPosition && numberCell.frame.minY <= correctedPosition {
+        let percentage = (correctedPosition - numberCell.frame.minY) / (numberCell.frame.maxY - numberCell.frame.minY)
+        
+        if let roundedHeight = numberCell.assignedHeight {
+          let realHeight = Double(roundedHeight) + (Double(Constants.stepBetweenNumbers) * Double(1 - percentage))
+          self.savedHeight = realHeight
+        }
+        
+        numberCell.setSelectedStyle()
+      } else {
+        numberCell.setUnselectedStyle()
+      }
     }
     
     moveHeightViewTopConstraintTo(pointY: pointY, animated: animated)
-    
-    let heightLineViewCenter = heightLineView.frame.minY + heightLineView.frame.height / 2
-    
-    for i in stride(from: heightRange.lowerBound, to: heightRange.upperBound, by: Constants.stepBetweenNumbers) {
-      guard let heightLabel = self.viewWithTag(i) as? UILabel else { continue }
-      let isInsideRange = isPointInsideHeightsRange(pointY: heightLineViewCenter, frame: heightLabel.frame)
-      animate(view: heightLabel, if: isInsideRange)
-    }
   }
   
   private func isPointInsideHeightsRange(pointY: CGFloat, frame: CGRect) -> Bool {
@@ -224,17 +223,6 @@ class HeightSelector: UIView {
     }
   }
   
-  private func animate(view: UIView, if isInsideRange: Bool = true) {
-    if view.alpha == 0.6 && !isInsideRange || view.alpha == 1 && isInsideRange { return }
-    
-    if isInsideRange { UISelectionFeedbackGenerator().selectionChanged() }
-      
-    UIView.animate(withDuration: 0.1) {
-      view.transform = isInsideRange ? CGAffineTransform(scaleX: 1, y: 1) : CGAffineTransform(scaleX: 0.6, y: 0.6)
-      view.alpha = isInsideRange ? 1 : 0.6
-    }
-  }
-  
   private func moveHeightViewTopConstraintTo(pointY: CGFloat, animated: Bool) {
     if (!animated) {
       topAnchorHeightLineView.constant = pointY
@@ -253,26 +241,87 @@ class HeightSelector: UIView {
   }
 }
 
+// MARK: - Collection View Data Source
+
+extension HeightSelector: UITableViewDataSource {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return heightRange.count
+  }
+  
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    guard let cell = tableView.dequeueReusableCell(withIdentifier: NumberCell.identifier, for: indexPath) as? NumberCell else { return UITableViewCell() }
+    cell.assignedHeight = heightRange[indexPath.row]
+    
+    return cell
+  }
+}
+
+// MARK: - Collection View Delegate
+
+extension HeightSelector: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UIScreen.main.bounds.height * 0.03
+  }
+}
+
 // MARK: - Extends the class to create the default label for the heights
 
 extension HeightSelector {
-  class HeightLabel: UILabel {
-    init(labelText: Int, isSelected:  Bool) {
-      super.init(frame: CGRect())
+  class NumberCell: UITableViewCell {
+    
+    struct Constants {
+      static let textSize: CGFloat = UIScreen.main.bounds.width * 0.07
+    }
+    
+    static let identifier = "NumberCell"
+    
+    var assignedHeight: Int? {
+      didSet {
+        guard let textValue = assignedHeight else { return }
+        numberLabel.text = FormatHelper.value(textValue, ofType: .weight)
+      }
+    }
+    
+    lazy var numberLabel: CustomLabel = {
+      let label = CustomLabel(fontType: .SFBold, size: Constants.textSize, color: .lightPeriwinkle)
+      label.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
       
-      text = FormatHelper.value(labelText, ofType: .height)
-      textColor = .specialBlue
-      alpha = isSelected ? 1 : 0.6
-      font = UIFont.systemFont(ofSize: 28)
-      transform = isSelected ? CGAffineTransform(scaleX: 1, y: 1) : CGAffineTransform(scaleX: 0.6, y: 0.6)
-      tag = labelText
-      adjustsFontSizeToFitWidth = false
-      isUserInteractionEnabled = false
-      translatesAutoresizingMaskIntoConstraints = false
+      return label
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+      super.init(style: style, reuseIdentifier: reuseIdentifier)
+      
+      setupCell()
+      setupCellConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupCell() {
+      backgroundColor = .clear
+      selectionStyle = .none
+      addSubview(numberLabel)
+    }
+    
+    private func setupCellConstraints() {
+      NSLayoutConstraint.activate([
+        numberLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
+        numberLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+    
+    public func setSelectedStyle() {
+      numberLabel.textColor = .lightishBlue
+      numberLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+    }
+    
+    public func setUnselectedStyle() {
+      numberLabel.textColor = .lightPeriwinkle
+      numberLabel.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
     }
   }
 }
