@@ -9,8 +9,12 @@
 import UIKit
 import bodymassKit
 
+enum MainViewControllerInteractorError: String, Error {
+  case couldNotGenerateDataPointFromManaged = "Could not generate a data point unwrapping the received managed data point"
+}
+
 protocol MainInteractorType {
-  func fetchLastDataPoint(handler: @escaping (MainViewController.VM?, Swift.Error?) -> Void)
+  func fetchLastDataPoint(completion: @escaping (MainViewController.VM?, Swift.Error?) -> Void)
   func addDataViewController(observer: DataPointObserver, weight: Double?, height: Double?, gender: Gender?) -> UIViewController
   func fetchUserGender() -> Gender?
   func deleteLastDataPoint(completion: @escaping ((Bool) -> Void))
@@ -29,36 +33,21 @@ extension MainViewController {
       self.dataStore = dataStore
     }
     
-    func fetchLastDataPoint(handler: @escaping (MainViewController.VM?, Error?) -> Void) {
+    func fetchLastDataPoint(completion: @escaping (MainViewController.VM?, Error?) -> Void) {
       dataStore.loadAndMigrateIfNeeded { (result) in
         switch result {
         case .success:
-          self.dataStore.fetchLastDataPoint(completion: { (mdp) in
-            guard let id = mdp?.id else {
-              handler(nil, MainViewControllerErrors.pointNotFetched)
-              return
+          self.dataStore.fetchLastDataPoint(completion: { (result) in
+            switch result {
+            case .success(let mdp):
+              let (dataPoint, error) = self.unwrapManagedDataPoint(mdp)
+              completion(dataPoint, error)
+            case .failure(let error):
+              completion(nil, error)
             }
-            
-            guard let weight = mdp?.weight else {
-              handler(nil, MainViewControllerErrors.pointNotFetched)
-              return
-            }
-            
-            guard let height = mdp?.height else {
-              handler(nil, MainViewControllerErrors.pointNotFetched)
-              return
-            }
-            
-            guard let gender = self.fetchUserGender() else {
-              handler(nil, MainViewControllerErrors.pointNotFetched)
-              return
-            }
-            
-            let dataPoint = MainViewController.VM(id: id, weight: weight, height: height, gender: gender)
-            handler(dataPoint, nil)
-            })
+          })
         case .failure(let error):
-           handler(nil, error)
+          completion(nil, error)
         }
       }
     }
@@ -77,6 +66,15 @@ extension MainViewController {
     
     func fetchUserGender() -> Gender? {
       return dataStore.fetchUserGender()
+    }
+    
+    private func unwrapManagedDataPoint(_ managedDataPoint: ManagedDataPoint?) -> (MainViewController.VM?, Error?) {
+      if let id = managedDataPoint?.id, let weight = managedDataPoint?.weight, let height = managedDataPoint?.height, let gender = dataStore.fetchUserGender() {
+        let dataPoint = MainViewController.VM(id: id, weight: weight, height: height, gender: gender)
+        return (dataPoint, nil)
+      } else {
+        return (nil, MainViewControllerInteractorError.couldNotGenerateDataPointFromManaged)
+      }
     }
     
   }

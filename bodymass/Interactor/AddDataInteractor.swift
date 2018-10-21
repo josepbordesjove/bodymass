@@ -31,7 +31,7 @@ extension AddDataViewController {
       dataStore.loadAndMigrateIfNeeded { (result) in
         switch result {
         case .success:
-          self.dataStore.saveDataPoint(id: id, weight: weight, height: height) {
+          self.dataStore.saveDataPoint(id: id, weight: weight, height: height) { _ in 
             self.observer?.didCreateDataPoint()
           }
         case .failure(let error):

@@ -8,10 +8,13 @@
 
 import CoreData
 
-public
-enum DataStoreResult<T> {
+public enum DataStoreResult<T> {
   case success(T)
   case failure(Error)
+}
+
+public enum DataStoreError: String, Error {
+  case couldNotRetrieveDataPoint = "The last data point couldn't be fetched"
 }
 
 public class DataStore: NSObject {
@@ -56,7 +59,7 @@ public class DataStore: NSObject {
     }
   }
   
-  public func saveDataPoint(id: String, weight: Double, height: Double, completion: @escaping () -> Void) {
+  public func saveDataPoint(id: String, weight: Double, height: Double, completion: @escaping (DataStoreResult<ManagedDataPoint>) -> Void) {
      assert(self.storeIsReady)
     
     self.persistentStore.performBackgroundTask { (moc) in
@@ -68,18 +71,22 @@ public class DataStore: NSObject {
       
       do {
         try moc.save()
-        completion()
+        completion(.success(managedDataPoint))
       } catch(let error) {
-        print("Some error happened: \(error) ")
+        completion(.failure(error))
       }
     }
   }
   
-  public func fetchLastDataPoint(completion: @escaping ((ManagedDataPoint?) -> Void)) {
+  public func fetchLastDataPoint(completion: @escaping ((DataStoreResult<ManagedDataPoint>) -> Void)) {
     assert(self.storeIsReady)
     
     fetchLastDataPoint(moc: self.persistentStore.viewContext) { (managedDataPoint) in
-      completion(managedDataPoint)
+      if let managedDataPoint = managedDataPoint {
+        completion(.success(managedDataPoint))
+      } else {
+        completion(.failure(DataStoreError.couldNotRetrieveDataPoint))
+      }
     }
   }
   
@@ -127,21 +134,19 @@ public class DataStore: NSObject {
   }
   
   private func deleteLastDataPoint(moc: NSManagedObjectContext, completion: @escaping ((Bool) -> Void)) {
-    fetchLastDataPoint { (managedDataPoint) in
-      guard let managedDataPoint = managedDataPoint else {
+    fetchLastDataPoint { (result) in
+      switch result {
+      case .success(let managedDataPoint):
+        do {
+          moc.delete(managedDataPoint)
+          try moc.save()
+          completion(true)
+        } catch {
+          completion(false)
+        }
+      case .failure:
         completion(false)
-        return
       }
-      
-      do {
-        moc.delete(managedDataPoint)
-        try moc.save()
-        completion(true)
-      } catch {
-        completion(false)
-      }
-      
-      
     }
   }
   
