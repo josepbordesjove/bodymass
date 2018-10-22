@@ -107,6 +107,14 @@ public class DataStore: NSObject {
     return Gender(rawValue: genderRawValue)
   }
   
+  public func getBmiComparison(completion: @escaping ((Double?) -> Void)) {
+    assert(self.storeIsReady)
+    
+    getLastTwoDataDifference(moc: self.persistentStore.viewContext) { comparison in
+      completion(comparison)
+    }
+  }
+  
   //MARK: Private
   
   private func fetchDataPoint(id: String, moc: NSManagedObjectContext) -> ManagedDataPoint? {
@@ -124,6 +132,39 @@ public class DataStore: NSObject {
     let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { (result) in
       guard let managedDataPoints = result.finalResult else { return }
       completion(managedDataPoints.last)
+    }
+    
+    do {
+      try moc.execute(asyncFetchRequest)
+    } catch (let error) {
+      print("Some error happened: \(error) ")
+    }
+  }
+  
+  private func getLastTwoDataDifference(moc: NSManagedObjectContext, completion: @escaping ((Double?) -> Void)) {
+    let fetchRequest: NSFetchRequest<ManagedDataPoint> = ManagedDataPoint.fetchRequest()
+    let sortDescriptor = NSSortDescriptor(key: #keyPath(ManagedDataPoint.creationDate), ascending: true)
+    fetchRequest.sortDescriptors = [sortDescriptor]
+    
+    let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { (result) in
+      guard let managedDataPoints = result.finalResult, let lastDataPoint = managedDataPoints.last else {
+        completion(nil)
+        return
+      }
+      
+      if managedDataPoints.count > 2 {
+        let penultimateDataPoint = managedDataPoints[managedDataPoints.count - 2]
+        
+        guard let lastBmi = BodyMassIndex.calculateBMI(weight: lastDataPoint.weight, height: lastDataPoint.height),
+          let penultimateBmi = BodyMassIndex.calculateBMI(weight: penultimateDataPoint.weight, height: penultimateDataPoint.height) else {
+            completion(nil)
+            return
+        }
+        
+        completion(lastBmi - penultimateBmi)
+      } else {
+        completion(nil)
+      }
     }
     
     do {

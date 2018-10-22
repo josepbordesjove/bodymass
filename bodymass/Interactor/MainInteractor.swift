@@ -18,6 +18,7 @@ protocol MainInteractorType {
   func addDataViewController(observer: DataPointObserver, weight: Double?, height: Double?, gender: Gender?) -> UIViewController
   func fetchUserGender() -> Gender?
   func deleteLastDataPoint(completion: @escaping ((Bool) -> Void))
+  func getBmiComparison(completion: @escaping (Double?) -> Void)
 }
 
 extension MainViewController {
@@ -66,6 +67,12 @@ extension MainViewController {
     
     func fetchUserGender() -> Gender? {
       return dataStore.fetchUserGender()
+    }
+    
+    func getBmiComparison(completion: @escaping (Double?) -> Void) {
+      dataStore.getBmiComparison { comparison in
+        completion(comparison)
+      }
     }
     
     private func unwrapManagedDataPoint(_ managedDataPoint: ManagedDataPoint?) -> (MainViewController.VM?, Error?) {

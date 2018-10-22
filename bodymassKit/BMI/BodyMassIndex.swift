@@ -9,9 +9,33 @@
 import Foundation
 
 public class BodyMassIndex {
+  enum EmojiStatus: String {
+    case maxImproved = "🦍"
+    case improved = "🦁"
+    case equal = "🦑"
+    case worsened = "🐳"
+    case maxWorsened = "🦃"
+  }
+  
+  enum BmiStatus: String {
+    case underweight = "Underweight BMI"
+    case correct = "Correct BMI"
+    case overweight = "Overweight BMI"
+  }
+  
   private struct Constants {
     static let minAllowedBMI = 18.5
     static let maxAllowedBMI = 24.9
+  }
+  
+  public static func getEmojiForBmiChange(newBmi: Double, oldBmi: Double) -> String {
+    if newBmi == oldBmi {
+      return EmojiStatus.equal.rawValue
+    } else if newBmi < oldBmi {
+      return EmojiStatus.improved.rawValue
+    } else {
+      return EmojiStatus.worsened.rawValue
+    }
   }
   
   public static func calculateBMI(weight: Double?, height: Double?) -> Double? {
@@ -24,7 +48,30 @@ public class BodyMassIndex {
   
   public static func getDescriptionForBMI(bmi: Double?) -> String {
     guard let bmi = bmi else { return "" }
-    return "BMI = \(String(format: "%.2f", bmi)) \(Units.retrieveCurrentWeightUnits().abbreviation())/\(Units.retrieveCurrentHeightUnits().abbreviation())2"
+    
+    if bmi < Constants.minAllowedBMI {
+      return BmiStatus.underweight.rawValue
+    } else if bmi < Constants.maxAllowedBMI {
+      return BmiStatus.correct.rawValue
+    } else {
+      return BmiStatus.overweight.rawValue
+    }
+  }
+  
+  public static func getEmojiForBMI(_ difference: Double?) -> String {
+    guard let difference = difference else { return EmojiStatus.equal.rawValue }
+    
+    if difference < -1 {
+      return EmojiStatus.maxImproved.rawValue
+    } else if difference >= -1 && difference < 0 {
+      return EmojiStatus.improved.rawValue
+    } else if difference == 0 {
+      return EmojiStatus.equal.rawValue
+    } else if difference > 0 && difference < 1 {
+      return EmojiStatus.worsened.rawValue
+    } else {
+      return EmojiStatus.maxWorsened.rawValue
+    }
   }
   
   public static func getWeightRangeFor(height: Double?) -> String {

@@ -192,7 +192,11 @@ class HeightSelector: UIView {
         
         if let roundedHeight = numberCell.assignedHeight {
           let realHeight = Double(roundedHeight) + (Double(Constants.stepBetweenNumbers) * Double(1 - percentage))
-          self.savedHeight = realHeight
+          
+          if Int(savedHeight) != Int(realHeight) {
+            self.savedHeight = realHeight
+            UISelectionFeedbackGenerator().selectionChanged()
+          }
         }
         
         numberCell.setSelectedStyle()

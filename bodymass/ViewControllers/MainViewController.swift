@@ -157,6 +157,10 @@ class MainViewController: UIViewController {
   }
   
   func reloadDataPoint() {
+    interactor.getBmiComparison { difference in
+      self.infoEmoji.text = BodyMassIndex.getEmojiForBMI(difference)
+    }
+    
     interactor.fetchLastDataPoint { (vm, error) in
       if error == nil {
         self.vm = vm
