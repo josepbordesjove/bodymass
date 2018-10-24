@@ -34,7 +34,7 @@ class PickerViewController: UIAlertController {
   
   func selectUnits(unit: String?) {
     guard let unitsStringed = unit else { return }
-    guard let units = Units.fromStringDescriptionToUnits(unitsStringed) else { return }
+    guard let units = Units.fromStringLongNameToUnits(unitsStringed) else { return }
     let isHeightUnit = Units.heightUnitsAvailable.contains(units)
     
     interactor.saveSelectedUnits(units)
@@ -52,7 +52,7 @@ extension PickerViewController: UIPickerViewDelegate, UIPickerViewDataSource {
   }
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return self.units[row].rawValue
+    return self.units[row].abbreviation()
   }
   
 }

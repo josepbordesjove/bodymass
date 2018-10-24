@@ -8,19 +8,30 @@
 
 import Foundation
 
-public enum Units: String {
-  case centimeters = "cm"
-  case inches = "in"
-  case kilograms = "kg"
-  case pounds = "lb"
+public enum Units {
+  case centimeters
+  case inches
+  case kilograms
+  case pounds
   
   public static let heightUnitsAvailable: [Units] = [.inches, .centimeters]
   public static let weighthUnitsAvailable: [Units] = [.kilograms, .pounds]
 }
 
 extension Units {
+  private struct Unit {
+    let shortName: String
+    let longName: String
+  }
+  
+  private struct Constants {
+    static let centimeters = Unit(shortName: "cm", longName: "Centimeters")
+    static let inches = Unit(shortName: "in", longName: "Inches")
+    static let kilograms = Unit(shortName: "kg", longName: "Kilograms")
+    static let pounds = Unit(shortName: "lb", longName: "Pounds")
+  }
+  
   private struct HeightConstants {
-    static let centimeterToMeter = 0.01
     static let centimeterToInches = 0.393701
   }
   
@@ -29,20 +40,11 @@ extension Units {
   }
   
   public func description() -> String {
-    switch self {
-    case .inches:
-      return "Inches"
-    case .centimeters:
-      return "Centimeters"
-    case .kilograms:
-      return "Kilograms"
-    case .pounds:
-      return "Pounds"
-    }
+    return fromUnitsToConstant().longName
   }
   
   public func abbreviation() -> String {
-    return self.rawValue
+    return fromUnitsToConstant().shortName
   }
   
   public static func convert(value: Double, to units: Units) -> Double {
@@ -58,36 +60,64 @@ extension Units {
     }
   }
   
-  public static func fromStringDescriptionToUnits(_ string: String) -> Units? {
+  public static func fromStringLongNameToUnits(_ string: String) -> Units? {
     switch string {
-    case "Inches":
+    case Constants.inches.longName:
       return Units.inches
-    case "Kilograms":
+    case Constants.kilograms.longName:
       return Units.kilograms
-    case "Pounds":
+    case Constants.pounds.longName:
       return Units.pounds
-    case "Centimeters":
+    case Constants.centimeters.longName:
       return Units.centimeters
     default:
       return nil
     }
   }
   
+  public static func fromStringShortNameToUnits(_ string: String) -> Units? {
+    switch string {
+    case Constants.inches.shortName:
+      return Units.inches
+    case Constants.kilograms.shortName:
+      return Units.kilograms
+    case Constants.pounds.shortName:
+      return Units.pounds
+    case Constants.centimeters.shortName:
+      return Units.centimeters
+    default:
+      return nil
+    }
+  }
+  
+  private func fromUnitsToConstant() -> Unit {
+    switch self {
+    case .inches:
+      return Constants.inches
+    case .centimeters:
+      return Constants.centimeters
+    case .kilograms:
+      return Constants.kilograms
+    case .pounds:
+      return Constants.pounds
+    }
+  }
+  
   public static func saveCurrentHeightUnits(_ units: Units) {
-     UserDefaults.standard.set(units.rawValue, forKey: UserDefaultKeys.heightUnits.rawValue)
+     UserDefaults.standard.set(units.abbreviation(), forKey: UserDefaultKeys.heightUnits.rawValue)
   }
   
   public static func retrieveCurrentHeightUnits() -> Units {
-    guard let unitsRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.heightUnits.rawValue)as? String else { return Units.centimeters }
-    return Units(rawValue: unitsRawValue) ?? Units.centimeters
+    guard let unitsRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.heightUnits.rawValue) as? String else { return Units.centimeters }
+    return fromStringShortNameToUnits(unitsRawValue) ?? Units.centimeters
   }
   
   public static func saveCurrentWeightUnits(_ units: Units) {
-     UserDefaults.standard.set(units.rawValue, forKey: UserDefaultKeys.weightUnits.rawValue)
+     UserDefaults.standard.set(units.abbreviation(), forKey: UserDefaultKeys.weightUnits.rawValue)
   }
   
   public static func retrieveCurrentWeightUnits() -> Units {
-    guard let unitsRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.weightUnits.rawValue)as? String else { return Units.kilograms }
-    return Units(rawValue: unitsRawValue) ?? Units.kilograms
+    guard let unitsRawValue = UserDefaults.standard.value(forKey: UserDefaultKeys.weightUnits.rawValue) as? String else { return Units.kilograms }
+     return fromStringShortNameToUnits(unitsRawValue) ?? Units.kilograms
   }
 }

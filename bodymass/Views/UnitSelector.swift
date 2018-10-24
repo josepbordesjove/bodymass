@@ -15,7 +15,7 @@ class UnitSelector: UIView {
   var currentUnits: Units? {
     didSet {
       if let units = currentUnits {
-        unitSelectorButton.setTitle("(\(units.rawValue))", for: .normal)
+        unitSelectorButton.setTitle("(\(units.abbreviation()))", for: .normal)
       }
     }
   }
@@ -34,7 +34,7 @@ class UnitSelector: UIView {
     button.translatesAutoresizingMaskIntoConstraints = false
     
     if let units = currentUnits {
-      button.setTitle("(\(units.rawValue))", for: .normal)
+      button.setTitle("(\(units.abbreviation()))", for: .normal)
     }
     
     return button
