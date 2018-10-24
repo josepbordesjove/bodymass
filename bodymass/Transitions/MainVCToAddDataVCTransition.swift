@@ -41,7 +41,7 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
   }
   
   func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-    guard let originViewController = transitionContext.viewController(forKey: .from) as? MainViewController else { return }
+    guard let fromViewController = transitionContext.viewController(forKey: .from) as? MainViewController else { return }
     guard let toViewController = transitionContext.viewController(forKey: .to) as? AddDataViewController else { return }
     
     let containerView = transitionContext.containerView
@@ -62,16 +62,16 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
       options: .beginFromCurrentState,
       animations: {
         UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1/10) {
-          self.prepare(originViewController)
+          self.prepare(fromViewController)
         }
         
         UIView.addKeyframe(withRelativeStartTime: 1/3, relativeDuration: 1/4) {
-          originViewController.reloadButton.backgroundColor = .lightGrey
-          originViewController.view.backgroundColor = UIColor.lightishBlue
+          fromViewController.reloadButton.backgroundColor = .lightGrey
+          fromViewController.view.backgroundColor = UIColor.lightishBlue
         }
         
         UIView.addKeyframe(withRelativeStartTime: 2/3, relativeDuration: 1/4) {
-          originViewController.reloadButton.transform = CGAffineTransform(scaleX: 25, y: 25)
+          fromViewController.reloadButton.transform = CGAffineTransform(scaleX: 25, y: 25)
         }
         
         UIView.addKeyframe(withRelativeStartTime: 2.3/3, relativeDuration: 4/4) {
@@ -84,7 +84,7 @@ extension MainVCToAddDataVCTransition: UIViewControllerAnimatedTransitioning {
           height: toViewController.weightSelector.weightImageBackgroundView.frame.height
         )
         
-        self.reset(originViewController)
+        self.reset(fromViewController)
         transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         
         UIView.animate(withDuration: 0.2, animations: {

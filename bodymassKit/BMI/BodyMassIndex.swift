@@ -11,8 +11,8 @@ import Foundation
 public class BodyMassIndex {
   enum EmojiStatus: String {
     case maxImproved = "🦍"
-    case improved = "🦁"
-    case equal = "🦑"
+    case improved = "🦑"
+    case equal = "🦁"
     case worsened = "🐳"
     case maxWorsened = "🦃"
   }
@@ -63,11 +63,11 @@ public class BodyMassIndex {
     
     if difference < -1 {
       return EmojiStatus.maxImproved.rawValue
-    } else if difference >= -1 && difference < 0 {
+    } else if difference >= -1 && difference < -0.5 {
       return EmojiStatus.improved.rawValue
-    } else if difference == 0 {
+    } else if difference >= -0.5 && difference < 0.5 {
       return EmojiStatus.equal.rawValue
-    } else if difference > 0 && difference < 1 {
+    } else if difference > 0.5 && difference < 1 {
       return EmojiStatus.worsened.rawValue
     } else {
       return EmojiStatus.maxWorsened.rawValue
