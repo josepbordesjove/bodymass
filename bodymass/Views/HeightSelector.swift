@@ -265,7 +265,7 @@ extension HeightSelector: UITableViewDataSource {
 
 extension HeightSelector: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UIScreen.main.bounds.height * 0.03
+    return UIScreen.main.bounds.height * 0.032
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -276,6 +276,8 @@ extension HeightSelector: UITableViewDelegate {
     
     guard let numberCell = tableView.cellForRow(at: indexPath) as? NumberCell else { return }
     numberCell.setSelectedStyle()
+    savedHeight = Double(heightRange[indexPath.row])
+    UISelectionFeedbackGenerator().selectionChanged()
     moveHeightViewTopConstraintTo(pointY: numberCell.frame.midY + heightNumbers.frame.minY, animated: true)
   }
 }
@@ -286,7 +288,7 @@ extension HeightSelector {
   class NumberCell: UITableViewCell {
     
     struct Constants {
-      static let textSize: CGFloat = UIScreen.main.bounds.width * 0.07
+      static let textSize: CGFloat = UIScreen.main.bounds.width * 0.063
     }
     
     static let identifier = "NumberCell"
