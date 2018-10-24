@@ -146,6 +146,7 @@ class HeightSelector: UIView {
   
   public func updateViews() {
     unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
+    heightNumbers.reloadData()
   }
   
   // MARK: - Gesture helper methods
@@ -296,7 +297,7 @@ extension HeightSelector {
     var assignedHeight: Int? {
       didSet {
         guard let textValue = assignedHeight else { return }
-        numberLabel.text = FormatHelper.value(textValue, ofType: .weight)
+        numberLabel.text = FormatHelper.value(textValue, ofType: .height)
       }
     }
     
