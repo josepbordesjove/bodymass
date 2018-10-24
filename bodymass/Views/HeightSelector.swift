@@ -267,6 +267,17 @@ extension HeightSelector: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return UIScreen.main.bounds.height * 0.03
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    heightNumbers.visibleCells.forEach { cell in
+      guard let numberCell = cell as? NumberCell else { return }
+      numberCell.setUnselectedStyle()
+    }
+    
+    guard let numberCell = tableView.cellForRow(at: indexPath) as? NumberCell else { return }
+    numberCell.setSelectedStyle()
+    moveHeightViewTopConstraintTo(pointY: numberCell.frame.midY + heightNumbers.frame.minY, animated: true)
+  }
 }
 
 // MARK: - Extends the class to create the default label for the heights
