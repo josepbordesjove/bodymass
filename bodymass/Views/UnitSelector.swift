@@ -20,7 +20,7 @@ class UnitSelector: UIView {
     }
   }
   
-  lazy var title = CustomLabel(fontType: .SFSemibold, size: 16, color: .dark)
+  lazy var title = CustomLabel(fontType: .SFSemibold, size: 14, color: .dark)
   lazy var separator = Separator()
   
   lazy var unitSelectorButton: CustomButton = {

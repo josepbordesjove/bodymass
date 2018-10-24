@@ -11,11 +11,21 @@ import bodymassKit
 
 class GenderSelector: UIView {
   
+  enum SwipeDirection {
+    case toLeft
+    case toRight
+    
+    static func getDirectionFor(velocity: CGPoint) -> SwipeDirection {
+      return velocity.x < 0 ? .toLeft : .toRight
+    }
+  }
+  
   weak var delegate: GenderSelectorDelegate?
   var gender: Gender {
     didSet {
       self.rotateNeddleForGender(value: gender)
       delegate?.genderChanged(value: gender)
+      UISelectionFeedbackGenerator().selectionChanged()
       updateViews()
     }
   }
@@ -35,6 +45,14 @@ class GenderSelector: UIView {
     return tapGestureRecognizer
   }()
   
+  lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+    let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGestureHandler))
+    panGesture.maximumNumberOfTouches = 1
+    panGesture.minimumNumberOfTouches = 1
+    
+    return panGesture
+  }()
+  
   init(gender: Gender) {
     self.gender = gender
     super.init(frame: CGRect())
@@ -42,7 +60,7 @@ class GenderSelector: UIView {
     setupView()
     setupConstraints()
     setupInitial()
-    addGestureRecognizer(tapGestureRecognizer)
+    [tapGestureRecognizer, panGestureRecognizer].forEach { addGestureRecognizer($0) }
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -144,14 +162,27 @@ class GenderSelector: UIView {
     
     let tappedZone = tappedPoint.x / self.frame.width
     
-    UISelectionFeedbackGenerator().selectionChanged()
-    
     if tappedZone > 0 && tappedZone <= 0.33 {
       self.gender = .female
     } else if tappedZone > 0.33 && tappedZone <= 0.66 {
       self.gender = .undefined
     } else if tappedZone > 0.66 && tappedZone <= 1 {
       self.gender = .male
+    }
+  }
+  
+  
+  @objc func panGestureHandler(sender: UIPanGestureRecognizer) {
+    if sender.state == .ended {
+      let direction = SwipeDirection.getDirectionFor(velocity: sender.velocity(in: self))
+      
+      if self.gender == .female && direction == .toRight || self.gender == .male && direction == .toLeft {
+        self.gender = .undefined
+      } else if self.gender == .undefined && direction == .toRight {
+        self.gender = .male
+      } else if self.gender == .undefined && direction == .toLeft {
+        self.gender = .female
+      }
     }
   }
   
