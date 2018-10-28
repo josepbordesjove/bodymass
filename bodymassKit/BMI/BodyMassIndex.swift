@@ -18,9 +18,9 @@ public class BodyMassIndex {
   }
   
   enum BmiStatus: String {
-    case underweight = "Underweight BMI"
-    case correct = "Correct BMI"
-    case overweight = "Overweight BMI"
+    case underweight = "Underweight"
+    case correct = "Correct"
+    case overweight = "Overweight"
   }
   
   private struct Constants {
@@ -55,6 +55,18 @@ public class BodyMassIndex {
       return BmiStatus.correct.rawValue
     } else {
       return BmiStatus.overweight.rawValue
+    }
+  }
+  
+  public static func getColorIndicatorFor(bmi: Double?) -> UIColor {
+    guard let bmi = bmi else { return .white }
+    
+    if bmi < Constants.minAllowedBMI {
+      return .underweightBlue
+    } else if bmi < Constants.maxAllowedBMI {
+      return .correctGreen
+    } else {
+      return .overweightRed
     }
   }
   

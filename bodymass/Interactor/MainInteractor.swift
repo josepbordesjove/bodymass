@@ -19,6 +19,7 @@ protocol MainInteractorType {
   func fetchUserGender() -> Gender?
   func deleteLastDataPoint(completion: @escaping ((Bool) -> Void))
   func getBmiComparison(completion: @escaping (Double?) -> Void)
+  func fetchAllDataPoints(completion: @escaping (([ManagedDataPoint]?) -> Void))
 }
 
 extension MainViewController {
@@ -27,7 +28,6 @@ extension MainViewController {
   }
   
   class Interactor: MainInteractorType {
-    
     let dataStore: DataStore
     
     init(dataStore: DataStore) {
@@ -49,6 +49,18 @@ extension MainViewController {
           })
         case .failure(let error):
           completion(nil, error)
+        }
+      }
+    }
+    
+    func fetchAllDataPoints(completion: @escaping (([ManagedDataPoint]?) -> Void)) {
+      dataStore.fetchAllDataPoint { result in
+        switch result {
+        case .success(let dataPoints):
+          completion(dataPoints)
+        case .failure(let error):
+          print(error)
+          completion(nil)
         }
       }
     }

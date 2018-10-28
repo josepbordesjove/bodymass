@@ -7,13 +7,55 @@
 //
 
 import UIKit
+import bodymassKit
 
 class MainSummary: UIView {
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  private struct Constants {
+    static let defaultBmiSummary = "--.-"
+    static let defaultbmiRecommendation = "No data available"
+    static let emojiSize = UIScreen.main.bounds.width * 0.2
+    static let bmiSize = UIScreen.main.bounds.width * 0.25
+  }
+  
+  lazy var infoEmoji = CustomLabel(text: "🦁", size: Constants.emojiSize)
+  lazy var bmiSummary = CustomLabel(fontType: .SFHeavy, size: Constants.bmiSize, color: .charcoalGrey)
+  lazy var bmiRecommendation = CustomLabel(fontType: .circularMedium, size: 17.3, color: .charcoalGrey)
+  lazy var bmiRecommendationDescription = CustomLabel(fontType: .circularMedium, size: 13.4, color: .lightPeriwinkle)
+  lazy var balanceImage = CustomImageView(image: #imageLiteral(resourceName: "balance"))
+  
+  lazy var distribuitionView: UIStackView = {
+    let stackView = UIStackView(arrangedSubviews: [infoEmoji, bmiSummary, balanceImage, bmiRecommendation, bmiRecommendationDescription])
+    stackView.axis = .vertical
+    stackView.distribution = .equalSpacing
+    stackView.alignment = .center
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return stackView
+  }()
+  
+  init(height: Double?) {
+    super.init(frame: CGRect())
+    
+    bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: height)
+    setupView()
+    setupConstraints()
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func setupView() {
+    translatesAutoresizingMaskIntoConstraints = false
+    addSubview(distribuitionView)
+  }
+  
+  func setupConstraints() {
+    NSLayoutConstraint.activate([
+      distribuitionView.topAnchor.constraint(equalTo: topAnchor, constant: 40),
+      distribuitionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
+      distribuitionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
+      distribuitionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
+      ])
   }
 }

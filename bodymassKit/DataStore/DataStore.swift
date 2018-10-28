@@ -15,6 +15,7 @@ public enum DataStoreResult<T> {
 
 public enum DataStoreError: String, Error {
   case couldNotRetrieveDataPoint = "The last data point couldn't be fetched"
+  case couldNotRetrieveAllDataPoints = "The data points couldn't be fetched"
 }
 
 public class DataStore: NSObject {
@@ -90,6 +91,18 @@ public class DataStore: NSObject {
     }
   }
   
+  public func fetchAllDataPoint(completion: @escaping ((DataStoreResult<[ManagedDataPoint]>) -> Void)) {
+    assert(self.storeIsReady)
+    
+    fetchAllDataPoints(moc: self.persistentStore.viewContext) { (managedDataPoints) in
+      if let managedDataPoints = managedDataPoints {
+        completion(.success(managedDataPoints))
+      } else {
+        completion(.failure(DataStoreError.couldNotRetrieveAllDataPoints))
+      }
+    }
+  }
+  
   public func deleteLastDataPoint(completion: @escaping ((Bool) -> Void)) {
     assert(self.storeIsReady)
     
@@ -125,19 +138,8 @@ public class DataStore: NSObject {
   }
   
   private func fetchLastDataPoint(moc: NSManagedObjectContext, completion: @escaping ((ManagedDataPoint?) -> Void)) {
-    let fetchRequest: NSFetchRequest<ManagedDataPoint> = ManagedDataPoint.fetchRequest()
-    let sortDescriptor = NSSortDescriptor(key: #keyPath(ManagedDataPoint.creationDate), ascending: true)
-    fetchRequest.sortDescriptors = [sortDescriptor]
-    
-    let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { (result) in
-      guard let managedDataPoints = result.finalResult else { return }
-      completion(managedDataPoints.last)
-    }
-    
-    do {
-      try moc.execute(asyncFetchRequest)
-    } catch (let error) {
-      print("Some error happened: \(error) ")
+    fetchAllDataPoints(moc: moc) { (managedDataPoints) in
+      completion(managedDataPoints?.last)
     }
   }
   
@@ -191,4 +193,20 @@ public class DataStore: NSObject {
     }
   }
   
+  private func fetchAllDataPoints(moc: NSManagedObjectContext, completion: @escaping (([ManagedDataPoint]?) -> Void)) {
+    let fetchRequest: NSFetchRequest<ManagedDataPoint> = ManagedDataPoint.fetchRequest()
+    let sortDescriptor = NSSortDescriptor(key: #keyPath(ManagedDataPoint.creationDate), ascending: true)
+    fetchRequest.sortDescriptors = [sortDescriptor]
+    
+    let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest) { (result) in
+      guard let managedDataPoints = result.finalResult else { return }
+      completion(managedDataPoints)
+    }
+    
+    do {
+      try moc.execute(asyncFetchRequest)
+    } catch (let error) {
+      print("Some error happened: \(error) ")
+    }
+  }
 }

@@ -14,40 +14,43 @@ class MainViewController: UIViewController {
   private struct Constants {
     static let defaultBmiSummary = "--.-"
     static let defaultbmiRecommendation = "No data available"
-    static let emojiSize = UIScreen.main.bounds.width * 0.2
-    static let bmiSize = UIScreen.main.bounds.width * 0.25
   }
   
   private var interactor: MainInteractorType
+  
   private var vm: VM? {
     didSet {
       if let bmi = BodyMassIndex.calculateBMI(weight: vm?.weight, height: vm?.height) {
         DispatchQueue.main.async {
-          self.bmiSummary.text = String(format: "%.1f", bmi)
-          self.bmiRecommendation.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi)
-          self.bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: self.vm?.height)
+          self.mainSummary.bmiSummary.text = String(format: "%.1f", bmi)
+          self.mainSummary.bmiRecommendation.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi)
+          self.mainSummary.bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: self.vm?.height)
         }
       }
     }
   }
   
-  lazy var infoEmoji: UILabel = {
-    let label = UILabel()
-    label.text = "🦁"
-    label.font = UIFont.systemFont(ofSize: Constants.emojiSize)
-    label.translatesAutoresizingMaskIntoConstraints = false
+  private var dataPoints: [ManagedDataPoint] = []
+  
+  lazy var scrollView: UIScrollView = {
+    let scrollView = UIScrollView()
+    scrollView.bounces = true
+    scrollView.alwaysBounceHorizontal = false
+    scrollView.isPagingEnabled = true
+    scrollView.showsHorizontalScrollIndicator = false
+    scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width * 2, height: scrollView.bounds.height)
+    scrollView.isScrollEnabled = false
+    scrollView.translatesAutoresizingMaskIntoConstraints = false
     
-    return label
+    return scrollView
   }()
   
   lazy var header = Header(title: "Your health")
-  lazy var bmiSummary = CustomLabel(fontType: .SFHeavy, size: Constants.bmiSize, color: .charcoalGrey)
-  lazy var bmiRecommendation = CustomLabel(fontType: .circularMedium, size: 17.3, color: .charcoalGrey)
-  lazy var bmiRecommendationDescription = CustomLabel(fontType: .circularMedium, size: 13.4, color: .lightPeriwinkle)
-  lazy var balanceImage = CustomImageView(image: #imageLiteral(resourceName: "balance"))
+  lazy var mainSummary = MainSummary(height: self.vm?.height)
+  lazy var history = History(historyDataPoints: dataPoints, gender: vm?.gender)
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
-  lazy var trashButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "trash"), size: 25)
-  lazy var shareButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "share"), size: 25)
+  lazy var trashButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "trash"), size: 35)
+  lazy var shareButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "share"), size: 35)
   
   init(interactor: MainInteractorType) {
     self.interactor = interactor
@@ -63,28 +66,27 @@ class MainViewController: UIViewController {
     
     setupView()
     setupConstraints()
+    setupScrollViewConstraints()
     setupButtonTargets()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     reloadDataPoint()
+    fetchAllDatapoints()
   }
   
   func setupButtonTargets() {
     reloadButton.addTarget(self, action: #selector(presentAddDataViewController), for: .touchUpInside)
     shareButton.addTarget(self, action: #selector(presentActivityViewController), for: .touchUpInside)
-    trashButton.addTarget(self, action: #selector(deleteLastDataPoint), for: .touchUpInside)
+    trashButton.addTarget(self, action: #selector(changeCurrentScreen), for: .touchUpInside)
   }
   
   func setupView() {
     view.insetsLayoutMarginsFromSafeArea = true
-    bmiSummary.text = Constants.defaultBmiSummary
-    bmiRecommendation.text = Constants.defaultbmiRecommendation
-    bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: vm?.height)
     
     view.backgroundColor = .lightGrey
-    [header, bmiSummary, balanceImage,bmiRecommendation, bmiRecommendationDescription, reloadButton,
-     trashButton, shareButton, infoEmoji].forEach{ view.addSubview($0) }
+    [mainSummary, history].forEach { scrollView.addSubview($0) }
+    [header, scrollView, reloadButton, trashButton, shareButton ].forEach{ view.addSubview($0) }
   }
   
   func setupConstraints() {
@@ -94,26 +96,13 @@ class MainViewController: UIViewController {
       header.rightAnchor.constraint(equalTo: view.rightAnchor),
       header.heightAnchor.constraint(equalToConstant: 60 + UIScreen.main.bounds.height * 0.095),
       
-      infoEmoji.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      infoEmoji.topAnchor.constraint(equalTo: header.bottomAnchor, constant: UIScreen.main.bounds.height * 0.03),
-      
-      bmiSummary.topAnchor.constraint(equalTo: infoEmoji.bottomAnchor),
-      bmiSummary.centerXAnchor.constraint(equalTo: header.centerXAnchor),
-      
-      balanceImage.topAnchor.constraint(equalTo: bmiSummary.bottomAnchor, constant: 10),
-      balanceImage.centerXAnchor.constraint(equalTo: bmiSummary.centerXAnchor),
-      balanceImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.90),
-      balanceImage.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
-      
-      bmiRecommendation.topAnchor.constraint(equalTo: balanceImage.bottomAnchor),
-      bmiRecommendation.centerXAnchor.constraint(equalTo: balanceImage.centerXAnchor),
-      
-      bmiRecommendationDescription.topAnchor.constraint(equalTo: bmiRecommendation.bottomAnchor, constant: 8),
-      bmiRecommendationDescription.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 40),
-      bmiRecommendationDescription.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -40),
+      scrollView.topAnchor.constraint(equalTo: header.bottomAnchor),
+      scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+      scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+      scrollView.bottomAnchor.constraint(equalTo: reloadButton.topAnchor),
       
       reloadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -14),
-      reloadButton.centerXAnchor.constraint(equalTo: bmiRecommendationDescription.centerXAnchor),
+      reloadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       
       trashButton.rightAnchor.constraint(equalTo: reloadButton.leftAnchor, constant: -60),
       trashButton.centerYAnchor.constraint(equalTo: reloadButton.centerYAnchor),
@@ -123,7 +112,37 @@ class MainViewController: UIViewController {
       ])
   }
   
+  func setupScrollViewConstraints() {
+    NSLayoutConstraint.activate([
+      mainSummary.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      mainSummary.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+      mainSummary.widthAnchor.constraint(equalTo: view.widthAnchor),
+      mainSummary.bottomAnchor.constraint(equalTo: mainSummary.bottomAnchor),
+      
+      history.leftAnchor.constraint(equalTo: mainSummary.rightAnchor),
+      history.topAnchor.constraint(equalTo: scrollView.topAnchor),
+      history.bottomAnchor.constraint(equalTo: mainSummary.bottomAnchor),
+      history.widthAnchor.constraint(equalTo: view.widthAnchor),
+      ])
+  }
+  
   //  MARK: Helper methods
+  
+  func fetchAllDatapoints() {
+    interactor.fetchAllDataPoints { (managedDataPoints) in
+      if let managedDataPoints = managedDataPoints {
+        self.history.historyDataPoints = managedDataPoints.map { History.VM(id: $0.id, weight: $0.weight, height: $0.height, gender: self.vm?.gender, date: $0.creationDate) }
+      }
+    }
+  }
+  
+  @objc func changeCurrentScreen() {
+    let newPoint = scrollView.contentOffset.x > 0 ? mainSummary.frame.minX : history.frame.minX
+    let newImage = scrollView.contentOffset.x > 0 ? #imageLiteral(resourceName: "trash") : #imageLiteral(resourceName: "back")
+      
+    trashButton.setImage(newImage, for: .normal)
+    scrollView.setContentOffset(CGPoint(x: newPoint, y: 0), animated: true)
+  }
   
   @objc func presentAddDataViewController() {
     let addDataViewController = self.interactor.addDataViewController(observer: self, weight: vm?.weight, height: vm?.height, gender: vm?.gender)
@@ -134,24 +153,13 @@ class MainViewController: UIViewController {
   
   @objc func presentActivityViewController() {
     let text = BodyMassIndex.getTextToShare(weight: vm?.weight, height: vm?.height)
-    let screenshot = infoEmoji.asImage() as Any
+    let screenshot = mainSummary.asImage() as Any
     
     let textToShare: [Any] = [ text, screenshot ]
     let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
     activityViewController.excludedActivityTypes = [ .airDrop, .postToFacebook ]
     
     self.present(activityViewController, animated: true, completion: nil)
-  }
-  
-  @objc func deleteLastDataPoint() {
-    interactor.deleteLastDataPoint { (deleted) in
-      if deleted {
-        self.showAlert(title: "Deleted", message: "Your last introduced data point has been deleted, no body will know about it")
-        self.reloadDataPoint()
-      } else {
-        self.showAlert(title: "Oooops...", message: "We were not able to delete your last data point, you can try it again later")
-      }
-    }
   }
   
   func getScreenshot() -> UIImage? {
@@ -166,15 +174,15 @@ class MainViewController: UIViewController {
   
   func reloadDataPoint() {
     interactor.getBmiComparison { difference in
-      self.infoEmoji.text = BodyMassIndex.getEmojiForBMI(difference)
+      self.mainSummary.infoEmoji.text = BodyMassIndex.getEmojiForBMI(difference)
     }
     
     interactor.fetchLastDataPoint { (vm, error) in
       if error == nil {
         self.vm = vm
       } else {
-        self.bmiSummary.text = Constants.defaultBmiSummary
-        self.bmiRecommendation.text = Constants.defaultbmiRecommendation
+        self.mainSummary.bmiSummary.text = Constants.defaultBmiSummary
+        self.mainSummary.bmiRecommendation.text = Constants.defaultbmiRecommendation
       }
     }
     
