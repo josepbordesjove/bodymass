@@ -22,7 +22,6 @@ class PacmanToggle: UIView {
     imageView.image = #imageLiteral(resourceName: "pacman")
     imageView.contentMode = .scaleAspectFit
     imageView.isUserInteractionEnabled = true
-    imageView.addGestureRecognizer(panGestureRecognizer)
     imageView.translatesAutoresizingMaskIntoConstraints = false
     
     return imageView
@@ -46,6 +45,14 @@ class PacmanToggle: UIView {
     return panGesture
   }()
   
+  lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
+    tapGestureRecognizer.numberOfTapsRequired = 1
+    tapGestureRecognizer.numberOfTouchesRequired = 1
+    
+    return tapGestureRecognizer
+  }()
+  
   lazy var pacmanHeight = pacmanView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.05)
   lazy var pacmanWidth = pacmanView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.05)
   
@@ -65,6 +72,8 @@ class PacmanToggle: UIView {
     backgroundColor = .lightishBlue
     layer.cornerRadius = 7
     translatesAutoresizingMaskIntoConstraints = false
+    
+    [tapGestureRecognizer, panGestureRecognizer].forEach { addGestureRecognizer($0) }
     [pacmanView, dotsView].forEach { addSubview($0) }
   }
   
@@ -84,8 +93,20 @@ class PacmanToggle: UIView {
   
   // MARK: - Pan gesture helper methods
   
-  @objc
-  func panGestureHandler(sender: UIPanGestureRecognizer) {
+  @objc func tapGestureHandler(sender: UITapGestureRecognizer) {
+    UISelectionFeedbackGenerator().selectionChanged()
+    
+    animateDotsOpacityToZero {
+      UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 8, initialSpringVelocity: 10, options: .beginFromCurrentState, animations: {
+        let rightTranslationLimit = self.layer.bounds.width - constants.pacmanMargin - self.pacmanView.bounds.width / 2
+        self.pacmanView.center = CGPoint(x: rightTranslationLimit, y: self.pacmanView.center.y)
+      }, completion: { _ in
+        self.delegate?.shouldDismissViewController()
+      })
+    }
+  }
+  
+  @objc func panGestureHandler(sender: UIPanGestureRecognizer) {
     let translation = sender.translation(in: pacmanView)
     let currentPositionX = pacmanView.center.x + translation.x
     let rightTranslationLimit = self.layer.bounds.width - constants.pacmanMargin - pacmanView.bounds.width / 2
@@ -125,7 +146,21 @@ class PacmanToggle: UIView {
   
   // MARK: - Animations
   
+  func animateDotsOpacityToZero(completion: @escaping (() -> Void)) {
+    animateDots = false
+    self.dotsView.arrangedSubviews.forEach { arrangedSubView in
+      UIView.animate(withDuration: 0, delay: 0, options: .curveEaseInOut, animations: {
+        arrangedSubView.alpha = 0
+      }, completion: { _ in
+        if arrangedSubView == self.dotsView.arrangedSubviews.last {
+          completion()
+        }
+      })
+    }
+  }
+  
   func animateDotsFadeInFadeOut() {
+    
     for (index, arrangedSubView) in dotsView.arrangedSubviews.enumerated() {
       UIView.animate(withDuration: 0.2, delay: 0.1 * Double(index), options: .curveEaseInOut, animations: {
         arrangedSubView.alpha = 0.1

@@ -35,7 +35,7 @@ class GenderSelector: UIView {
   lazy var genderUndefined = CustomImageView(image: #imageLiteral(resourceName: "undefined"), contentMode: .scaleAspectFit)
   lazy var genderMale = CustomImageView(image: #imageLiteral(resourceName: "male"), contentMode: .scaleAspectFit)
   lazy var genderFemale = CustomImageView(image: #imageLiteral(resourceName: "female"), contentMode: .scaleAspectFit)
-  lazy var selectionNeedle = CustomImageView(image: #imageLiteral(resourceName: "needle"), contentMode: .scaleAspectFit, anchorPoint: CGPoint(x: 0.5, y: 0.85))
+  lazy var selectionNeedle = CustomImageView(image: #imageLiteral(resourceName: "needle"), contentMode: .scaleToFill, anchorPoint: CGPoint(x: 0.5, y: 0.85))
   
   lazy var tapGestureRecognizer: UITapGestureRecognizer = {
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapGestureHandler))
@@ -124,8 +124,8 @@ class GenderSelector: UIView {
       
       selectionNeedle.centerXAnchor.constraint(equalTo: genderImageBackgroundView.centerXAnchor),
       selectionNeedle.centerYAnchor.constraint(equalTo: genderImageBackgroundView.centerYAnchor),
-      selectionNeedle.widthAnchor.constraint(equalToConstant: 16),
       selectionNeedle.heightAnchor.constraint(equalTo: genderImageBackgroundView.heightAnchor, multiplier: 0.5),
+      selectionNeedle.widthAnchor.constraint(equalTo: selectionNeedle.heightAnchor, multiplier: 0.25),
       ])
   }
   

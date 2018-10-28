@@ -10,11 +10,11 @@ import Foundation
 
 public class BodyMassIndex {
   enum EmojiStatus: String {
-    case maxImproved = "🦍"
+    case maxImproved = "🐙"
     case improved = "🦑"
     case equal = "🦁"
     case worsened = "🐳"
-    case maxWorsened = "🦃"
+    case maxWorsened = "🙊"
   }
   
   enum BmiStatus: String {

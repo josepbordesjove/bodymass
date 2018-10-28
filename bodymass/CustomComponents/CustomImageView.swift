@@ -20,7 +20,7 @@ class CustomImageView: UIImageView {
     super.init(frame: CGRect())
     
     self.layer.anchorPoint = anchorPoint
-    self.contentMode = .scaleAspectFit
+    self.contentMode = contentMode
     self.image = image
     self.translatesAutoresizingMaskIntoConstraints = false
   }

@@ -24,7 +24,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   lazy var header = Header(title: "BMI Calculator")
   lazy var genderSelector = GenderSelector(gender: vm.gender)
-  lazy var heightSelector = HeightSelector(initialHeight: vm.height)
+  lazy var heightSelector = HeightSelector(initialHeight: vm.height, gender: vm.gender)
   lazy var weightSelector = WeightSelector(initialWeight: vm.weight)
   lazy var pacmanToggle = PacmanToggle()
   lazy var summary = Summary(gender: self.vm.gender, height: self.vm.height, weight: self.vm.weight)

@@ -13,8 +13,9 @@ public enum Units {
   case inches
   case kilograms
   case pounds
+  case feets
   
-  public static let heightUnitsAvailable: [Units] = [.inches, .centimeters]
+  public static let heightUnitsAvailable: [Units] = [.feets, .centimeters]
   public static let weighthUnitsAvailable: [Units] = [.kilograms, .pounds]
 }
 
@@ -29,10 +30,12 @@ extension Units {
     static let inches = Unit(shortName: "in", longName: "Inches")
     static let kilograms = Unit(shortName: "kg", longName: "Kilograms")
     static let pounds = Unit(shortName: "lb", longName: "Pounds")
+    static let feets = Unit(shortName: "ft", longName: "Feets")
   }
   
   private struct HeightConstants {
     static let centimeterToInches = 0.393701
+    static let centimeterToFeet = 0.0328084
   }
   
   private struct WeightConstants {
@@ -57,6 +60,8 @@ extension Units {
       return value
     case .pounds:
       return value * WeightConstants.kilogramToPound
+    case .feets:
+      return value * HeightConstants.centimeterToFeet
     }
   }
   
@@ -70,6 +75,8 @@ extension Units {
       return Units.pounds
     case Constants.centimeters.longName:
       return Units.centimeters
+    case Constants.feets.longName:
+      return Units.feets
     default:
       return nil
     }
@@ -85,6 +92,8 @@ extension Units {
       return Units.pounds
     case Constants.centimeters.shortName:
       return Units.centimeters
+    case Constants.feets.shortName:
+      return Units.feets
     default:
       return nil
     }
@@ -100,6 +109,8 @@ extension Units {
       return Constants.kilograms
     case .pounds:
       return Constants.pounds
+    case .feets:
+      return Constants.feets
     }
   }
   

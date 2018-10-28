@@ -125,27 +125,25 @@ class MainViewController: UIViewController {
   
   //  MARK: Helper methods
   
-  @objc
-  func presentAddDataViewController() {
+  @objc func presentAddDataViewController() {
     let addDataViewController = self.interactor.addDataViewController(observer: self, weight: vm?.weight, height: vm?.height, gender: vm?.gender)
     addDataViewController.transitioningDelegate = self
     
     present(addDataViewController, animated: true)
   }
   
-  @objc
-  func presentActivityViewController() {
+  @objc func presentActivityViewController() {
     let text = BodyMassIndex.getTextToShare(weight: vm?.weight, height: vm?.height)
+    let screenshot = infoEmoji.asImage() as Any
     
-    let textToShare = [ text ]
+    let textToShare: [Any] = [ text, screenshot ]
     let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
     activityViewController.excludedActivityTypes = [ .airDrop, .postToFacebook ]
     
     self.present(activityViewController, animated: true, completion: nil)
   }
   
-  @objc
-  func deleteLastDataPoint() {
+  @objc func deleteLastDataPoint() {
     interactor.deleteLastDataPoint { (deleted) in
       if deleted {
         self.showAlert(title: "Deleted", message: "Your last introduced data point has been deleted, no body will know about it")
@@ -154,6 +152,16 @@ class MainViewController: UIViewController {
         self.showAlert(title: "Oooops...", message: "We were not able to delete your last data point, you can try it again later")
       }
     }
+  }
+  
+  func getScreenshot() -> UIImage? {
+    guard let keyWindow = UIApplication.shared.keyWindow else { return nil }
+    UIGraphicsBeginImageContextWithOptions(keyWindow.layer.frame.size, false, UIScreen.main.scale)
+    
+    guard let graphicsCurrentContext = UIGraphicsGetCurrentContext() else { return nil }
+    keyWindow.layer.render(in: graphicsCurrentContext)
+    
+    return UIGraphicsGetImageFromCurrentImageContext()
   }
   
   func reloadDataPoint() {

@@ -12,18 +12,23 @@ import bodymassKit
 class HeightSelector: UIView {
   
   private struct Constants {
-    static let maxSelectableHeight: Int = 195
-    static let minSelectableHeight: Int = 160
     static let stepBetweenNumbers: Int = 5
-    static let maxHeight: Int = 210
-    static let minHeight: Int = 150
+    static let maxMenHeight: Int = 205
+    static let minMenHeight: Int = 150
+    static let maxWomenHeight: Int = 190
+    static let minWomenHeight: Int = 135
   }
   
-  let heightRange: [Int] = {
-    return [Int](Constants.minHeight...Constants.maxHeight).filter { $0 % 5 == 0 }.reversed()
-  }()
-  
   weak var delegate: HeightSelectorDelegate?
+  
+  var heightRange: [Int]
+  
+  var gender: Gender {
+    didSet {
+      
+    }
+  }
+  
   var savedHeight: Double {
     didSet {
       self.realHeight.text = FormatHelper.value(savedHeight, ofType: .height)
@@ -33,13 +38,12 @@ class HeightSelector: UIView {
   
   lazy var unitSelector = UnitSelector(title: "HEIGHT", currentUnits: Units.retrieveCurrentHeightUnits(), availableUnits: Units.heightUnitsAvailable)
   lazy var bodyView = CustomImageView(image: #imageLiteral(resourceName: "body"), contentMode: .scaleAspectFit)
-  lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFill)
-  lazy var heightRoundedSelector = CustomImageView(image: #imageLiteral(resourceName: "height-selector"), contentMode: .scaleAspectFill)
+  lazy var heightLineView = CustomImageView(image: #imageLiteral(resourceName: "height-line"), contentMode: .scaleAspectFit)
+  lazy var heightRoundedSelector = CustomImageView(image: #imageLiteral(resourceName: "height-selector"), contentMode: .scaleAspectFit)
   
   lazy var heightNumbers: UITableView = {
     let tableView = UITableView()
     tableView.autoresizingMask = [UIView.AutoresizingMask.flexibleHeight, UIView.AutoresizingMask.flexibleWidth]
-    tableView.backgroundColor = .clear
     tableView.backgroundColor = .clear
     tableView.showsHorizontalScrollIndicator = false
     tableView.isScrollEnabled = false
@@ -72,8 +76,10 @@ class HeightSelector: UIView {
   
   lazy var topAnchorHeightLineView = heightLineView.centerYAnchor.constraint(equalTo: topAnchor, constant: 200)
   
-  init(initialHeight: Double) {
+  init(initialHeight: Double, gender: Gender) {
     self.savedHeight = initialHeight
+    self.gender = gender
+    self.heightRange = HeightSelector.getRangeFor(gender: gender)
     super.init(frame: CGRect())
     
     setupView()
@@ -111,10 +117,10 @@ class HeightSelector: UIView {
       heightLineView.widthAnchor.constraint(equalTo: widthAnchor),
       heightLineView.heightAnchor.constraint(equalToConstant: 10),
       
-      bodyView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+      bodyView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -UIScreen.main.bounds.height * 0.05),
       bodyView.topAnchor.constraint(equalTo: heightLineView.bottomAnchor, constant: 5),
-      bodyView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
-      bodyView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: -20),
+      bodyView.leftAnchor.constraint(equalTo: leftAnchor, constant: 5),
+      bodyView.rightAnchor.constraint(equalTo: rightAnchor, constant: -40),
       
       heightRoundedSelector.centerYAnchor.constraint(equalTo: heightLineView.centerYAnchor),
       heightRoundedSelector.leftAnchor.constraint(equalTo: leftAnchor),
@@ -124,14 +130,23 @@ class HeightSelector: UIView {
       realHeight.leftAnchor.constraint(equalTo: heightLineView.leftAnchor),
       realHeight.topAnchor.constraint(equalTo: heightRoundedSelector.bottomAnchor, constant: 5),
       
-      heightNumbers.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: UIScreen.main.bounds.width * 0.03),
+      heightNumbers.topAnchor.constraint(equalTo: unitSelector.bottomAnchor, constant: UIScreen.main.bounds.width * 0.04),
       heightNumbers.leftAnchor.constraint(equalTo: leftAnchor),
-      heightNumbers.bottomAnchor.constraint(equalTo: bottomAnchor),
+      heightNumbers.bottomAnchor.constraint(equalTo: bottomAnchor, constant: UIScreen.main.bounds.width * -0.04),
       heightNumbers.rightAnchor.constraint(equalTo: rightAnchor)
       ])
   }
   
-  func setupInitialPosition() {
+  private static func getRangeFor(gender: Gender) -> [Int] {
+    switch gender {
+    case .male, .undefined:
+      return [Int](Constants.minMenHeight...Constants.maxMenHeight).filter { $0 % Constants.stepBetweenNumbers == 0 }.reversed()
+    case .female:
+      return [Int](Constants.minWomenHeight...Constants.maxWomenHeight).filter { $0 % Constants.stepBetweenNumbers == 0 }.reversed()
+    }
+  }
+  
+  public func setupInitialPosition() {
     heightNumbers.visibleCells.forEach { cell in
       guard let numberCell = cell as? NumberCell else { return }
       guard let assignedHeight = numberCell.assignedHeight else { return }
@@ -165,7 +180,7 @@ class HeightSelector: UIView {
     guard let minY = heightNumbers.visibleCells.first?.frame.minY else { return }
     guard let maxY = heightNumbers.visibleCells.last?.frame.maxY else { return }
     
-    if relativePositionY <= minY || relativePositionY >= maxY {
+    if relativePositionY <= minY || relativePositionY >= (maxY - self.frame.height * 0.2) {
       return
     }
     
@@ -207,11 +222,6 @@ class HeightSelector: UIView {
     }
     
     moveHeightViewTopConstraintTo(pointY: pointY, animated: animated)
-  }
-  
-  private func isPointInsideHeightsRange(pointY: CGFloat, frame: CGRect) -> Bool {
-    let tolerance: CGFloat = pointY == CGFloat(savedHeight) ? 2 : 5
-    return frame.maxY + tolerance > pointY && frame.minY - tolerance < pointY
   }
   
   // MARK: - Animation methods
@@ -266,7 +276,7 @@ extension HeightSelector: UITableViewDataSource {
 
 extension HeightSelector: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return UIScreen.main.bounds.height * 0.032
+    return (self.frame.height - UIScreen.main.bounds.width * 0.08) / CGFloat(heightRange.count + 1)
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -289,7 +299,7 @@ extension HeightSelector {
   class NumberCell: UITableViewCell {
     
     struct Constants {
-      static let textSize: CGFloat = UIScreen.main.bounds.width * 0.063
+      static let textSize: CGFloat = UIScreen.main.bounds.width * 0.055
     }
     
     static let identifier = "NumberCell"
@@ -327,7 +337,7 @@ extension HeightSelector {
     
     private func setupCellConstraints() {
       NSLayoutConstraint.activate([
-        numberLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -5),
+        numberLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: 0),
         numberLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
