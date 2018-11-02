@@ -117,7 +117,7 @@ class MainViewController: UIViewController {
       mainSummary.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
       mainSummary.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
       mainSummary.widthAnchor.constraint(equalTo: view.widthAnchor),
-      mainSummary.bottomAnchor.constraint(equalTo: mainSummary.bottomAnchor),
+      mainSummary.bottomAnchor.constraint(equalTo: reloadButton.topAnchor, constant: -20),
       
       history.leftAnchor.constraint(equalTo: mainSummary.rightAnchor),
       history.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -201,6 +201,7 @@ extension MainViewController: UIViewControllerTransitioningDelegate {
 extension MainViewController: DataPointObserver {
   func didCreateDataPoint() {
     self.reloadDataPoint()
+    self.fetchAllDatapoints()
   }
 }
 

@@ -26,8 +26,8 @@ class MainSummary: UIView {
   lazy var distribuitionView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [infoEmoji, bmiSummary, balanceImage, bmiRecommendation, bmiRecommendationDescription])
     stackView.axis = .vertical
-    stackView.distribution = .equalSpacing
-    stackView.alignment = .center
+    stackView.distribution = .equalCentering
+    stackView.alignment = .fill
     stackView.translatesAutoresizingMaskIntoConstraints = false
     
     return stackView

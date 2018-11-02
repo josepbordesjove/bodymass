@@ -45,6 +45,7 @@ class History: UIView {
   }
   
   func setupView() {
+    backgroundColor = .lightGrey
     translatesAutoresizingMaskIntoConstraints = false
     [historyDataPointsTable].forEach { addSubview($0) }
   }
@@ -76,12 +77,7 @@ extension History: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: HistoryCell.identifier, for: indexPath) as? HistoryCell else { return UITableViewCell() }
-    let dataPoint = historyDataPoints[indexPath.row]
-    guard let bmi = BodyMassIndex.calculateBMI(weight: dataPoint.weight, height: dataPoint.height) else { return cell }
-    
-    cell.descriptionLabel.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi).uppercased()
-    cell.bmiSummary.text = String(format: "%.1f", bmi)
-    cell.statusIndicatorView.backgroundColor = BodyMassIndex.getColorIndicatorFor(bmi: bmi)
+    cell.vm = historyDataPoints[indexPath.row]
     
     return cell
   }  
@@ -90,74 +86,5 @@ extension History: UITableViewDataSource {
 extension History: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 120
-  }
-}
-
-class HistoryCell: UITableViewCell {
-  static let identifier = "HistoryCell"
-  
-  lazy var descriptionLabel = CustomLabel(fontType: .SFBold, size: 16, color: .lightPeriwinkle)
-  lazy var bmiSummary = CustomLabel(fontType: .SFHeavy, size: 40, color: .charcoalGrey)
-  
-  lazy var backgroundCard: UIView = {
-    let view = UIView()
-    view.layer.shadowColor = UIColor.black.cgColor
-    view.layer.shadowOpacity = 0.1
-    view.layer.shadowOffset = CGSize.zero
-    view.layer.shadowRadius = 5
-    view.layer.cornerRadius = 8
-    view.backgroundColor = .white
-    view.clipsToBounds = true
-    view.translatesAutoresizingMaskIntoConstraints = false
-    
-    return view
-  }()
-  
-  lazy var statusIndicatorView: UIView = {
-    let view = UIView()
-    view.backgroundColor = .overweightRed
-    view.clipsToBounds = true
-    view.layer.cornerRadius = 8
-    view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
-    view.translatesAutoresizingMaskIntoConstraints = false
-    
-    return view
-  }()
-  
-  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-    super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
-    setupCell()
-    setupCellConstraints()
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  private func setupCell() {
-    selectionStyle = .none
-    backgroundColor = .clear
-    [backgroundCard, statusIndicatorView, bmiSummary, descriptionLabel].forEach { addSubview($0) }
-  }
-  
-  private func setupCellConstraints() {
-    NSLayoutConstraint.activate([
-      backgroundCard.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
-      backgroundCard.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
-      backgroundCard.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-      backgroundCard.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-      
-      statusIndicatorView.leftAnchor.constraint(equalTo: backgroundCard.leftAnchor),
-      statusIndicatorView.topAnchor.constraint(equalTo: backgroundCard.topAnchor),
-      statusIndicatorView.bottomAnchor.constraint(equalTo: backgroundCard.bottomAnchor),
-      statusIndicatorView.widthAnchor.constraint(equalToConstant: 20),
-      
-      bmiSummary.centerYAnchor.constraint(equalTo: statusIndicatorView.centerYAnchor),
-      bmiSummary.leftAnchor.constraint(equalTo: statusIndicatorView.rightAnchor, constant: 10),
-      
-      descriptionLabel.leftAnchor.constraint(equalTo: bmiSummary.rightAnchor, constant: 20),
-      descriptionLabel.topAnchor.constraint(equalTo: bmiSummary.topAnchor),
-      ])
   }
 }

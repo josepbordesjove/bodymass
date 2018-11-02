@@ -11,5 +11,16 @@ import Foundation
 public enum Gender: String {
   case male = "male"
   case female = "female"
-  case undefined = "undefined"
+  case undefined = "gender neutrality"
+}
+
+public extension Gender {
+  public func shortDescription() -> String {
+    switch self {
+    case .female, .male:
+      return String(self.rawValue.capitalized(with: Locale.current).first!)
+    case .undefined:
+      return "GN"
+    }
+  }
 }

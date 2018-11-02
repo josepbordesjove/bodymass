@@ -96,7 +96,8 @@ public class DataStore: NSObject {
     
     fetchAllDataPoints(moc: self.persistentStore.viewContext) { (managedDataPoints) in
       if let managedDataPoints = managedDataPoints {
-        completion(.success(managedDataPoints))
+        completion(.success(managedDataPoints.reversed()
+          ))
       } else {
         completion(.failure(DataStoreError.couldNotRetrieveAllDataPoints))
       }

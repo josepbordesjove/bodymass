@@ -23,6 +23,9 @@
 		FF3EB69F214E9B6F00F0FD04 /* AddDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3EB69E214E9B6F00F0FD04 /* AddDataInteractor.swift */; };
 		FF598FF4212340BE0022F931 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF598FF3212340BE0022F931 /* CustomButton.swift */; };
 		FF6C6FE6218678870045767D /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9EA6F621248FAB002E617E /* UIColor+.swift */; };
+		FF6C6FE82187B68C0045767D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FE72187B68C0045767D /* Date+.swift */; };
+		FF6C6FEB218C55060045767D /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEA218C55060045767D /* HistoryCell.swift */; };
+		FF6C6FED218C56620045767D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEC218C56620045767D /* InfoView.swift */; };
 		FF72E2AB216FB31C001273A4 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2AA216FB31C001273A4 /* Header.swift */; };
 		FF72E2AE2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF72E2AC2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf */; };
 		FF72E2AF2170C0D0001273A4 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF72E2AD2170C0D0001273A4 /* SF-Pro-Text-Bold.otf */; };
@@ -112,6 +115,9 @@
 		FF3EB69C214E9B5D00F0FD04 /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
 		FF3EB69E214E9B6F00F0FD04 /* AddDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDataInteractor.swift; sourceTree = "<group>"; };
 		FF598FF3212340BE0022F931 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		FF6C6FE72187B68C0045767D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		FF6C6FEA218C55060045767D /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
+		FF6C6FEC218C56620045767D /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		FF72E2AA216FB31C001273A4 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		FF72E2AC2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Heavy.otf"; sourceTree = "<group>"; };
 		FF72E2AD2170C0D0001273A4 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
@@ -214,6 +220,7 @@
 				FF3C82BF211706C400BC693A /* AppDelegate.swift */,
 				FFFBDC062118D3B600AE0493 /* ViewControllers */,
 				FF9EA6F8212490FE002E617E /* Views */,
+				FF6C6FE9218C542D0045767D /* Cells */,
 				FF3EB69B214E9ADF00F0FD04 /* Interactor */,
 				FF598FEF212331790022F931 /* CustomComponents */,
 				FF9EA704212B66EA002E617E /* Transitions */,
@@ -242,6 +249,7 @@
 			children = (
 				FF9EA6F621248FAB002E617E /* UIColor+.swift */,
 				FF3EB697214E721C00F0FD04 /* CoreData+.swift */,
+				FF6C6FE72187B68C0045767D /* Date+.swift */,
 			);
 			path = Library;
 			sourceTree = "<group>";
@@ -264,6 +272,14 @@
 				FF96B4422157AB810032805D /* CustomImageView.swift */,
 			);
 			path = CustomComponents;
+			sourceTree = "<group>";
+		};
+		FF6C6FE9218C542D0045767D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				FF6C6FEA218C55060045767D /* HistoryCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		FF72E2C2217505CE001273A4 /* Units */ = {
@@ -343,6 +359,7 @@
 				FF72E2B62170FA91001273A4 /* Summary.swift */,
 				FF72E2B821713BB3001273A4 /* UnitSelector.swift */,
 				FF72E2C62175238A001273A4 /* Separator.swift */,
+				FF6C6FEC218C56620045767D /* InfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -566,6 +583,7 @@
 				FF96B43E2156CD5C0032805D /* UIViewController+.swift in Sources */,
 				FF72E2C72175238A001273A4 /* Separator.swift in Sources */,
 				FF96B43A2156BA770032805D /* CustomLabel.swift in Sources */,
+				FF6C6FEB218C55060045767D /* HistoryCell.swift in Sources */,
 				FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */,
 				FF9EA6F42124474A002E617E /* AddDataViewController.swift in Sources */,
 				FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */,
@@ -576,6 +594,7 @@
 				FF72E2B72170FA91001273A4 /* Summary.swift in Sources */,
 				FF72E2BD2174FE20001273A4 /* PickerViewCotroller.swift in Sources */,
 				FF9EA7032129DE4D002E617E /* PacmanToggleDelegate.swift in Sources */,
+				FF6C6FED218C56620045767D /* InfoView.swift in Sources */,
 				FF3C82C2211706C400BC693A /* MainViewController.swift in Sources */,
 				FF9EA6FC2124912C002E617E /* HeightSelector.swift in Sources */,
 				FF949B562135BA0500C00D1A /* UIImageView+.swift in Sources */,
@@ -598,6 +617,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF6C6FE82187B68C0045767D /* Date+.swift in Sources */,
 				FF96B433215415FB0032805D /* UserDefaultKeys.swift in Sources */,
 				FF96B431215415AB0032805D /* Gender.swift in Sources */,
 				FF96B4412157A42A0032805D /* BodyMassIndex.swift in Sources */,

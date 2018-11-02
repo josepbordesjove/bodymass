@@ -19,7 +19,7 @@ public class BodyMassIndex {
   
   enum BmiStatus: String {
     case underweight = "Underweight"
-    case correct = "Correct"
+    case correct = "Normal"
     case overweight = "Overweight"
   }
   
