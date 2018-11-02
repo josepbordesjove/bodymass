@@ -41,18 +41,3 @@ class PickerViewController: UIAlertController {
     delegate?.unitsChanged(ofType: isHeightUnit ? .height : .weight)
   }
 }
-
-extension PickerViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return self.units.count
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return self.units[row].abbreviation()
-  }
-  
-}

@@ -20,6 +20,7 @@ protocol MainInteractorType {
   func deleteLastDataPoint(completion: @escaping ((Bool) -> Void))
   func getBmiComparison(completion: @escaping (Double?) -> Void)
   func fetchAllDataPoints(completion: @escaping (([ManagedDataPoint]?) -> Void))
+  func getTitle() -> String
 }
 
 extension MainViewController {
@@ -85,6 +86,13 @@ extension MainViewController {
       dataStore.getBmiComparison { comparison in
         completion(comparison)
       }
+    }
+    
+    func getTitle() -> String {
+      let defaultTitle = "Your health"
+      guard let name = UserDefaults.standard.value(forKey: UserDefaultKeys.name.rawValue)as? String else { return defaultTitle }
+      
+      return "Hello \(name)"
     }
     
     private func unwrapManagedDataPoint(_ managedDataPoint: ManagedDataPoint?) -> (MainViewController.VM?, Error?) {

@@ -46,7 +46,7 @@ class MainViewController: UIViewController {
     return scrollView
   }()
   
-  lazy var header = Header(title: "Your health")
+  lazy var header = Header(title: interactor.getTitle())
   lazy var mainSummary = MainSummary()
   lazy var history = History(historyDataPoints: dataPoints, gender: vm?.gender)
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
@@ -78,7 +78,7 @@ class MainViewController: UIViewController {
   
   func setupButtonTargets() {
     reloadButton.addTarget(self, action: #selector(presentAddDataViewController), for: .touchUpInside)
-    shareButton.addTarget(self, action: #selector(presentActivityViewController), for: .touchUpInside)
+    shareButton.addTarget(self, action: #selector(presentSettingsViewController), for: .touchUpInside)
     trashButton.addTarget(self, action: #selector(changeCurrentScreen), for: .touchUpInside)
   }
   
@@ -152,15 +152,12 @@ class MainViewController: UIViewController {
     present(addDataViewController, animated: true)
   }
   
-  @objc func presentActivityViewController() {
-    let text = BodyMassIndex.getTextToShare(weight: vm?.weight, height: vm?.height)
-    let screenshot = mainSummary.asImage() as Any
+  @objc func presentSettingsViewController() {
+    guard let height = vm?.height else { return }
+    guard let weight = vm?.weight else { return }
     
-    let textToShare: [Any] = [ text, screenshot ]
-    let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-    activityViewController.excludedActivityTypes = [ .airDrop, .postToFacebook ]
-    
-    self.present(activityViewController, animated: true, completion: nil)
+    let settingsViewController = SettingsViewController(height: height, weight: weight, shareImageView: mainSummary.asImage(), observer: self)
+    self.present(settingsViewController, animated: true, completion: nil)
   }
   
   func getScreenshot() -> UIImage? {
@@ -203,6 +200,12 @@ extension MainViewController: DataPointObserver {
   func didCreateDataPoint() {
     self.reloadDataPoint()
     self.fetchAllDatapoints()
+  }
+}
+
+extension MainViewController: UserNameObserver {
+  func didChangeUserName() {
+    header.pageTitle.text = interactor.getTitle()
   }
 }
 

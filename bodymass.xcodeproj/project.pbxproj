@@ -27,6 +27,8 @@
 		FF6C6FEB218C55060045767D /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEA218C55060045767D /* HistoryCell.swift */; };
 		FF6C6FED218C56620045767D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEC218C56620045767D /* InfoView.swift */; };
 		FF6C6FEF218C74B90045767D /* BMIVisualIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEE218C74B90045767D /* BMIVisualIndicator.swift */; };
+		FF6C6FF1218CBBBB0045767D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FF0218CBBBB0045767D /* SettingsViewController.swift */; };
+		FF6C7014218CC9510045767D /* SettingsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C7013218CC9510045767D /* SettingsInteractor.swift */; };
 		FF72E2AB216FB31C001273A4 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2AA216FB31C001273A4 /* Header.swift */; };
 		FF72E2AE2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF72E2AC2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf */; };
 		FF72E2AF2170C0D0001273A4 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF72E2AD2170C0D0001273A4 /* SF-Pro-Text-Bold.otf */; };
@@ -120,6 +122,8 @@
 		FF6C6FEA218C55060045767D /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		FF6C6FEC218C56620045767D /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		FF6C6FEE218C74B90045767D /* BMIVisualIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMIVisualIndicator.swift; sourceTree = "<group>"; };
+		FF6C6FF0218CBBBB0045767D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		FF6C7013218CC9510045767D /* SettingsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInteractor.swift; sourceTree = "<group>"; };
 		FF72E2AA216FB31C001273A4 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		FF72E2AC2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Heavy.otf"; sourceTree = "<group>"; };
 		FF72E2AD2170C0D0001273A4 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
@@ -262,6 +266,7 @@
 				FF3EB69C214E9B5D00F0FD04 /* MainInteractor.swift */,
 				FF3EB69E214E9B6F00F0FD04 /* AddDataInteractor.swift */,
 				FF72E2C0217505B3001273A4 /* PickerViewInteractor.swift */,
+				FF6C7013218CC9510045767D /* SettingsInteractor.swift */,
 			);
 			path = Interactor;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				FF3C82C1211706C400BC693A /* MainViewController.swift */,
 				FF9EA6F32124474A002E617E /* AddDataViewController.swift */,
 				FF72E2BC2174FE20001273A4 /* PickerViewCotroller.swift */,
+				FF6C6FF0218CBBBB0045767D /* SettingsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -584,6 +590,7 @@
 				FF9EA706212B67E0002E617E /* MainVCToAddDataVCTransition.swift in Sources */,
 				FF9EA6FE21249141002E617E /* WeightSelector.swift in Sources */,
 				FF96B43E2156CD5C0032805D /* UIViewController+.swift in Sources */,
+				FF6C7014218CC9510045767D /* SettingsInteractor.swift in Sources */,
 				FF72E2C72175238A001273A4 /* Separator.swift in Sources */,
 				FF96B43A2156BA770032805D /* CustomLabel.swift in Sources */,
 				FF6C6FEB218C55060045767D /* HistoryCell.swift in Sources */,
@@ -610,6 +617,7 @@
 				FF72E2C1217505B3001273A4 /* PickerViewInteractor.swift in Sources */,
 				FF3C82C0211706C400BC693A /* AppDelegate.swift in Sources */,
 				FF2BC95A2185AFE30079BB3B /* UIView+.swift in Sources */,
+				FF6C6FF1218CBBBB0045767D /* SettingsViewController.swift in Sources */,
 				FF9EA6FA21249121002E617E /* GenderSelector.swift in Sources */,
 				FF3EB69D214E9B5D00F0FD04 /* MainInteractor.swift in Sources */,
 				FF72E2B921713BB3001273A4 /* UnitSelector.swift in Sources */,
