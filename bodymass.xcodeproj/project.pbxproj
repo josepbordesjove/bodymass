@@ -26,6 +26,7 @@
 		FF6C6FE82187B68C0045767D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FE72187B68C0045767D /* Date+.swift */; };
 		FF6C6FEB218C55060045767D /* HistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEA218C55060045767D /* HistoryCell.swift */; };
 		FF6C6FED218C56620045767D /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEC218C56620045767D /* InfoView.swift */; };
+		FF6C6FEF218C74B90045767D /* BMIVisualIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6C6FEE218C74B90045767D /* BMIVisualIndicator.swift */; };
 		FF72E2AB216FB31C001273A4 /* Header.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF72E2AA216FB31C001273A4 /* Header.swift */; };
 		FF72E2AE2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF72E2AC2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf */; };
 		FF72E2AF2170C0D0001273A4 /* SF-Pro-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF72E2AD2170C0D0001273A4 /* SF-Pro-Text-Bold.otf */; };
@@ -118,6 +119,7 @@
 		FF6C6FE72187B68C0045767D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		FF6C6FEA218C55060045767D /* HistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCell.swift; sourceTree = "<group>"; };
 		FF6C6FEC218C56620045767D /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		FF6C6FEE218C74B90045767D /* BMIVisualIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BMIVisualIndicator.swift; sourceTree = "<group>"; };
 		FF72E2AA216FB31C001273A4 /* Header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header.swift; sourceTree = "<group>"; };
 		FF72E2AC2170C0D0001273A4 /* SF-Pro-Text-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Heavy.otf"; sourceTree = "<group>"; };
 		FF72E2AD2170C0D0001273A4 /* SF-Pro-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Text-Bold.otf"; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				FF72E2B821713BB3001273A4 /* UnitSelector.swift */,
 				FF72E2C62175238A001273A4 /* Separator.swift */,
 				FF6C6FEC218C56620045767D /* InfoView.swift */,
+				FF6C6FEE218C74B90045767D /* BMIVisualIndicator.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				FF72E2C72175238A001273A4 /* Separator.swift in Sources */,
 				FF96B43A2156BA770032805D /* CustomLabel.swift in Sources */,
 				FF6C6FEB218C55060045767D /* HistoryCell.swift in Sources */,
+				FF6C6FEF218C74B90045767D /* BMIVisualIndicator.swift in Sources */,
 				FF757BF8212DE75500E81D50 /* AddDataVCToMainVCTransition.swift in Sources */,
 				FF9EA6F42124474A002E617E /* AddDataViewController.swift in Sources */,
 				FF949B582137351C00C00D1A /* GenderSelectorDelegate.swift in Sources */,

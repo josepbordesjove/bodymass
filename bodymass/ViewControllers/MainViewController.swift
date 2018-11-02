@@ -25,6 +25,7 @@ class MainViewController: UIViewController {
           self.mainSummary.bmiSummary.text = String(format: "%.1f", bmi)
           self.mainSummary.bmiRecommendation.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi)
           self.mainSummary.bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: self.vm?.height)
+          self.mainSummary.bmiVisualIndicator.updateIndicatorViewConstraint(bmi: bmi)
         }
       }
     }
@@ -46,7 +47,7 @@ class MainViewController: UIViewController {
   }()
   
   lazy var header = Header(title: "Your health")
-  lazy var mainSummary = MainSummary(height: self.vm?.height)
+  lazy var mainSummary = MainSummary(height: self.vm?.height, weight: self.vm?.weight)
   lazy var history = History(historyDataPoints: dataPoints, gender: vm?.gender)
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
   lazy var trashButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "trash"), size: 35)
