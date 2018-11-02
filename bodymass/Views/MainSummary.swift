@@ -17,15 +17,12 @@ class MainSummary: UIView {
     static let bmiSize = UIScreen.main.bounds.width * 0.22
   }
   
-  private let height: Double?
-  private let weight: Double?
-  
   lazy var infoEmoji = CustomLabel(text: "🦁", size: Constants.emojiSize)
   lazy var bmiSummary = CustomLabel(fontType: .SFHeavy, size: Constants.bmiSize, color: .charcoalGrey)
   lazy var bmiRecommendation = CustomLabel(fontType: .circularMedium, size: 17.3, color: .charcoalGrey)
   lazy var bmiRecommendationDescription = CustomLabel(fontType: .circularMedium, size: 13.4, color: .lightPeriwinkle)
   lazy var balanceImage = CustomImageView(image: #imageLiteral(resourceName: "balance"))
-  lazy var bmiVisualIndicator = BMIVisualIndicator(bmi: BodyMassIndex.calculateBMI(weight: self.weight, height: self.height))
+  lazy var bmiVisualIndicator = BMIVisualIndicator()
   
   lazy var distribuitionView: UIStackView = {
     let stackView = UIStackView(arrangedSubviews: [infoEmoji, bmiSummary, balanceImage, bmiRecommendation, bmiVisualIndicator, bmiRecommendationDescription])
@@ -37,12 +34,8 @@ class MainSummary: UIView {
     return stackView
   }()
   
-  init(height: Double?, weight: Double?) {
-    self.height = height
-    self.weight = weight
-    super.init(frame: CGRect())
-    
-    bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: height)
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     setupView()
     setupConstraints()
   }
@@ -58,6 +51,8 @@ class MainSummary: UIView {
   
   func setupConstraints() {
     NSLayoutConstraint.activate([
+      bmiSummary.heightAnchor.constraint(equalToConstant: 80),
+      
       distribuitionView.topAnchor.constraint(equalTo: topAnchor, constant: 40),
       distribuitionView.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
       distribuitionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),

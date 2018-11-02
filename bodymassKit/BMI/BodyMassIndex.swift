@@ -23,9 +23,9 @@ public class BodyMassIndex {
     case overweight = "Overweight"
   }
   
-  private struct Constants {
-    static let minAllowedBMI = 18.5
-    static let maxAllowedBMI = 24.9
+  public struct Constants {
+    public static let minAllowedBMI = 18.5
+    public static let maxAllowedBMI = 24.9
   }
   
   public static func getEmojiForBmiChange(newBmi: Double, oldBmi: Double) -> String {

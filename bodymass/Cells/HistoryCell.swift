@@ -103,6 +103,8 @@ class HistoryCell: UITableViewCell {
       dateLabel.rightAnchor.constraint(equalTo: backgroundCard.rightAnchor, constant: -15),
       dateLabel.topAnchor.constraint(equalTo: descriptionLabel.topAnchor),
       
+      bmiSummary.widthAnchor.constraint(equalToConstant: 100),
+      
       distribuitionView.leftAnchor.constraint(equalTo: descriptionLabel.leftAnchor),
       distribuitionView.rightAnchor.constraint(equalTo: backgroundCard.rightAnchor),
       distribuitionView.bottomAnchor.constraint(equalTo: backgroundCard.bottomAnchor, constant: -30),

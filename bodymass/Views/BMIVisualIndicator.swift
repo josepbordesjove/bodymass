@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import bodymassKit
 
 class BMIVisualIndicator: UIView {
   
   private struct Constants {
-    static let minValueIndicator: Double = 10
-    static let maxValueIndicator: Double = 40
+    static let allowedValuesRange = BodyMassIndex.Constants.maxAllowedBMI - BodyMassIndex.Constants.minAllowedBMI
+    static let minAllowed = BodyMassIndex.Constants.minAllowedBMI - Constants.allowedValuesRange
+    static let maxAllowed = BodyMassIndex.Constants.maxAllowedBMI + Constants.allowedValuesRange
   }
   
   lazy var underweightView: UIView = {
@@ -50,8 +52,8 @@ class BMIVisualIndicator: UIView {
   
   lazy var indicatorLeftAnchor = indicatorView.leftAnchor.constraint(equalTo: leftAnchor)
   
-  init(bmi: Double?) {
-    super.init(frame: CGRect())
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     
     setupView()
     setupConstraints()
@@ -92,9 +94,18 @@ class BMIVisualIndicator: UIView {
   }
   
   public func updateIndicatorViewConstraint(bmi: Double) {
-    let indicatorPercentageOffset = (bmi - Constants.minValueIndicator) / (Constants.maxValueIndicator - Constants.minValueIndicator)
-    let indicatorOffset: CGFloat = (UIScreen.main.bounds.width - 40) * CGFloat(indicatorPercentageOffset)
+    let indicatorPercentageOffset: CGFloat = CGFloat((bmi - Constants.minAllowed) / (Constants.maxAllowed - Constants.minAllowed))
+    let barSize = UIScreen.main.bounds.width - 40
+    var indicatorOffset = barSize * indicatorPercentageOffset
     
-    indicatorLeftAnchor.constant = indicatorOffset
+    if bmi < BodyMassIndex.Constants.minAllowedBMI - Constants.allowedValuesRange {
+      indicatorOffset = 0
+    } else if bmi > BodyMassIndex.Constants.maxAllowedBMI + Constants.allowedValuesRange {
+      indicatorOffset = barSize - 4
+    }
+    
+    UIView.animate(withDuration: 1) {
+      self.indicatorLeftAnchor.constant = indicatorOffset
+    }
   }
 }

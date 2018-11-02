@@ -47,7 +47,7 @@ class MainViewController: UIViewController {
   }()
   
   lazy var header = Header(title: "Your health")
-  lazy var mainSummary = MainSummary(height: self.vm?.height, weight: self.vm?.weight)
+  lazy var mainSummary = MainSummary()
   lazy var history = History(historyDataPoints: dataPoints, gender: vm?.gender)
   lazy var reloadButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "update"), size: 49)
   lazy var trashButton: CustomButton = CustomButton(image: #imageLiteral(resourceName: "trash"), size: 35)
@@ -115,7 +115,7 @@ class MainViewController: UIViewController {
   
   func setupScrollViewConstraints() {
     NSLayoutConstraint.activate([
-      mainSummary.topAnchor.constraint(equalTo: scrollView.bottomAnchor),
+      mainSummary.topAnchor.constraint(equalTo: header.bottomAnchor),
       mainSummary.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
       mainSummary.widthAnchor.constraint(equalTo: view.widthAnchor),
       mainSummary.bottomAnchor.constraint(equalTo: reloadButton.topAnchor, constant: -20),
