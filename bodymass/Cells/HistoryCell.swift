@@ -28,7 +28,6 @@ class HistoryCell: UITableViewCell {
   lazy var dateLabel = CustomLabel(fontType: .SFBold, size: Constants.textSize, color: .blueGrey)
   lazy var weightDescriptor = InfoView(size: Constants.textSize, description: "W:")
   lazy var heightDescriptor = InfoView(size: Constants.textSize, description: "H:")
-  lazy var genderDescriptor = InfoView(size: Constants.textSize, description: "G:")
   
   lazy var backgroundCard: UIView = {
     let view = UIView()
@@ -56,7 +55,7 @@ class HistoryCell: UITableViewCell {
   }()
   
   lazy var distribuitionView: UIStackView = {
-    let stackView = UIStackView(arrangedSubviews: [weightDescriptor, heightDescriptor, genderDescriptor])
+    let stackView = UIStackView(arrangedSubviews: [weightDescriptor, heightDescriptor])
     stackView.axis = .horizontal
     stackView.distribution = .fillEqually
     stackView.alignment = .firstBaseline
@@ -113,7 +112,6 @@ class HistoryCell: UITableViewCell {
     guard let vm = vm else { return }
     guard let height = vm.height else { return }
     guard let weight = vm.weight else { return }
-    guard let gender = vm.gender else { return }
     guard let date = vm.date else { return }
     guard let bmi = BodyMassIndex.calculateBMI(weight: weight, height: height) else { return }
     
@@ -122,8 +120,7 @@ class HistoryCell: UITableViewCell {
     statusIndicatorView.backgroundColor = BodyMassIndex.getColorIndicatorFor(bmi: bmi)
     dateLabel.text = date.toString()
     weightDescriptor.valueLabel.text = FormatHelper.value(weight, ofType: .weight, appendDescription: true)
-    heightDescriptor.valueLabel.text = FormatHelper.value(height, ofType: .height)
-    genderDescriptor.valueLabel.text = gender.shortDescription()
+    heightDescriptor.valueLabel.text = FormatHelper.value(height, ofType: .height, appendDescription: true)
     
     layoutIfNeeded()
   }
