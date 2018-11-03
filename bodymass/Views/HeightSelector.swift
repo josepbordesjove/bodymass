@@ -146,19 +146,6 @@ class HeightSelector: UIView {
     }
   }
   
-  public func setupInitialPosition() {
-    heightNumbers.visibleCells.forEach { cell in
-      guard let numberCell = cell as? NumberCell else { return }
-      guard let assignedHeight = numberCell.assignedHeight else { return }
-      
-      if Double(assignedHeight) <= savedHeight && Double(assignedHeight) + Double(Constants.stepBetweenNumbers) > savedHeight {
-        moveHeightViewTopConstraintTo(pointY: numberCell.frame.midY + heightNumbers.frame.minY, animated: true)
-        numberCell.setSelectedStyle()
-        return
-      }
-    }
-  }
-  
   public func updateViews() {
     unitSelector.currentUnits = Units.retrieveCurrentHeightUnits()
     heightNumbers.reloadData()
@@ -271,6 +258,7 @@ extension HeightSelector: UITableViewDataSource {
     
     if Double(assignedHeight) <= savedHeight && Double(assignedHeight) + Double(Constants.stepBetweenNumbers) > savedHeight {
       cell.setSelectedStyle()
+      moveHeightViewTopConstraintTo(pointY: cell.frame.midY + heightNumbers.frame.minY, animated: false)
     }
     
     return cell

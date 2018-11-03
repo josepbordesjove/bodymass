@@ -69,9 +69,7 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     
     UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 30, options: .curveEaseIn, animations: {
       self.genderSelector.transform = CGAffineTransform(translationX: 0, y: 0)
-    }, completion: { (_) in
-      self.heightSelector.setupInitialPosition()
-    })
+    }, completion: nil)
   }
   
   private func setupView() {
