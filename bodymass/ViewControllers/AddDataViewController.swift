@@ -148,6 +148,7 @@ extension AddDataViewController: GenderSelectorDelegate {
   func genderChanged(value: Gender) {
     self.vm.gender = value
     self.summary.gender = value
+    self.heightSelector.gender = value
   }
 }
 

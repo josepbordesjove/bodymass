@@ -25,7 +25,8 @@ class HeightSelector: UIView {
   
   var gender: Gender {
     didSet {
-      
+      self.heightRange = HeightSelector.getRangeFor(gender: gender)
+      self.heightNumbers.reloadData()
     }
   }
   
@@ -259,6 +260,8 @@ extension HeightSelector: UITableViewDataSource {
     if Double(assignedHeight) <= savedHeight && Double(assignedHeight) + Double(Constants.stepBetweenNumbers) > savedHeight {
       cell.setSelectedStyle()
       moveHeightViewTopConstraintTo(pointY: cell.frame.midY + heightNumbers.frame.minY, animated: false)
+    } else {
+      cell.setUnselectedStyle()
     }
     
     return cell
