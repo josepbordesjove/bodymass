@@ -266,7 +266,12 @@ extension HeightSelector: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: NumberCell.identifier, for: indexPath) as? NumberCell else { return UITableViewCell() }
-    cell.assignedHeight = heightRange[indexPath.row]
+    let assignedHeight = heightRange[indexPath.row]
+    cell.assignedHeight = assignedHeight
+    
+    if Double(assignedHeight) <= savedHeight && Double(assignedHeight) + Double(Constants.stepBetweenNumbers) > savedHeight {
+      cell.setSelectedStyle()
+    }
     
     return cell
   }
