@@ -11,27 +11,14 @@ import bodymassKit
 
 class MainViewController: UIViewController {
   
-  private struct Constants {
-    static let defaultBmiSummary = "--.-"
-    static let defaultbmiRecommendation = "No data available"
-  }
-  
   private var interactor: MainInteractorType
+  private var dataPoints: [ManagedDataPoint] = []
   
   private var vm: VM? {
     didSet {
-      if let bmi = BodyMassIndex.calculateBMI(weight: vm?.weight, height: vm?.height) {
-        DispatchQueue.main.async {
-          self.mainSummary.bmiSummary.text = String(format: "%.1f", bmi)
-          self.mainSummary.bmiRecommendation.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi)
-          self.mainSummary.bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: self.vm?.height)
-          self.mainSummary.bmiVisualIndicator.updateIndicatorViewConstraint(bmi: bmi)
-        }
-      }
+      mainSummary.reloadViewContent(height: vm?.height, weight: vm?.weight)
     }
   }
-  
-  private var dataPoints: [ManagedDataPoint] = []
   
   lazy var scrollView: UIScrollView = {
     let scrollView = UIScrollView()
@@ -145,6 +132,32 @@ class MainViewController: UIViewController {
     scrollView.setContentOffset(CGPoint(x: newPoint, y: 0), animated: true)
   }
   
+  func getScreenshot() -> UIImage? {
+    guard let keyWindow = UIApplication.shared.keyWindow else { return nil }
+    UIGraphicsBeginImageContextWithOptions(keyWindow.layer.frame.size, false, UIScreen.main.scale)
+    
+    guard let graphicsCurrentContext = UIGraphicsGetCurrentContext() else { return nil }
+    keyWindow.layer.render(in: graphicsCurrentContext)
+    
+    return UIGraphicsGetImageFromCurrentImageContext()
+  }
+  
+  func reloadDataPoint() {
+    interactor.getBmiComparison { difference in
+      self.mainSummary.setEmojiFor(difference: difference)
+    }
+    
+    interactor.fetchLastDataPoint { vm, _ in
+     self.vm = vm
+    }
+    
+    if let gender = interactor.fetchUserGender() {
+      self.vm?.gender = gender
+    }
+  }
+  
+  // MARK: - Presentation methods
+  
   @objc func presentAddDataViewController() {
     let addDataViewController = self.interactor.addDataViewController(observer: self, weight: vm?.weight, height: vm?.height, gender: vm?.gender)
     addDataViewController.transitioningDelegate = self
@@ -158,35 +171,6 @@ class MainViewController: UIViewController {
     
     let settingsViewController = SettingsViewController(height: height, weight: weight, shareImageView: mainSummary.asImage(), observer: self)
     self.present(settingsViewController, animated: true, completion: nil)
-  }
-  
-  func getScreenshot() -> UIImage? {
-    guard let keyWindow = UIApplication.shared.keyWindow else { return nil }
-    UIGraphicsBeginImageContextWithOptions(keyWindow.layer.frame.size, false, UIScreen.main.scale)
-    
-    guard let graphicsCurrentContext = UIGraphicsGetCurrentContext() else { return nil }
-    keyWindow.layer.render(in: graphicsCurrentContext)
-    
-    return UIGraphicsGetImageFromCurrentImageContext()
-  }
-  
-  func reloadDataPoint() {
-    interactor.getBmiComparison { difference in
-      self.mainSummary.infoEmoji.text = BodyMassIndex.getEmojiForBMI(difference)
-    }
-    
-    interactor.fetchLastDataPoint { (vm, error) in
-      if error == nil {
-        self.vm = vm
-      } else {
-        self.mainSummary.bmiSummary.text = Constants.defaultBmiSummary
-        self.mainSummary.bmiRecommendation.text = Constants.defaultbmiRecommendation
-      }
-    }
-    
-    if let gender = interactor.fetchUserGender() {
-      self.vm?.gender = gender
-    }
   }
 }
 

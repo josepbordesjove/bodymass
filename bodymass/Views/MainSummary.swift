@@ -44,12 +44,12 @@ class MainSummary: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func setupView() {
+  private func setupView() {
     translatesAutoresizingMaskIntoConstraints = false
     addSubview(distribuitionView)
   }
   
-  func setupConstraints() {
+  private func setupConstraints() {
     NSLayoutConstraint.activate([
       bmiSummary.heightAnchor.constraint(equalToConstant: 80),
       
@@ -58,5 +58,25 @@ class MainSummary: UIView {
       distribuitionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
       distribuitionView.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
       ])
+  }
+  
+  public func setEmojiFor(difference: Double?) {
+    infoEmoji.text = BodyMassIndex.getEmojiForBMI(difference)
+  }
+  
+  public func reloadViewContent(height: Double?, weight: Double?) {
+    if let height = height, let weight = weight, let bmi = BodyMassIndex.calculateBMI(weight: weight, height: height) {
+      DispatchQueue.main.async {
+        self.bmiSummary.text = String(format: "%.1f", bmi)
+        self.bmiRecommendation.text = BodyMassIndex.getDescriptionForBMI(bmi: bmi)
+        self.bmiRecommendationDescription.text = BodyMassIndex.getWeightRangeFor(height: height)
+        self.bmiVisualIndicator.updateIndicatorViewConstraint(bmi: bmi)
+      }
+    } else {
+      DispatchQueue.main.async {
+        self.bmiSummary.text = Constants.defaultBmiSummary
+        self.bmiRecommendation.text = Constants.defaultbmiRecommendation
+      }
+    }
   }
 }

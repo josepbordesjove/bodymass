@@ -59,17 +59,9 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   override func viewDidAppear(_ animated: Bool) {
     self.weightSelector.setupInitialPosition()
     
-    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options: .curveEaseIn, animations: {
-      self.weightSelector.transform = CGAffineTransform(translationX: 0, y: 0)
-    }, completion: nil)
-    
-    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 10, options: .curveEaseIn, animations: {
-      self.heightSelector.transform = CGAffineTransform(translationX: 0, y: 0)
-    }, completion: nil)
-    
-    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.65, initialSpringVelocity: 30, options: .curveEaseIn, animations: {
-      self.genderSelector.transform = CGAffineTransform(translationX: 0, y: 0)
-    }, completion: nil)
+    animate(viewToCorrectPosition: self.weightSelector, withDamping: 0.7, andInitialSpringVelocity: 0)
+    animate(viewToCorrectPosition: self.heightSelector, withDamping: 0.8, andInitialSpringVelocity: 10)
+    animate(viewToCorrectPosition: self.genderSelector, withDamping: 0.65, andInitialSpringVelocity: 30)
   }
   
   private func setupView() {
@@ -113,6 +105,12 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
       pacmanYConstraint,
       pacmanWidthConstraint,
       ])
+  }
+  
+  func animate(viewToCorrectPosition view: UIView, withDamping damping: CGFloat, andInitialSpringVelocity velocity: CGFloat) {
+    UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: damping, initialSpringVelocity: velocity, options: .curveEaseIn, animations: {
+      view.transform = CGAffineTransform(translationX: 0, y: 0)
+    }, completion: nil)
   }
   
   func shouldDismissViewController() {
