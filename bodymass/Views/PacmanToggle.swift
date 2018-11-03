@@ -148,6 +148,7 @@ class PacmanToggle: UIView {
   
   func animateDotsOpacityToZero(completion: @escaping (() -> Void)) {
     animateDots = false
+    
     self.dotsView.arrangedSubviews.forEach { arrangedSubView in
       UIView.animate(withDuration: 0, delay: 0, options: .curveEaseInOut, animations: {
         arrangedSubView.alpha = 0
@@ -162,18 +163,39 @@ class PacmanToggle: UIView {
   func animateDotsFadeInFadeOut() {
     
     for (index, arrangedSubView) in dotsView.arrangedSubviews.enumerated() {
-      UIView.animate(withDuration: 0.2, delay: 0.1 * Double(index), options: .curveEaseInOut, animations: {
-        arrangedSubView.alpha = 0.1
-      }, completion: { _ in
-        UIView.animate(withDuration: 0.5, animations: {
-          arrangedSubView.alpha = 0.54
-        }, completion: { _ in
-          if arrangedSubView == self.dotsView.arrangedSubviews.last && self.animateDots {
-            self.animateDotsFadeInFadeOut()
-          }
+      self.animateFadeIn(arrangedSubView: arrangedSubView, index: index) {
+        self.animateFadeOut(arrangedSubView: arrangedSubView, completion: {
+          self.animateDotsFadeInFadeOut()
         })
-      })
+      }
     }
+    
+  }
+  
+  func animateFadeIn(arrangedSubView: UIView, index: Int, completion: @escaping (() -> Void)) {
+    if !animateDots {
+      return
+    }
+    
+    UIView.animate(withDuration: 0.2, delay: 0.1 * Double(index), options: .curveEaseInOut, animations: {
+      arrangedSubView.alpha = 0.1
+    }, completion: { _ in
+      completion()
+    })
+  }
+  
+  func animateFadeOut(arrangedSubView: UIView, completion: @escaping (() -> Void)) {
+    if !self.animateDots {
+      return
+    }
+    
+    UIView.animate(withDuration: 0.5, animations: {
+      arrangedSubView.alpha = 0.54
+    }, completion: { _ in
+      if arrangedSubView == self.dotsView.arrangedSubviews.last && self.animateDots {
+        completion()
+      }
+    })
   }
 }
 
