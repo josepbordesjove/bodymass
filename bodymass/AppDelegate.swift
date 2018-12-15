@@ -8,6 +8,7 @@
 
 import UIKit
 import bodymassKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return true
     }
     
+    // Init Firebase
+    FirebaseApp.configure()
+    
+    // Initial configuration
     let dataStore = DataStore()
     let interactor = MainViewController.Interactor(dataStore: dataStore)
     self.window?.rootViewController = MainViewController(interactor: interactor)

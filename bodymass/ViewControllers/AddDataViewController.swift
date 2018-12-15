@@ -8,6 +8,7 @@
 
 import UIKit
 import bodymassKit
+import Firebase
 
 class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
@@ -46,7 +47,8 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    transitioningDelegate = self
+    Analytics.logEvent("add_data_view_controller_appeared", parameters: nil)
+    
     genderSelector.delegate = self
     heightSelector.delegate = self
     weightSelector.delegate = self
@@ -66,6 +68,8 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   
   private func setupView() {
     view.backgroundColor = .lightGrey
+    header.closeButton.isHidden = false
+    header.closeButton.addTarget(self, action: #selector(dismissViewController), for: .touchUpInside)
     heightSelector.unitSelector.unitSelectorButton.addTarget(self, action: #selector(presentUnitSelector), for: .touchUpInside)
     weightSelector.unitSelector.unitSelectorButton.addTarget(self, action: #selector(presentUnitSelector), for: .touchUpInside)
     [header, genderSelector, heightSelector, weightSelector, pacmanToggle, summary].forEach{ view.addSubview($0) }
@@ -116,7 +120,13 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
   func shouldDismissViewController() {
     interactor.createDataPoint(id: vm.id, weight: vm.weight, height: vm.height)
     interactor.saveUserGender(vm.gender)
-    self.dismiss(animated: true, completion: nil)
+    Analytics.logEvent("did_create_data_point", parameters: [
+      "weight": vm.weight as NSObject,
+      "height": vm.height as NSObject
+      ])
+    transitioningDelegate = self
+    
+    dismiss(animated: true, completion: nil)
   }
   
   @objc func presentUnitSelector(selector: CustomButton) {
@@ -126,6 +136,11 @@ class AddDataViewController: UIViewController, PacmanToggleDelegate {
     alertView.delegate = self
     
     present(alertView, animated: true, completion: nil)
+  }
+  
+  @objc func dismissViewController() {
+    Analytics.logEvent("did_exit_without_saving", parameters: nil)
+    dismiss(animated: true, completion: nil)
   }
 }
 

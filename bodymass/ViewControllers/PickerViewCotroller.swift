@@ -8,6 +8,7 @@
 
 import UIKit
 import bodymassKit
+import Firebase
 
 class PickerViewController: UIAlertController {
   
@@ -19,6 +20,8 @@ class PickerViewController: UIAlertController {
     self.units = units
     self.interactor = interactor
     super.init(nibName: nil, bundle: nil)
+    
+    Analytics.logEvent("picker_controller_appeared", parameters: nil)
     
     title = "Select a unit from the list"
     message = "You can change the units used for the calculations for one of the list below"

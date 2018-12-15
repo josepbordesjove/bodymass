@@ -6,11 +6,13 @@
 //  Copyright © 2018 Josep Bordes Jové. All rights reserved.
 //
 
+#include "Pods/Target Support Files/Pods-bodymass/Pods-bodymass.debug.xcconfig"
+
 // App Name
 APP_DISPLAY_NAME = Bodymass
 
 // Code Signing
-PRODUCT_BUNDLE_IDENTIFIER = com.josepbordes.bodymass.dev;
+PRODUCT_BUNDLE_IDENTIFIER = com.johnyvino.bodymass;
 
 // App Icon
-APP_ICON = AppIcon DEV;
+APP_ICON = AppIcon;

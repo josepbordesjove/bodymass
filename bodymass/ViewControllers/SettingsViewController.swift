@@ -9,6 +9,7 @@
 import UIKit
 import StoreKit
 import bodymassKit
+import Firebase
 
 class SettingsViewController: UIAlertController {
   
@@ -33,6 +34,7 @@ class SettingsViewController: UIAlertController {
     self.interactor = SettingsViewController.Interactor(observer: observer)
     super.init(nibName: nil, bundle: nil)
     
+    Analytics.logEvent("settings_controller_appeared", parameters: nil)
     
     let shareAction = UIAlertAction(title: Option.shareApp.rawValue, style: .default) { (alertAction) in
       self.presentShareViewController()

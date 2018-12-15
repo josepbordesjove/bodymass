@@ -8,6 +8,7 @@
 
 import UIKit
 import bodymassKit
+import Firebase
 
 class MainViewController: UIViewController {
   
@@ -51,6 +52,8 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    Analytics.logEvent("main_view_controller_appeared", parameters: nil)
     
     setupView()
     setupConstraints()
@@ -127,6 +130,10 @@ class MainViewController: UIViewController {
   @objc func changeCurrentScreen() {
     let newPoint = scrollView.contentOffset.x > 0 ? mainSummary.frame.minX : history.frame.minX
     let newImage = scrollView.contentOffset.x > 0 ? #imageLiteral(resourceName: "trash") : #imageLiteral(resourceName: "back")
+    
+    if scrollView.contentOffset.x > 0 {
+      Analytics.logEvent("did_check_history", parameters: nil)
+    }
       
     trashButton.setImage(newImage, for: .normal)
     scrollView.setContentOffset(CGPoint(x: newPoint, y: 0), animated: true)
